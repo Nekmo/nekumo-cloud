@@ -1,4 +1,3 @@
-from nekumo.gateways.fs import FSGateway
 
 
 class Nekumo(object):

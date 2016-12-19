@@ -15,6 +15,7 @@ web_bp = Blueprint('core', __name__, template_folder='templates')
 @web_bp.route('/')
 def index(path='/'):
     entry = current_app.nekumo.get_entry(path)
+    [x.relative_path() for x in entry.ls()]
     template = 'list.html' if entry.is_dir() else 'file.html'
     return render_template(template, entry=entry,
                            debug=current_app.config['DEBUG'])
