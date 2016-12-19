@@ -1,0 +1,4 @@
+#!/usr/bin/env python
+from nekumo.core.management import NekumoManagement
+
+NekumoManagement().execute_from_command_line()
