@@ -2,7 +2,7 @@
 
 {% block content %}
     <ul>
-    {% for subentry in entry.ls() %}
+    {% for subentry in entries %}
         <li>
             <a href="{{ subentry.relative_path() }}">{{ subentry.name }}</a>
         </li>

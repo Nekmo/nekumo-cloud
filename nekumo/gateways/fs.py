@@ -28,7 +28,7 @@ class NekumoEntry(NekumoEntryMixin, Entry):
     @classmethod
     def get_node(cls, path, root_path):
         path = cls._get_path(path)
-        return cls.get_cls(path)(path, root_path)
+        return cls.get_cls(path)(path, root_path=root_path)
 
     def relative_path(self):
         return self.path.replace(self.root_path, '', 1)
@@ -51,6 +51,8 @@ class NekumoFile(NekumoEntry, File):
 
 class NekumoDirList(NekumoEntryMixin, DirList):
     entry_class = NekumoEntry
+    __interfaces__ = ['name']
+    __clone_params__ = ['path', 'depth', 'root_path']
 
     def __init__(self, path=None, *args, **kwargs):
         self.root_path = kwargs.pop('root_path', None)
@@ -62,6 +64,9 @@ class NekumoDirList(NekumoEntryMixin, DirList):
             return entry
         return deep_scandir(self.path, self.depth, cls=cls, filter=self._filter,
                             traverse_filter=self._traverse_filter, exceptions=self._get_catched_exceptions())
+
+    def _prepare_next(self, elem):
+        return self.get_entry_class().get_node(elem.path, self.root_path)
 
     @classmethod
     def get_node(cls, path, root_path):
