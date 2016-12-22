@@ -1,0 +1,23 @@
+{
+  "name": "simple_web",
+  "homepage": "https://github.com/Nekmo/nekumo-core",
+  "authors": [
+    "Nekmo <contacto@nekmo.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/src/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "^3.3.7"
+  }
+}
