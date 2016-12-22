@@ -50,6 +50,7 @@ class ConfigBase(six.with_metaclass(MetaConfig)):
 
 
 class Config(ConfigBase):
-    def __init__(self, debug=False):
-        self.debug = debug
+    def __init__(self, debug=None):
+        if debug is not None:
+            self.debug = debug
         super(Config, self).__init__()

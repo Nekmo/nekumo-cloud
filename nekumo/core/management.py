@@ -41,7 +41,7 @@ class NekumoManagement(object):
         args = self.parser.parse_args(argv[1:])
         self.nekumo.gateways = list(self.parse_gateways(args))
         self.nekumo.ifaces = list(self.parse_ifaces(args))
-        if 'NEKUMO_DEBUG_IFACE' in os.environ:
+        if 'NEKUMO_DEBUG_IFACE' not in os.environ:
             loop = asyncio.get_event_loop()
             loop.run_forever()
 

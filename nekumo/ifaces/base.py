@@ -1,9 +1,8 @@
-from nekumo.conf.base import Config
+from nekumo.conf.base import Config, Input
 
 
 class IfaceConfig(Config):
-    def __init__(self):
-        super().__init__()
+    config = Input(default=False)
 
 
 class IfaceBase(object):

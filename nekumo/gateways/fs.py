@@ -1,7 +1,8 @@
 import os
 
 from nekumo.conf.base import ParserInput
-from nekumo.gateways.base import GatewayBase, GatewayConfig
+from nekumo.gateways.base import GatewayBase, GatewayConfig, NekumoDirListBase, NekumoFileBase, NekumoDirBase, \
+    NekumoEntryBase
 from os3.fs.directory import Dir, DirList
 from os3.fs.entry import Entry
 from os3.fs.file import File
@@ -9,17 +10,24 @@ from os3.utils.nodes import deep_scandir
 
 
 class NekumoEntryMixin(object):
+    features = [
+        'local_storage',
+    ]
+
+    def has_feature(self, feature):
+        return feature.lower() in self.features
+
     @classmethod
     def get_classes(cls):
         return {
-            'Dir': NekumoDir,
-            'File': NekumoFile,
+            'Dir': FSNekumoDir,
+            'File': FSNekumoFile,
         }
 
 
-class NekumoEntry(NekumoEntryMixin, Entry):
+class FSNekumoEntry(NekumoEntryMixin, Entry, NekumoEntryBase):
     # def __new__(cls, *args, **kwargs):
-    #     return super().__new__(__entry_class=NekumoEntry, *args, **kwargs)
+    #     return super().__new__(__entry_class=FSNekumoEntry, *args, **kwargs)
 
     def __init__(self, path, **kwargs):
         self.root_path = kwargs.pop('root_path', None)
@@ -33,24 +41,24 @@ class NekumoEntry(NekumoEntryMixin, Entry):
     def relative_path(self):
         return self.path.replace(self.root_path, '', 1)
 
-NekumoEntry.entry_class = NekumoEntry
+FSNekumoEntry.entry_class = FSNekumoEntry
 
 
-class NekumoDir(NekumoEntry, Dir):
+class FSNekumoDir(FSNekumoEntry, Dir, NekumoDirBase):
     def ls(self, depth=None, fail=False, **kwargs):
         return self.get_dir_list_class()(self.path, depth, fail, root_path=self.root_path, **kwargs)
 
     @classmethod
     def get_dir_list_class(cls):
-        return NekumoDirList
+        return FSNekumoDirList
 
 
-class NekumoFile(NekumoEntry, File):
+class FSNekumoFile(FSNekumoEntry, File, NekumoFileBase):
     pass
 
 
-class NekumoDirList(NekumoEntryMixin, DirList):
-    entry_class = NekumoEntry
+class FSNekumoDirList(NekumoEntryMixin, DirList, NekumoDirListBase):
+    entry_class = FSNekumoEntry
     __interfaces__ = ['name']
     __clone_params__ = ['path', 'depth', 'root_path']
 
@@ -90,4 +98,4 @@ class FSGateway(GatewayBase):
 
     def get_entry(self, relative_path=''):
         path = self.get_absolute_path(relative_path)
-        return NekumoEntry(path, root_path=path)
+        return FSNekumoEntry(path, root_path=path)
