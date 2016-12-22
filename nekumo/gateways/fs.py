@@ -39,7 +39,7 @@ class FSNekumoEntry(NekumoEntryMixin, Entry, NekumoEntryBase):
         return cls.get_cls(path)(path, root_path=root_path)
 
     def relative_path(self):
-        return self.path.replace(self.root_path, '', 1)
+        return self.path.rstrip('/').replace(self.root_path.rstrip('/'), '', 1).lstrip('/')
 
 FSNekumoEntry.entry_class = FSNekumoEntry
 

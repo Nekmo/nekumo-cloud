@@ -3,32 +3,39 @@
 {% block title %}{{ entry.name }}{% endblock %}
 
 {% block content %}
-    <h1>{{ entry.name }}</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>{% trans %}Name{% endtrans %}</th>
-                <th>{% trans %}Options{% endtrans %}</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for subentry in entries %}
-            <tr>
-                <td>{{ subentry.type }}</td>
-                <td>
-                    <a href="{{ subentry.relative_path() }}">{{ subentry.name }}</a>
-                </td>
-                <td>
-                    <form action="{{ subentry.relative_path() }}" method="post">
-                        {% for method in subentry.methods %}
-                            <button name="method" value="{{ method }}" class="btn">{{ ALL_METHODS_PROPERTIES[method]
-                                    }}</button>
-                        {% endfor %}
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>{{ entry.name }}</h1>
+        <form action="{{ entry.relative_path() }}" method="post">
+            <button class="btn btn-primary">{% trans %}Mkdir{% endtrans %}</button>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>{% trans %}Name{% endtrans %}</th>
+                    <th>{% trans %}Options{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for subentry in entries %}
+                <tr>
+                    <td>{{ subentry.type }}</td>
+                    <td>
+                        <a href="{{ subentry.relative_path() }}">{{ subentry.name }}</a>
+                    </td>
+                    <td>
+                        <form action="{{ subentry.relative_path() }}" method="post">
+                            {% for method in subentry.methods if method in LIST_METHODS %}
+                                <button name="method" value="{{ method }}"
+                                        class="btn{% if method == 'delete' %} btn-danger{% endif %}">
+                                    {{ ALL_METHODS_PROPERTIES[method] }}
+                                </button>
+                            {% endfor %}
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

@@ -28,7 +28,10 @@ class SimpleWebIface(IfaceBase):
         self.set_up_flask()
 
     def get_default_globals(self):
-        return {'ALL_METHODS_PROPERTIES': ALL_METHODS_PROPERTIES}
+        return {
+            'ALL_METHODS_PROPERTIES': ALL_METHODS_PROPERTIES,
+            'LIST_METHODS': ['delete'],
+        }
 
     def set_up_flask(self):
         from .views import web_bp

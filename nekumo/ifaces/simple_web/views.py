@@ -1,6 +1,7 @@
 import os
 from flask import Blueprint
 from flask import current_app
+from flask import redirect
 from flask import render_template
 from flask import send_file
 from flask import send_from_directory
@@ -24,6 +25,8 @@ def index(path='/'):
     entry = current_app.nekumo.get_entry(path)
     if not entry.exists():
         raise NotFound
+    if entry.is_dir() and not path.endswith('/'):
+        return redirect(path + '/')
     if entry.is_dir():
         entries = entry.ls().sort('name')
         return render_template('list.html', entry=entry, entries=entries, debug=current_app.config['DEBUG'])
