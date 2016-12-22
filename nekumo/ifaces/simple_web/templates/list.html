@@ -13,6 +13,8 @@
                 <tr>
                     <th></th>
                     <th>{% trans %}Name{% endtrans %}</th>
+                    <th>{% trans %}Size{% endtrans %}</th>
+                    <th>{% trans %}Size{% endtrans %}</th>
                     <th>{% trans %}Options{% endtrans %}</th>
                 </tr>
             </thead>
@@ -23,6 +25,8 @@
                     <td>
                         <a href="{{ subentry.relative_path() }}">{{ subentry.name }}</a>
                     </td>
+                    <td>{{ subentry.size|naturalsize(binary=True) }}</td>
+                    <td>{{ (subentry.mtime|naturaldate).title() }}</td>
                     <td>
                         <form action="{{ subentry.relative_path() }}" method="post">
                             {% for method in subentry.methods if method in LIST_METHODS %}

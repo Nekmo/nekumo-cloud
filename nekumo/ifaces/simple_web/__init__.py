@@ -10,6 +10,8 @@ from nekumo.ifaces.base import IfaceBase, IfaceConfig
 from flask import Flask
 from werkzeug.debug import DebuggedApplication
 
+from nekumo.ifaces.simple_web.jinja import filters
+
 NEKUMO_ROOT = '/.nekumo'
 
 
@@ -38,6 +40,7 @@ class SimpleWebIface(IfaceBase):
         self.update_globals(self.get_default_globals())
         self.app.register_blueprint(web_bp)
         self.app.jinja_env.add_extension('jinja2.ext.i18n')
+        self.app.jinja_env.filters.update(filters)
         self.app.jinja_env.install_null_translations(newstyle=True)
 
     def update_globals(self, new_globals, app=None):
