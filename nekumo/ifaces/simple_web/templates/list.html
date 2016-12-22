@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>{{ entry.name }}</h1>
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th></th>
@@ -22,7 +22,8 @@
                 <td>
                     <form action="{{ subentry.relative_path() }}" method="post">
                         {% for method in subentry.methods %}
-                            <button name="method" value="{{ method }}">{{ ALL_METHODS_PROPERTIES[method] }}</button>
+                            <button name="method" value="{{ method }}" class="btn">{{ ALL_METHODS_PROPERTIES[method]
+                                    }}</button>
                         {% endfor %}
                     </form>
                 </td>
