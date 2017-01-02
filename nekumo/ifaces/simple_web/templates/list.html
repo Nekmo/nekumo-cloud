@@ -5,9 +5,36 @@
 {% block content %}
     <div class="container">
         <h1>{{ entry.name }}</h1>
-        <form action="{{ entry.relative_path() }}" method="post">
-            <button class="btn btn-primary">{% trans %}Mkdir{% endtrans %}</button>
-        </form>
+        <ol class="breadcrumb">
+            {% for subentry in entry.breadcrumbs() %}
+            <li{% if loop.last %} class="active"{% endif %}>
+                {% if not loop.last %}<a href="{{ subentry.iface_path }}">{% endif %}
+                {% if loop.first %}
+                    <span class="label label-{% if loop.first and loop.last %}default{% else %}primary{% endif %}">
+                        {% trans %}Root{% endtrans %}
+                    </span>
+                {% else %}
+                    {{ subentry }}
+                {% endif %}
+                {% if not loop.last %}</a>{% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+        <div class="row">
+            <div class="col-md-3">
+                <form action="{{ entry.iface_path }}" method="post">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Directory name" name="name">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" name="method" value="mkdir">
+                                {% trans %}Mkdir{% endtrans %}
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <table class="table">
             <thead>
                 <tr>
@@ -23,15 +50,15 @@
                 <tr>
                     <td>{{ subentry.type }}</td>
                     <td>
-                        <a href="{{ subentry.relative_path() }}">{{ subentry.name }}</a>
+                        <a href="{{ subentry.name }}">{{ subentry.name }}</a>
                     </td>
                     <td>{{ subentry.size|naturalsize(binary=True) }}</td>
                     <td>{{ (subentry.mtime|naturaldate).title() }}</td>
                     <td>
-                        <form action="{{ subentry.relative_path() }}" method="post">
+                        <form action="{{ subentry.iface_path }}" method="post">
                             {% for method in subentry.methods if method in LIST_METHODS %}
                                 <button name="method" value="{{ method }}"
-                                        class="btn{% if method == 'delete' %} btn-danger{% endif %}">
+                                        class="btn btn-sm{% if method == 'delete' %} btn-danger{% endif %}">
                                     {{ ALL_METHODS_PROPERTIES[method] }}
                                 </button>
                             {% endfor %}

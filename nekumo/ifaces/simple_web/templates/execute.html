@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="alert alert-{% if error %}danger{% else %}success{% endif %}" role="alert">
+            <strong>
+                {% if error %}
+                    {% trans %}Method {{ method }} failed{% endtrans %}. Error: {{ error.message }}.
+                {% else %}
+                    {% trans %}Method {{ method }} executed{% endtrans %}:
+                {% endif %}
+            </strong>
+            {% trans %}The following files have been affected{% endtrans %}
+
+            <ul>
+                {% for entry in entries %}
+                <li>{{ entry }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
