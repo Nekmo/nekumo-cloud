@@ -11,6 +11,7 @@ import os
 
 from nekumo.core.nekumo import Nekumo
 from nekumo.gateways import get_gateways
+from nekumo.ifaces.angular_web import AngularWebConfig
 from nekumo.ifaces.simple_web import SimpleWebConfig
 
 
@@ -49,5 +50,7 @@ class NekumoManagement(object):
         return chain(*[gateway_parser[0].parse(args, gateway_parser[1]) for gateway_parser in self.gateway_parsers])
 
     def parse_ifaces(self, args):
-        from nekumo.ifaces.simple_web import SimpleWebIface
-        return [SimpleWebIface(self.nekumo, SimpleWebConfig()).run()]
+        # from nekumo.ifaces.simple_web import SimpleWebIface
+        # return [SimpleWebIface(self.nekumo, SimpleWebConfig()).run()]
+        from nekumo.ifaces.angular_web import AngularWebIface
+        return [AngularWebIface(self.nekumo, AngularWebConfig()).run()]

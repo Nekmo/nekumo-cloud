@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block ng_app %}FileManagerApp{% endblock %}
+
+{% block content %}
+    <angular-filemanager></angular-filemanager>
+{% endblock %}
+
+{% block css %}
+    <link href="{{ url_for('static', filename='own_libs/angular-filemanager/src/css/animations.css') }}"
+          rel="stylesheet">
+    <link href="{{ url_for('static', filename='own_libs/angular-filemanager/src/css/dialogs.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='own_libs/angular-filemanager/src/css/main.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+  <script src="{{ url_for('static', filename='src/libs/angular-translate/angular-translate.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='src/libs/ng-file-upload/ng-file-upload.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/app.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/directives/directives.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/filters/filters.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/providers/config.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/entities/chmod.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/entities/item.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/services/apihandler.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/services/apimiddleware.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/services/filenavigator.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/providers/translations.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/controllers/main.js') }}"></script>
+  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/controllers/selector-controller.js') }}"></script>
+  <script src="{{ url_for('static', filename='src/components/fileManager/fileManager.js') }}"></script>
+{% endblock %}
