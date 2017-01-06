@@ -1,0 +1,3 @@
+[submodule "nekumo/ifaces/angular_web/static/own_libs/angular-filemanager"]
+	path = nekumo/ifaces/angular_web/static/own_libs/angular-filemanager
+	url = git@github.com:Nekmo/angular-filemanager.git
