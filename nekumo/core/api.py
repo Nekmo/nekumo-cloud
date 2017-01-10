@@ -15,6 +15,9 @@ class NekumoListAPI(object):
     def __init__(self, entries):
         self.entries = entries
 
+    def execute(self, method, **kwargs):
+        return getattr(self, method)(**kwargs)
+
     def move(self, target):
         raise NotImplementedError
 
@@ -25,4 +28,6 @@ class NekumoListAPI(object):
         raise NotImplementedError
 
     def delete(self):
-        raise NotImplementedError
+        for entry in self.entries:
+            entry.delete()
+        return {'method': 'delete'}

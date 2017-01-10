@@ -6,6 +6,7 @@ from flask import render_template
 from flask import request
 from flask import send_file
 from flask import send_from_directory
+from flask import session
 from werkzeug.exceptions import NotFound
 
 from nekumo.ifaces.angular_web import NEKUMO_ROOT
@@ -32,17 +33,19 @@ def index(path='/'):
     if entry.is_dir():
         entries = entry.ls().sort('name')
         return render_template('list.html', entry=entry, entries=entries, debug=current_app.config['DEBUG'])
+    elif 'gallery' in request.args:
+        return render_template('gallery.html', entry=entry, debug=current_app.config['DEBUG'])
     else:
         return serve_file(entry)
 
 
-@web_bp.route('/<path:path>', methods=['POST'])
+# @web_bp.route('/<path:path>', methods=['POST'])
 @web_bp.route('/', methods=['POST'])
 def path_api(path='/'):
     entry = current_app.nekumo.get_entry(path)
     return SimpleWebAPI.parse(request, entry)
 
 
-@web_bp.route('%s/static/<path:path>' % NEKUMO_ROOT)
+# @web_bp.route('%s/static/<path:path>' % NEKUMO_ROOT)
 def send_js(path):
     return send_from_directory(STATIC_DIRECTORY, path)

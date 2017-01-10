@@ -1,22 +1,22 @@
-import os
-from wsgiref.simple_server import WSGIServer, WSGIRequestHandler
 
-import asyncio
-import werkzeug.serving
+import os
 
 from nekumo.conf.base import Input
 from nekumo.gateways.base import ALL_METHODS_PROPERTIES
 from nekumo.ifaces.base import IfaceBase, IfaceConfig
 from flask import Flask
-from werkzeug.debug import DebuggedApplication
+from flask_socketio import SocketIO
+
 
 from nekumo.ifaces.simple_web.jinja import filters
 
 NEKUMO_ROOT = '/.nekumo'
 
+socketio = SocketIO()
+
 
 class AngularWebConfig(IfaceConfig):
-    address = Input(default='127.0.0.1')
+    address = Input(default='0.0.0.0')
     port = Input(default=7080)
     debug = Input(default=True)
 
@@ -37,8 +37,13 @@ class AngularWebIface(IfaceBase):
 
     def set_up_flask(self):
         from .views import web_bp
+        from . import events
         self.update_globals(self.get_default_globals())
         self.app.register_blueprint(web_bp)
+        socketio.nekumo = self.nekumo
+        socketio.init_app(self.app, path='.nekumo/io', channel='.nekumo/io')
+        socketio.on_namespace(events.APINamespace('/api'))
+
         self.app.jinja_env.add_extension('jinja2.ext.i18n')
         self.app.jinja_env.filters.update(filters)
         self.app.jinja_env.install_null_translations(newstyle=True)
@@ -59,12 +64,21 @@ class AngularWebIface(IfaceBase):
         return app
 
     def _run(self):
-        self.app.run(self.config.address, self.config.port, self.config.debug,
-                     threaded=os.environ.get('NEKUMO_DEBUG_IFACE') != 'simple_web')
+        # Finally, if you're using PyCharm/PyDev,
+        # enabling File->Settings..->Python Debugger->Gevent compatible debugging might be required.
+
+        # eio = engineio.Server(async_mode='gevent')
+        # app = engineio.Middleware(eio, self.app)
+        # pywsgi.WSGIServer(('', self.config.port), app,
+        #                   handler_class=WebSocketHandler).serve_forever()
+        socketio.run(self.app, self.config.address, self.config.port)
+        # self.app.run(self.config.address, self.config.port, self.config.debug,
+        #              threaded=os.environ.get('NEKUMO_DEBUG_IFACE') != 'simple_web')
         # self.app.logger.info('app starting up....')
+
         # self.server = WSGIServer(
         #     (self.config.address, self.config.port),
-        #     app,
+        #     self.app,
         #     # handler_class=NekumoHandler
         #     handler_class=werkzeug.serving.WSGIRequestHandler
         # )

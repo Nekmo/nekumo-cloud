@@ -50,7 +50,7 @@ class NekumoLocalDownload(NekumoDownloadBase):
 
 
 class NekumoEntryBase(object):
-    methods = ['delete', 'parent', 'move', 'copy']
+    methods = ['rename', 'delete', 'parent', 'move', 'copy']
     properties = ['name', 'type']
     path = ''
     root_path = ''
@@ -58,6 +58,9 @@ class NekumoEntryBase(object):
     def __init__(self, gateway_path, gateway=None):
         self.gateway_path = gateway_path
         self.gateway = gateway
+
+    def rename(self, new_name=None, new_path=None):
+        raise NotImplementedError
 
     def delete(self):
         raise NotImplementedError
@@ -136,6 +139,9 @@ class NekumoFileBase(NekumoEntryBase):
 
 class NekumoDirListBase(object):
     def delete(self):
+        raise NotImplementedError
+
+    def to_json(self):
         raise NotImplementedError
 
 

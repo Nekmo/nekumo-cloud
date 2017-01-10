@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block ng_app %}galleryApp{% endblock %}
+
+{% block content %}
+    <gallery></gallery>
+    <video-player src="'{{ entry.iface_path }}'" mime-type="'{{ entry.mimetype() }}'"></video-player>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ url_for('static', filename='src/libs/angular-sanitize/angular-sanitize.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/videogular/videogular.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/videogular-buffering/vg-buffering.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/videogular-controls/vg-controls.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/videogular-overlay-play/vg-overlay-play.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/shared/videoPlayer/videoPlayer.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/components/gallery/gallery.js') }}"></script>
+{% endblock %}
+
+{% block css %}
+    <link href="{{ url_for('static', filename='src/libs/videogular-themes-default/videogular.css') }}" rel="stylesheet">
+{% endblock %}

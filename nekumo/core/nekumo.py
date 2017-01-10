@@ -11,4 +11,5 @@ class Nekumo(object):
         return self.gateways[0].get_entry(relative_path)
 
     def get_entry(self, relative_path=''):
+        relative_path = relative_path.lstrip('/')
         return self.get_gateway_by_path(relative_path)

@@ -13,19 +13,26 @@
 {% endblock %}
 
 {% block js %}
-  <script src="{{ url_for('static', filename='src/libs/angular-translate/angular-translate.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='src/libs/ng-file-upload/ng-file-upload.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/app.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/directives/directives.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/filters/filters.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/providers/config.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/entities/chmod.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/entities/item.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/services/apihandler.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/services/apimiddleware.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/services/filenavigator.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/providers/translations.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/controllers/main.js') }}"></script>
-  <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/controllers/selector-controller.js') }}"></script>
-  <script src="{{ url_for('static', filename='src/components/fileManager/fileManager.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-socket-io/socket.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/socket.io-client/dist/socket.io.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-translate/angular-translate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/ng-file-upload/ng-file-upload.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-uuid4/angular-uuid4.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/directives/directives.js') }}"></script>
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/filters/filters.js') }}"></script>
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/providers/config.js') }}"></script>
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/entities/chmod.js') }}"></script>
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/entities/item.js') }}"></script>
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/services/apihandler.js') }}"></script>
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/services/apimiddleware.js') }}"></script>
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/services/filenavigator.js') }}"></script>
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/providers/translations.js') }}"></script>
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/controllers/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='own_libs/angular-filemanager/src/js/controllers/selector-controller.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='src/shared/fileManagerApi/fileManagerApi.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='src/components/fileManager/fileManager.js') }}"></script>
 {% endblock %}

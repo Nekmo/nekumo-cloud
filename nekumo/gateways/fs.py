@@ -35,6 +35,14 @@ class FSNekumoEntry(NekumoEntryMixin, Entry, NekumoEntryBase):
         self.gateway_path = path
         super().__init__(path, **kwargs)
 
+    def rename(self, new_name=None, new_path=None):
+        assert new_name or new_path
+        if new_name:
+            path = self.parent().sub(new_name).path
+        else:
+            path = self.gateway.get_entry(new_path).gateway_path
+        os.rename(self.gateway_path, path)
+
     def delete(self):
         return self.remove()
 
@@ -70,7 +78,7 @@ FSNekumoEntry.entry_class = FSNekumoEntry
 
 
 class FSNekumoDir(FSNekumoEntry, Dir, NekumoDirBase):
-    def ls(self, depth=None, fail=False, **kwargs):
+    def list(self, depth=None, fail=False, **kwargs):
         return self.get_dir_list_class()(self.path, depth, fail, gateway=self.gateway, **kwargs)
 
     @classmethod
@@ -106,6 +114,14 @@ class FSNekumoDirList(NekumoEntryMixin, DirList, NekumoDirListBase):
         path = cls._get_path(path)
         return cls.get_cls(path)(path, gateway=gateway)
 
+    def to_json(self):
+        def upd(entry):
+            entry['type'] = entry['type'].name
+            # entry['rights'] = "drwxr-xr-x"
+            entry['date'] = "2016-03-03 15:31:40"
+            return entry
+        return list(map(upd, self.values('name', 'size', 'type')))
+
 
 class FSConfig(GatewayConfig):
     uri = ParserInput('--fs-gateway')
@@ -122,6 +138,7 @@ class FSGateway(GatewayBase):
         return os.path.join(self.get_root_path(), relative_path)
 
     def get_entry(self, relative_path=''):
+        relative_path = relative_path.lstrip('/')
         path = self.get_absolute_path(relative_path)
         # TODO: Lo que debería pasar es el gateway, para poder sacar información adicional.
         # Además de la ruta real en disco, necesito tener una definión de cómo empezarán

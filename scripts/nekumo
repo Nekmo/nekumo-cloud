@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+from gevent import monkey
+monkey.patch_all()
+
 from nekumo.core.management import NekumoManagement
 
 NekumoManagement().execute_from_command_line()
