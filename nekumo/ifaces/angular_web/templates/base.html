@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="{% block ng_app %}{% endblock %}">
-<head>
-    {% block head %}
-    <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css" rel="stylesheet">
-    <!-- https://docs.angularjs.org/error/$location/nobase -->
-    <base href="/">
-    {% block extra_head %}
-        {% block css %}{% endblock %}
-    {% endblock %}
-    {% endblock %}
-</head>
-<body class="ng-cloak">
-    {% block content %}
-    {% endblock %}
-    <script src="{{ url_for('static', filename='src/libs/angular/angular.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/bootstrap-sass/assets/javascripts/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/sprintf/dist/sprintf.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/lodash/dist/lodash.min.js') }}"></script>
-    {% block js %}{% endblock %}
-</body>
+    <head>
+        {% block head %}
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css" rel="stylesheet">
+        <!-- https://docs.angularjs.org/error/$location/nobase -->
+        <base href="/">
+        {% block extra_head %}
+            {% block css %}{% endblock %}
+        {% endblock %}
+        {% endblock %}
+    </head>
+    <body class="ng-cloak">
+        {% block content %}
+        {% endblock %}
+        <script src="{{ url_for('static', filename='src/libs/angular/angular.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='src/libs/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='src/libs/bootstrap-sass/assets/javascripts/bootstrap.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='src/libs/sprintf/dist/sprintf.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='src/libs/lodash/dist/lodash.min.js') }}"></script>
+        {% block js %}{% endblock %}
+    </body>
 </html>
