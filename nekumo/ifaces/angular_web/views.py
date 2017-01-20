@@ -80,25 +80,3 @@ def path_api(path='/'):
 # @web_bp.route('%s/static/<path:path>' % NEKUMO_ROOT)
 def send_js(path):
     return send_from_directory(STATIC_DIRECTORY, path)
-
-
-"""
-import pychromecast
-
-chromecasts = pychromecast.get_chromecasts()
-
-cast = chromecasts[0]
-cast.quit_app()
-
-mc = cast.media_controller
-
-mc.play_media('http://192.168.88.11:7080/encode.mp4', 'video/mp4', stream_type='LIVE')
-# mc.play_media('http://192.168.88.11:8000/example2.mp4', 'video/mp4')
-
-mc.update_status(); mc.status
-
-Range: bytes=0-  # Al hacer una petición con seek
-Range: bytes=18284544-  # Otra petición con seek
-
-.seek() funciona, pero sólo al comienzo. Hace una nueva petición
-"""
