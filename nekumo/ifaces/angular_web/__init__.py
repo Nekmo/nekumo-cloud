@@ -6,7 +6,7 @@ from nekumo.gateways.base import ALL_METHODS_PROPERTIES
 from nekumo.ifaces.base import IfaceBase, IfaceConfig
 from flask import Flask
 from flask_socketio import SocketIO
-
+import socketio as socketio_lib
 
 from nekumo.ifaces.simple_web.jinja import filters
 
@@ -71,7 +71,13 @@ class AngularWebIface(IfaceBase):
         # app = engineio.Middleware(eio, self.app)
         # pywsgi.WSGIServer(('', self.config.port), app,
         #                   handler_class=WebSocketHandler).serve_forever()
-        socketio.run(self.app, self.config.address, self.config.port)
+
+        # socketio.run(self.app, self.config.address, self.config.port, threaded=True)
+
+        sio = socketio_lib.Server(async_mode='threading')
+        self.app.wsgi_app = socketio_lib.Middleware(sio, self.app.wsgi_app)
+        self.app.run(self.config.address, self.config.port, threaded=True)
+
         # self.app.run(self.config.address, self.config.port, self.config.debug,
         #              threaded=os.environ.get('NEKUMO_DEBUG_IFACE') != 'simple_web')
         # self.app.logger.info('app starting up....')

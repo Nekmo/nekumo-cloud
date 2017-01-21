@@ -3,6 +3,7 @@ import os
 import glob
 
 import datetime
+import time
 from flask import Blueprint
 from flask import Response
 from flask import current_app
@@ -30,6 +31,12 @@ def serve_file(entry):
         return send_file(download.local_path)
 
 
+@web_bp.route('/slow', methods=['GET'])
+def slow():
+    time.sleep(100)
+    return 'foo'
+
+
 @web_bp.route('/<path:path>', methods=['GET'])
 @web_bp.route('/', methods=['GET'])
 def index(path='/'):
@@ -38,11 +45,11 @@ def index(path='/'):
         raise NotFound
     if entry.is_dir() and not path.endswith('/'):
         return redirect(path + '/')
+    elif 'gallery' in request.args:
+        return render_template('gallery.html', entry=entry, debug=current_app.config['DEBUG'])
     if entry.is_dir():
         entries = entry.ls().sort('name')
         return render_template('list.html', entry=entry, entries=entries, debug=current_app.config['DEBUG'])
-    elif 'gallery' in request.args:
-        return render_template('gallery.html', entry=entry, debug=current_app.config['DEBUG'])
     else:
         return serve_file(entry)
 
