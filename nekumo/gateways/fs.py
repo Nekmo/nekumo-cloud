@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from nekumo.conf.base import ParserInput
 from nekumo.gateways.base import GatewayBase, GatewayConfig, NekumoDirListBase, NekumoFileBase, NekumoDirBase, \
@@ -47,10 +48,10 @@ class FSNekumoEntry(NekumoEntryMixin, Entry, NekumoEntryBase):
         return self.remove()
 
     def move(self, target):
-        raise NotImplementedError
+        super(FSNekumoEntry, self).move(self.gateway.get_entry(target).gateway_path)
 
-    def copy(self, target):
-        raise NotImplementedError
+    def copy(self, dst, symlinks=False, ignore=None):
+        super(FSNekumoEntry, self).copy(self.gateway.get_entry(dst).gateway_path, symlinks, ignore)
 
     def download(self):
         return NekumoLocalDownload(self.gateway_path)
@@ -80,6 +81,9 @@ FSNekumoEntry.entry_class = FSNekumoEntry
 class FSNekumoDir(FSNekumoEntry, Dir, NekumoDirBase):
     def list(self, depth=None, fail=False, **kwargs):
         return self.get_dir_list_class()(self.path, depth, fail, gateway=self.gateway, **kwargs)
+
+    def delete(self):
+        shutil.rmtree(self.gateway_path)
 
     @classmethod
     def get_dir_list_class(cls):
@@ -120,7 +124,7 @@ class FSNekumoDirList(NekumoEntryMixin, DirList, NekumoDirListBase):
             # entry['rights'] = "drwxr-xr-x"
             entry['date'] = "2016-03-03 15:31:40"
             return entry
-        return list(map(upd, self.values('name', 'size', 'type')))
+        return list(map(upd, self.values('name', 'size', 'type', 'mimetype')))
 
 
 class FSConfig(GatewayConfig):

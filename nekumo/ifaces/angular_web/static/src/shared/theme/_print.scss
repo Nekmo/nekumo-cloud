@@ -1,0 +1,70 @@
+/*----------------------------------------------------------------*/
+/*  Print
+/*----------------------------------------------------------------*/
+
+@media all {
+
+    /* Never show page break in normal view */
+    .page-break {
+        display: none;
+    }
+
+}
+
+@media print {
+
+    /* Page Styles */
+    @page {
+        //margin: 0.5cm;
+    }
+
+    /* Page break */
+    .page-break {
+        display: block;
+        break-after: always;
+        page-break-after: always;
+    }
+
+    /* General styles */
+    #main {
+
+        #vertical-navigation {
+            display: none;
+        }
+
+        #toolbar {
+            display: none;
+        }
+
+        #quick-panel {
+            display: none;
+        }
+
+        #content {
+            position: relative !important;
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            background: none !important;
+        }
+    }
+
+    ms-theme-options {
+        display: none;
+    }
+
+    .ps-scrollbar-x-rail,
+    .ps-scrollbar-y-rail {
+        display: none !important;
+    }
+
+    /* Printable page specific styles */
+    .printable {
+        overflow: visible !important;
+
+        .template-layout {
+            display: inline !important;
+        }
+    }
+}

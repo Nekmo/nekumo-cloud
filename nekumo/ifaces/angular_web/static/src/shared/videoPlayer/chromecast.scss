@@ -280,19 +280,31 @@ body {
 }
 
 #castbutton {
-  float:right;
-  margin:10px 6px 14px 0px;
-  width: 40px;
-  height: 32px;
-  opacity: 0.7;
-  background-color: #000;
-  border: none;
-  outline: none;
-}
+  display: table-cell;
+  height: 10px;
 
-#castbutton:hover {
-  --disconnected-color: white;
-  --connected-color: white;
+  width: 40px;
+  // height: 32px;
+
+  // background-color: #000;
+
+
+
+  text-align: center;
+
+  * {
+    // vertical-align: middle;
+    vertical-align: bottom;
+    height: 25px;
+
+    margin: 10px 3px;
+    background: transparent;
+    border: none;
+    outline: none;
+
+    --disconnected-color: white;
+    --connected-color: white;
+  }
 }
 
 #audio_off {

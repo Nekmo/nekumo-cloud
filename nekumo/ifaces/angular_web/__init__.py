@@ -74,9 +74,11 @@ class AngularWebIface(IfaceBase):
 
         # socketio.run(self.app, self.config.address, self.config.port, threaded=True)
 
-        sio = socketio_lib.Server(async_mode='threading')
-        self.app.wsgi_app = socketio_lib.Middleware(sio, self.app.wsgi_app)
-        self.app.run(self.config.address, self.config.port, threaded=True)
+        socketio.run(self.app, self.config.address, self.config.port)
+
+        # sio = socketio_lib.Server(async_mode='threading')
+        # self.app.wsgi_app = socketio_lib.Middleware(sio, self.app.wsgi_app)
+        # self.app.run(self.config.address, self.config.port, threaded=True)
 
         # self.app.run(self.config.address, self.config.port, self.config.debug,
         #              threaded=os.environ.get('NEKUMO_DEBUG_IFACE') != 'simple_web')

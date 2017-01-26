@@ -4,64 +4,71 @@
 {% block content %}
 {#    <gallery></gallery>#}
 {#    <video-player src="'{{ entry.iface_path }}'" mime-type="'{{ entry.mimetype() }}'"></video-player>#}
-    <!-- <gallery></gallery> -->
+    <gallery selected-src="'http://192.168.88.11:7080{{ entry.iface_path }}'"></gallery>
 
 
-          <div id="top_header">
-        <div id="logo"></div>
-      </div>
-      <div id="main_video">
-        <div class="imageSub"> <!-- Put Your Image Width -->
-           <div class="blackbg" id="playerstatebg">IDLE</div>
-           <div class=label id="playerstate">IDLE</div>
-           <img src="images/bunny.jpg" id="video_image">
-           <div id="video_image_overlay"></div>
-           <video id="video_element">
-           </video>
-        </div>
-
-        <div id="media_control">
-           <div id="play"></div>
-           <div id="pause"></div>
-           <div id="progress_bg"></div>
-           <div id="progress"></div>
-           <div id="progress_indicator"></div>
-           <div id="fullscreen_expand"></div>
-           <div id="fullscreen_collapse"></div>
-           <button is="google-cast-button" id="castbutton"></button>
-           <div id="audio_bg"></div>
-           <div id="audio_bg_track"></div>
-           <div id="audio_indicator"></div>
-           <div id="audio_bg_level"></div>
-           <div id="audio_on"></div>
-           <div id="audio_off"></div>
-           <div id="duration">00:00:00</div>
-        </div>
-      </div>
-      <div id="media_info">
-        <div id="media_title">
-        </div>
-        <div id="media_subtitle">
-        </div>
-        <div id="media_desc">
-        </div>
-      </div>
-
-      <div id="carousel">
-      </div>
+{#          <div id="top_header">#}
+{#        <div id="logo"></div>#}
+{#      </div>#}
+{#      <div id="main_video">#}
+{#        <div class="imageSub"> <!-- Put Your Image Width -->#}
+{#           <div class="blackbg" id="playerstatebg">IDLE</div>#}
+{#           <div class=label id="playerstate">IDLE</div>#}
+{#           <img src="images/bunny.jpg" id="video_image">#}
+{#           <div id="video_image_overlay"></div>#}
+{#           <video id="video_element">#}
+{#           </video>#}
+{#        </div>#}
+{##}
+{#        <div id="media_control">#}
+{#           <div id="play"></div>#}
+{#           <div id="pause"></div>#}
+{#           <div id="progress_bg"></div>#}
+{#           <div id="progress"></div>#}
+{#           <div id="progress_indicator"></div>#}
+{#           <div id="fullscreen_expand"></div>#}
+{#           <div id="fullscreen_collapse"></div>#}
+{#           <button is="google-cast-button" id="castbutton"></button>#}
+{#           <div id="audio_bg"></div>#}
+{#           <div id="audio_bg_track"></div>#}
+{#           <div id="audio_indicator"></div>#}
+{#           <div id="audio_bg_level"></div>#}
+{#           <div id="audio_on"></div>#}
+{#           <div id="audio_off"></div>#}
+{#           <div id="duration">00:00:00</div>#}
+{#        </div>#}
+{#      </div>#}
+{#      <div id="media_info">#}
+{#        <div id="media_title">#}
+{#        </div>#}
+{#        <div id="media_subtitle">#}
+{#        </div>#}
+{#        <div id="media_desc">#}
+{#        </div>#}
+{#      </div>#}
+{##}
+{#      <div id="carousel">#}
+{#      </div>#}
 
 
 {% endblock %}
 
 {% block js %}
 
+    <script src="{{ url_for('static', filename='src/libs/angular-animate/angular-animate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-duration-format/dist/angular-duration-format.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-aria/angular-aria.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-messages/angular-messages.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-material/angular-material.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/angular-sanitize/angular-sanitize.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/videogular/videogular.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/videogular-buffering/vg-buffering.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/videogular-controls/vg-controls.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/videogular-overlay-play/vg-overlay-play.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-event-dispatcher/dist/angular-event-dispatcher.js') }}"></script>
     <script src="{{ url_for('static', filename='src/shared/videoPlayer/videoPlayer.js') }}"></script>
     <script src="{{ url_for('static', filename='src/shared/chromecast/chromecast.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/shared/preview/preview.js') }}"></script>
     <script src="{{ url_for('static', filename='src/components/gallery/gallery.js') }}"></script>
 
     <!-- Chromecast -->
@@ -72,5 +79,9 @@
 {% block css %}
     <link href="{{ url_for('static', filename='src/components/gallery/gallery.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='src/libs/videogular-themes-default/videogular.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/libs/angular-material/angular-material.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/libs/mdi/css/materialdesignicons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/shared/preview/preview.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='src/shared/videoPlayer/chromecast.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/shared/chromecast/chromecast.css') }}" rel="stylesheet">
 {% endblock %}

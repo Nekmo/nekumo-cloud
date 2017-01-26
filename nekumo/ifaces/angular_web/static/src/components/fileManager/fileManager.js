@@ -17,3 +17,4 @@ var module = angular.module('FileManagerApp').config(['fileManagerConfigProvider
         enablePermissionsRecursive: true
     });
 }]);
+

@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block ng_app %}fileManager{% endblock %}
+
+{% block content %}
+
+    <div id="file-manager" class="page-layout simple right-sidenav" layout="row"
+         ng-controller="FileManagerController as vm">
+
+        <!-- MAIN SIDENAV (EXTRA SIDENAV) -->
+        <md-sidenav class="main-sidenav" md-component-id="main-sidenav"
+                    ng-include="'/static/src/components/fileManager/sidenavs/main/main-sidenav.html'" ms-scroll
+                    ms-sidenav-helper>
+        </md-sidenav>
+        <!-- / MAIN SIDENAV (EXTRA SIDENAV) -->
+
+        <!-- CENTER -->
+        <div class="center" layout="column" flex>
+
+            <!-- HEADER -->
+            <div class="header md-accent-bg">
+
+                <div class="header-content" layout="column" layout-align="space-between">
+
+                    <!-- TOOLBAR -->
+                    <div class="toolbar" layout="row" layout-align="space-between">
+
+                        <md-button class="md-icon-button main-sidenav-toggle" ng-click="vm.toggleSidenav('main-sidenav')"
+                                   aria-label="Toggle Main Sidenav" translate
+                                   translate-attr-aria-label="FILE.TOOGLE_MAIN_SIDENAV">
+                            <md-icon md-font-set="mdi" md-font-icon="mdi-menu" class="icon"></md-icon>
+                        </md-button>
+
+                        <div class="right-side" layout="row">
+                            <md-button class="md-icon-button" aria-label="Search" translate
+                                       translate-attr-aria-label="FM.SEARCH">
+                                <md-icon md-font-set="mdi" md-font-icon="mdi-magnify"></md-icon>
+                                <md-tooltip><span translate="FM.SEARCH">Search</span></md-tooltip>
+                            </md-button>
+
+                            <md-button ng-if="vm.currentView === 'list'" class="md-icon-button"
+                                       ng-click="vm.toggleView()"
+                                       aria-label="view type" translate
+                                       translate-attr-aria-label="FM.GRID_VIEW">
+                                <md-icon md-font-set="mdi" md-font-icon="mdi-view-module"></md-icon>
+                                <md-tooltip><span translate="FM.GRID_VIEW">Grid View</span></md-tooltip>
+                            </md-button>
+
+                            <md-button ng-if="vm.currentView === 'grid'" class="md-icon-button" aria-label="view type"
+                                       ng-click="vm.toggleView()" translate
+                                       translate-attr-aria-label="FM.LIST_VIEW">
+                                <md-icon md-font-set="mdi" md-font-icon="mdi-view-headline"></md-icon>
+                                <md-tooltip><span translate="FM.LIST_VIEW">List View</span></md-tooltip>
+                            </md-button>
+                        </div>
+                    </div>
+                    <!-- / TOOLBAR -->
+
+                    <!-- BREADCRUMB -->
+                    <div class="breadcrumb text-truncate" layout="row" layout-align="start center">
+                    <span data-ng-repeat="path in vm.path">{{path}}
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-chevron-right" class="icon separator"></md-icon>
+                    </span>
+                    </div>
+                    <!-- / BREADCRUMB -->
+                </div>
+
+                <!-- ADD FILE BUTTON -->
+                <div id="file-uploader"
+                     flow-init="vm.ngFlowOptions"
+                     flow-name="vm.ngFlow.flow"
+                     flow-files-submitted="vm.upload()"
+                     flow-file-added="vm.fileAdded($file)"
+                     flow-file-success="vm.fileSuccess($file, $message)"
+                     flow-complete="vm.uploadComplete()">
+
+                    <md-button flow-btn class="add-file-button md-fab md-warn"
+                               aria-label="Add file" translate
+                               translate-attr-aria-label="FM.ADD_FILE">
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-plus"></md-icon>
+                    </md-button>
+                </div>
+                <!-- / ADD FILE BUTTON -->
+            </div>
+            <!-- / HEADER -->
+
+            <!-- CONTENT -->
+            <md-content class="content" flex ms-scroll>
+                <div ng-if="vm.currentView === 'grid'"
+                     ng-include="'/static/src/components/fileManager/views/grid/grid-view.html'"></div>
+                <div ng-if="vm.currentView === 'list'"
+                     ng-include="'/static/src/components/fileManager/views/list/list-view.html'"></div>
+            </md-content>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CENTER -->
+
+        <!-- SIDENAV -->
+        <md-sidenav class="sidenav details-sidenav md-sidenav-right" md-is-locked-open="$mdMedia('gt-md')"
+                    md-component-id="details-sidenav"
+                    ng-include="'/static/src/components/fileManager/sidenavs/details/details-sidenav.html'" ms-scroll
+                    ms-sidenav-helper>
+        </md-sidenav>
+        <!-- / SIDENAV -->
+
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{{ url_for('static', filename='src/libs/angular-socket-io/socket.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/socket.io-client/dist/socket.io.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='src/libs/angular-animate/angular-animate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-duration-format/dist/angular-duration-format.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-aria/angular-aria.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-messages/angular-messages.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-material/angular-material.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-sanitize/angular-sanitize.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/videogular/videogular.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/videogular-buffering/vg-buffering.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/videogular-controls/vg-controls.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/videogular-overlay-play/vg-overlay-play.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-event-dispatcher/dist/angular-event-dispatcher.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/shared/videoPlayer/videoPlayer.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/shared/chromecast/chromecast.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/shared/preview/preview.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/shared/fileManagerApi/fileManagerApi.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/shared/utils/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/components/fileManager/file-manager.controller.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/components/fileManager/manager.js') }}"></script>
+
+    <!-- Chromecast -->
+    <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+
+{% endblock %}
+
+{% block css %}
+{#    <link href="{{ url_for('static', filename='src/components/fileManager/app.css') }}" rel="stylesheet">#}
+    <link href="{{ url_for('static', filename='src/shared/theme/theme.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/components/fileManager/file-manager.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/libs/videogular-themes-default/videogular.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/libs/mdi/css/materialdesignicons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/shared/preview/preview.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/shared/videoPlayer/chromecast.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/shared/chromecast/chromecast.css') }}" rel="stylesheet">
+{% endblock %}

@@ -1,0 +1,27 @@
+@import "../../libs/angular-material/angular-material.scss";
+
+@import 'reset';
+@import 'variables';
+@import 'mixins';
+@import 'angular-material-extend';
+@import 'layouts-template';
+@import 'layouts-page';
+@import 'animations';
+@import 'colors';
+@import 'icons';
+@import 'material';
+@import 'typography';
+
+//@import 'plugins/angular-google-map.scss';
+//@import 'plugins/angular-moment-picker.scss';
+//@import 'plugins/c3.scss';
+//@import 'plugins/chartist.scss';
+//@import 'plugins/chartjs.scss';
+//@import 'plugins/datatable.scss';
+//@import 'plugins/highlight.scss';
+//@import 'plugins/nvd3.scss';
+//@import 'plugins/perfect-scrollbar.scss';
+//@import 'plugins/text-angular.scss';
+
+@import 'helpers';
+@import 'print';

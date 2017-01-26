@@ -1,0 +1,34 @@
+#player {
+    button {
+        min-width: 50px;
+
+        md-icon {
+            font-size: 30px;
+        }
+    }
+
+    .timing {
+        font-size: 20px;
+        vertical-align: middle;
+    }
+
+    .cast {
+        --disconnected-color: rgba(0,0,0,0.54);
+        --connected-color: rgba(0,0,0,0.54);
+
+
+        width: 50px;
+        height: 36px;
+    }
+
+    #volume {
+        display: inline-block;
+
+        #volume-slider {
+            margin: 0 3px;
+            border-radius: 3px;
+            background-color: #fff;
+            position: absolute;
+        }
+    }
+}

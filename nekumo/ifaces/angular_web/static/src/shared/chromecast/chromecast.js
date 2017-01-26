@@ -13,13 +13,20 @@
 // limitations under the License.
 
 
-'use strict';
-
-
 /**
  * Media source root URL
  * @const
  */
+var emptyFn = function () {};
+
+function getVolumeLevelName (volumeLevel) {
+    if(volumeLevel > 0) volumeLevelName = 'low';
+    if(volumeLevel > 40) volumeLevelName = 'medium';
+    if(volumeLevel > 70) volumeLevelName = 'high';
+    if(!volumeLevel) volumeLevelName = 'off';
+    return volumeLevelName;
+}
+
 var MEDIA_SOURCE_ROOT =
     'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/';
 
@@ -1021,7 +1028,17 @@ var mediaJSON = { 'categories' : [{ 'name' : 'Movies',
 //     }
 // };
 
-var Chromecast = function () {
+var Chromecast = function (chromecastOptions) {
+    var defaultChromecastOptions = {
+        force: false,
+        callback: null
+    };
+
+    this.src = null;
+    this.chromecastOptions = angular.extend(defaultChromecastOptions, chromecastOptions);
+    this.castInstance = null;
+
+    this.isInitialized = false;
 
     this. _el = document.createElement('div');
 
@@ -1051,13 +1068,26 @@ Chromecast.prototype.initializeCastPlayer = function() {
     // PAGE_SCOPED - No auto connect
     options.autoJoinPolicy = chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED;
 
-    cast.framework.CastContext.getInstance().setOptions(options);
+    this.castInstance = cast.framework.CastContext.getInstance();
+    this.castInstance.setOptions(options);
 
     this.remotePlayer = new cast.framework.RemotePlayer();
     this.remotePlayerController = new cast.framework.RemotePlayerController(this.remotePlayer);
+
     this.remotePlayerController.addEventListener(
         cast.framework.RemotePlayerEventType.IS_CONNECTED_CHANGED,
         this.switchPlayer.bind(this)
+    );
+    this.enableListeners();
+};
+
+Chromecast.prototype.enableListeners = function () {
+    if(!this.chromecastOptions.callback){
+        return
+    }
+    this.remotePlayerController.addEventListener(
+        cast.framework.RemotePlayerEventType.ANY_CHANGE,
+        this.chromecastOptions.callback
     );
 };
 
@@ -1067,81 +1097,208 @@ Chromecast.prototype.switchPlayer = function() {
     if (cast && cast.framework) {
         // Está el Chromecast disponible
         if (this.remotePlayer.isConnected) {
-            this.setupRemotePlayer();
-            return;
+            this.isInitialized = true;
+            // this.setupRemotePlayer();
+            this.load();
+        } else {
+            this.isInitialized = false;
         }
     }
 };
 
-Chromecast.prototype.setupRemotePlayer = function () {
-    var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-
-    this.remotePlayerController.addEventListener(
-        cast.framework.RemotePlayerEventType.ANY_CHANGE,
-        function(ev) {
-            this._el.dispatchEvent(new CustomEvent(ev.field, {detail: ev}));
-            this._el.dispatchEvent(new CustomEvent('anyChange', {detail: ev}));
-        }.bind(this)
-    );
-
-    this.load = function (src, options) {
-        var defaultOptions = {
-            mimeType: 'video/mp4',
-            title: null,
-            thumbs: null
-        };
-        options = angular.extend(defaultOptions, options);
-        var mediaInfo = new chrome.cast.media.MediaInfo(src, options.mimeType);
-        mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
-        mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.GENERIC;
-        if(options.title){
-            mediaInfo.metadata.title = options.title;
-        }
-        if(options.thumbs){
-            mediaInfo.metadata.images = options.thumbs;
-        }
-
-        var request = new chrome.cast.media.LoadRequest(mediaInfo);
-        castSession.loadMedia(request);
-
-        // console.log('Loading...' + this.mediaContents[mediaIndex]['title']);
-        // // TODO: chromecast
-        // var mediaInfo = new chrome.cast.media.MediaInfo(
-        //     this.mediaContents[mediaIndex]['sources'][0], 'video/mp4');
-
-        // mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
-        // mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.GENERIC;
-        // mediaInfo.metadata.title = this.mediaContents[mediaIndex]['title'];
-        // mediaInfo.metadata.images = [
-        //     {'url': MEDIA_SOURCE_ROOT + this.mediaContents[mediaIndex]['thumb']}];
-        //
-        // var request = new chrome.cast.media.LoadRequest(mediaInfo);
-
-        // castSession.loadMedia(request).then(
-        //     this.playerHandler.loaded.bind(this.playerHandler),
-        //     function (errorCode) {
-        //         this.playerState = PLAYER_STATE.ERROR;
-        //         console.log('Remote media load error: ' +
-        //             CastPlayer.getErrorMessage(errorCode));
-        //     }.bind(this)
-        // );
-    }.bind(this);
-
-    this.load('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
-
+Chromecast.prototype.getCurrentSession = function () {
+    if(this.castInstance){
+        return this.castInstance.getCurrentSession();
+    }
 };
 
-var castPlayer = new Chromecast();
+Chromecast.prototype.getMediaSession = function () {
+    var currentSession = this.getCurrentSession();
+    if(currentSession){
+        return currentSession.getMediaSession();
+    }
+};
 
-castPlayer.listen('anyChange', function (ev) {
-    console.debug(ev.detail);
+Chromecast.prototype.getPlayerState = function () {
+    return (this.getMediaSession() || {}).playerState || "";
+};
+
+Chromecast.prototype.load = function () {
+    var currentSession = this.getCurrentSession();
+
+    if(!this.chromecastOptions.force && (!currentSession || this.getPlayerState())){
+        return
+    }
+
+    var defaultOptions = {
+        mimeType: 'video/mp4',
+        title: null,
+        thumbs: null
+    };
+    var options = angular.extend(defaultOptions, this.options);
+    var mediaInfo = new chrome.cast.media.MediaInfo(this.src, options.mimeType);
+    mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+    mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.GENERIC;
+    if(options.title){
+        mediaInfo.metadata.title = options.title;
+    }
+    if(options.thumbs){
+        mediaInfo.metadata.images = options.thumbs;
+    }
+
+    var request = new chrome.cast.media.LoadRequest(mediaInfo);
+    currentSession.loadMedia(request);
+
+    // console.log('Loading...' + this.mediaContents[mediaIndex]['title']);
+    // // TODO: chromecast
+    // var mediaInfo = new chrome.cast.media.MediaInfo(
+    //     this.mediaContents[mediaIndex]['sources'][0], 'video/mp4');
+
+    // mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+    // mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.GENERIC;
+    // mediaInfo.metadata.title = this.mediaContents[mediaIndex]['title'];
+    // mediaInfo.metadata.images = [
+    //     {'url': MEDIA_SOURCE_ROOT + this.mediaContents[mediaIndex]['thumb']}];
+    //
+    // var request = new chrome.cast.media.LoadRequest(mediaInfo);
+
+    // castSession.loadMedia(request).then(
+    //     this.playerHandler.loaded.bind(this.playerHandler),
+    //     function (errorCode) {
+    //         this.playerState = PLAYER_STATE.ERROR;
+    //         console.log('Remote media load error: ' +
+    //             CastPlayer.getErrorMessage(errorCode));
+    //     }.bind(this)
+    // );
+};
+
+// Chromecast.prototype.setupRemotePlayer = function () {
+// };
+
+Chromecast.prototype.setSrc = function (src, options) {
+    this.src = src;
+    this.options = options;
+    this.load();
+};
+
+Chromecast.prototype.start = function () {
+    window['__onGCastApiAvailable'] = function(isAvailable) {
+        if (isAvailable) {
+            // La API está disponible
+            this.initializeCastPlayer();
+        }
+    }.bind(this);
+};
+
+Chromecast.prototype.getDuration = function () {
+    return this.remotePlayer.duration;
+};
+
+Chromecast.prototype.seekTo = function (time) {
+    if(!this.remotePlayer){
+        return
+    }
+    this.remotePlayer.currentTime = time;
+    this.remotePlayerController.seek();
+};
+
+Chromecast.prototype.setVolumeLevel = function (volumeLevel) {
+    this.remotePlayer.volumeLevel = volumeLevel;
+    this.remotePlayerController.setVolumeLevel();
+};
+
+Chromecast.prototype.play = function () {
+    return (this.getMediaSession() || {play: emptyFn}).play();
+};
+
+Chromecast.prototype.pause = function () {
+    return (this.getMediaSession() || {pause: emptyFn}).pause();
+};
+
+Chromecast.prototype.togglePause = function () {
+    if(this.getPlayerState() == PLAYER_STATE.PAUSED){
+        this.play();
+    } else {
+        this.pause();
+    }
+};
+
+var module = angular.module('chromecast', ['angular-event-dispatcher', 'ngMaterial', 'angular-duration-format']);
+
+module.factory('$chromecast', function (EventDispatcher) {
+    var events = EventDispatcher;
+    events.logger.logLevel = 'error';
+
+    var castPlayer = new Chromecast({
+        callback: function (ev) {
+            events.trigger(ev.field, ev);
+            events.trigger('anyChange', ev);
+        }
+    });
+    castPlayer.start();
+    castPlayer.events = events;
+
+    events.on('anyChange', function (ev) {
+        console.debug(ev);
+    });
+
+    return castPlayer;
 });
 
+// module.factory('$chromecastPlayer', function () {
+//     return {}
+// })
 
-window['__onGCastApiAvailable'] = function(isAvailable) {
-    if (isAvailable) {
-        castPlayer.initializeCastPlayer();
-    }
-};
+module.factory('$chromecastPlayer', function ($document, $templateRequest, $compile, $rootScope, $chromecast) {
+    $templateRequest("/static/src/shared/chromecast/player.html").then(function(html) {
+        var body = $document.find('body').eq(0);
 
+        var preview = angular.element(html);
+        var scope = $rootScope.$new();
+        scope = angular.extend(scope, {
+            $chromecast: $chromecast, playerState: 'UNKNOWN', duration: null, currentTime: 0,
+            volumeSlider: false, volumeLevel: 0, volumeLevelName: 'high'
+        });
 
+        scope.toggleVolumeSlider = function () {
+            scope.volumeSlider = !scope.volumeSlider;
+        };
+
+        scope.setVolumeLevel = function (volumeLevel) {
+            scope.volumeLevelName = getVolumeLevelName(volumeLevel);
+            $chromecast.setVolumeLevel(volumeLevel / 100);
+        };
+
+        $compile(preview)(scope);
+        body.append(preview);
+
+        c = $chromecast;
+
+        $chromecast.events.on('playerState', function (ev) {
+            scope.$apply(function () {
+                scope.playerState = ev.value;
+            });
+        });
+
+        $chromecast.events.on('duration', function (ev) {
+            scope.$apply(function () {
+                scope.duration = parseInt(ev.value);
+            });
+        });
+
+        $chromecast.events.on('currentTime', function (ev) {
+            scope.$apply(function () {
+                scope.currentTime = parseInt(ev.value);
+            });
+        });
+
+        $chromecast.events.on('volumeLevel', function (ev) {
+            console.log(ev);
+            scope.$apply(function () {
+                scope.volumeLevel = ev.value * 100;
+                scope.volumeLevelName = getVolumeLevelName(scope.volumeLevel);
+            });
+        });
+    });
+    return {}
+});
