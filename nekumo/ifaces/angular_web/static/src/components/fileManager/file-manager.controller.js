@@ -34,10 +34,11 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
         'withinpixels': 'johndoe@withinpixels.com'
     };
     $scope.selectedAccount = 'creapond';
-    // $scope.currentView = 'list';
-    $scope.currentView = 'grid';
+    $scope.currentView = 'list';
+    // $scope.currentView = 'grid';
     $scope.showDetails = true;
 
+    $scope.isLoaded = false;
     $scope.entries = [];
     $scope.selected = null;
 
@@ -74,8 +75,11 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
     };
 
     function setEntries(path) {
+        $scope.isLoaded = false;
+        $scope.entries = [];
         API.list(path).then(function (data) {
             $scope.entries = data;
+            $scope.isLoaded = true;
         });
     }
 

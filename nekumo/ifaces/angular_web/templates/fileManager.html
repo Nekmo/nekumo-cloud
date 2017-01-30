@@ -92,9 +92,42 @@
 
             <!-- CONTENT -->
             <md-content class="content" flex ms-scroll>
-                <div ng-if="currentView === 'grid'"
+                <div class="loading" ng-if="!isLoaded">
+                    <md-progress-circular md-diameter="96"></md-progress-circular>
+                </div>
+                <div ng-if="!entries.length && isLoaded">
+                    <div flex-xs flex-gt-xs="50" layout="column">
+                      <md-card>
+                        <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
+                        <md-card-title>
+                          <md-card-title-text>
+                            <span class="md-headline">Directory is empty</span>
+                          </md-card-title-text>
+                        </md-card-title>
+                        <md-card-content>
+                          <p>
+                              There is still nothing in this directory. This may be a good time to upload a file.
+                              Think about it, okay?
+                          </p>
+                        </md-card-content>
+                        <md-card-actions layout="row" layout-align="end center">
+                          <md-button class="md-icon-button" aria-label="Favorite">
+                            <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+                          </md-button>
+                          <md-button class="md-icon-button" aria-label="Settings">
+                            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+                          </md-button>
+                          <md-button class="md-icon-button" aria-label="Share">
+                            <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
+                          </md-button>
+                        </md-card-actions>
+                      </md-card>
+                    </div>
+
+                </div>
+                <div ng-if="entries.length && currentView === 'grid'"
                      ng-include="'/.nekumo/static/src/components/fileManager/views/grid/grid-view.html'"></div>
-                <div ng-if="currentView === 'list'"
+                <div ng-if="entries.length && currentView === 'list'"
                      ng-include="'/.nekumo/static/src/components/fileManager/views/list/list-view.html'"></div>
             </md-content>
             <!-- / CONTENT -->

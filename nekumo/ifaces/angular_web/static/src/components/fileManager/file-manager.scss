@@ -11,6 +11,21 @@ $layout-breakpoint-sm:     960px !default;
 
 #file-manager {
 
+    .loading {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        right: 320px;  // TODO: right sidebar width
+
+        md-progress-circular {
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
     .center {
 
         .header {

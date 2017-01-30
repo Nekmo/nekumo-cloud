@@ -72,6 +72,14 @@
                         padding: 24px 16px;
                         text-align: center;
                     }
+
+                    a {
+                        color: rgba(0,0,0,0.87);
+
+                        &:hover {
+                            text-decoration: none;
+                        }
+                    }
                 }
             }
         }
