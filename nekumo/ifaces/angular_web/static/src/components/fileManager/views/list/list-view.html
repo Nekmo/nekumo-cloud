@@ -1,0 +1,45 @@
+<!-- LIST VIEW -->
+<table class="simple list-view">
+    <thead>
+        <tr>
+            <th></th>
+            <th translate="FM.NAME" ng-click="sortBy('name')">Name
+                <reverse-icon ng-if="sortColumn == 'name'"></reverse-icon></th>
+            <th hide show-gt-md translate="FM.TYPE" ng-click="sortBy('type')">Type
+                <reverse-icon ng-if="sortColumn == 'type'"></reverse-icon></th>
+            <th hide-xs translate="FM.OWNER" ng-click="sortBy('owner')">Owner
+                <reverse-icon ng-if="sortColumn == 'owner'"></reverse-icon></th>
+            <th hide-xs translate="FM.SIZE" ng-click="sortBy('size')">Size
+                <reverse-icon ng-if="sortColumn == 'size'"></reverse-icon></th>
+            <th hide show-gt-md translate="FM.LAST_MODIFIED" ng-click="sortBy('modified')">Last Modified
+                <reverse-icon ng-if="sortColumn == 'modified'"></reverse-icon></th>
+            <th class="options"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr ng-repeat="file in entries | filter:global.search | orderBy:['-isDir', columnName]:scope
+        .reverse"
+            ng-click="select(file)" ng-class="{'selected': selected === file}">
+            <td class="file-icon">
+                <i class="{{ file.icon_class }}"></i>
+            </td>
+            <td class="name"><a ng-click="navigateTo(file.path)" href="#">{{file.name}}</a></td>
+            <td class="type" hide show-gt-md>{{file.type}}</td>
+            <td class="owner" hide-xs>{{file.owner}}</td>
+            <td class="size" hide-xs>{{file.size === '' ? '-': file.size|humanReadableFileSize }}</td>
+            <td class="last-modified" hide show-gt-md>{{ file.modified|date }}</td>
+            <td class="show-details" hide-gt-md>
+                <md-button class="md-icon-button sidenav-toggle" ng-click="toggleDetails(file)"
+                           aria-label="Details"
+                           translate translate-attr-aria-label="FM.DETAILS">
+                    <md-icon md-font-icon="icon-information-outline"></md-icon>
+                </md-button>
+            </td>
+            <td class="options">
+                <options entry="file"></options>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!-- / LIST VIEW -->

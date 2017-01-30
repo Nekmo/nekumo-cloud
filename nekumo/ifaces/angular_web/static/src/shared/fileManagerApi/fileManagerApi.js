@@ -67,7 +67,7 @@ Entry = function(data) {
         "location": "My Files > Documents",
         "offline": true,
         "isDir": true,
-        "preview": "assets/images/etc/sample-file-preview.jpg"
+        "preview": "/.nekumo/static/src/components/fileManager/sample-file-preview.jpg"
     });
     angular.extend(this, data);
 

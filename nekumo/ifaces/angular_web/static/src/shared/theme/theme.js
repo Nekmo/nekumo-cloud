@@ -26,7 +26,7 @@ function msSidenavHelperDirective()
                 }
 
                 iElement.parent().toggleClass('full-height', current);
-                angular.element('html').toggleClass('sidenav-open', current);
+                angular.element(document.getElementsByTagName('html')[0]).toggleClass('sidenav-open', current);
             });
         }
     };

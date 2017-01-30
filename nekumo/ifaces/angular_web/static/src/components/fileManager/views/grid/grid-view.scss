@@ -1,0 +1,76 @@
+#file-manager {
+
+    .grid-view {
+        padding: 32px 24px 24px 24px;
+
+        .item {
+            margin: 8px;
+            width: 250px;
+            border-radius: 2px;
+            overflow: hidden;
+            cursor: pointer;
+
+            &.folder {
+                height: 64px;
+                padding: 8px 16px;
+
+                .title {
+
+                    md-icon {
+                        margin-right: 16px;
+                    }
+
+                    .name {
+                        font-size: 15px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                    }
+                }
+
+                .show-details {
+
+                    .md-icon-button {
+                        margin: 0;
+                    }
+                }
+            }
+
+            &.file {
+
+                .preview {
+                    background: #FFFFFF;
+                    padding: 16px;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+                    width: 100%;
+                }
+
+                .bottom {
+                    height: 64px;
+                    padding: 8px 16px;
+
+                    .title {
+
+                        md-icon {
+                            margin-right: 16px;
+                        }
+
+                        .name {
+                            font-size: 15px;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            overflow: hidden;
+                        }
+                    }
+
+                    .show-details {
+
+                        .md-icon-button {
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

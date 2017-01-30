@@ -1,0 +1,144 @@
+// Variable disponible en angular-material: angular-material/angular-material.scss
+
+$layout-breakpoint-md:     1280px !default;
+$layout-breakpoint-sm:     960px !default;
+
+@import "../../libs/angular-material/layouts/angular-material.layout-attributes.scss";
+@import "sidenavs/details/details-sidenav";
+@import "sidenavs/main/main-sidenav";
+@import "views/grid/grid-view.scss";
+@import "views/list/list-view.scss";
+
+#file-manager {
+
+    .center {
+
+        .header {
+            position: relative;
+
+            .header-content {
+                height: 100%;
+
+                .breadcrumb {
+                    font-size: 24px;
+                    padding-left: 90px;
+
+                    span {
+                        cursor: pointer;
+
+                        md-icon {
+                            cursor: default;
+                        }
+
+                        &:last-child {
+
+                            md-icon {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    span.is-last {
+                        cursor: default;
+                    }
+
+                    .separator {
+                        margin-left: 8px;
+                        margin-right: 8px;
+                    }
+                }
+            }
+
+            .add-file-button {
+                position: absolute;
+                bottom: -32px;
+                left: 16px;
+            }
+        }
+
+        .content {
+            padding: 0;
+            background: #FFFFFF;
+        }
+    }
+
+
+    .icon-folder {
+
+        &:before {
+            color: #FFB300;
+        }
+    }
+
+    .icon-document, .icon-code {
+
+        &:before {
+            color: #1565C0;
+        }
+    }
+
+    .icon-spreadsheet, .icon-image {
+
+        &:before {
+            color: #4CAF50;
+        }
+    }
+
+    .icon-video, .icon-pdf {
+        &:before {
+            color: #db4437;
+        }
+
+    }
+
+    .icon-audio, .icon-compressed {
+        &:before {
+            color: #fa811a;
+        }
+    }
+
+    .icon-unknown {
+        &:before {
+            color: #9f9f9f;
+        }
+    }
+}
+
+// RESPONSIVE
+@media screen and (max-width: $layout-breakpoint-md) {
+
+    #file-manager {
+
+        .center {
+
+            .header {
+
+                .header-content {
+
+                    .breadcrumb {
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: $layout-breakpoint-sm) {
+
+    #file-manager {
+
+        .center {
+
+            .header {
+
+                .header-content {
+
+                    .breadcrumb {
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+}

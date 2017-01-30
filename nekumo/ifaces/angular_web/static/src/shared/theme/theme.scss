@@ -48,6 +48,11 @@
     color: rgba(255,255,255,0.12);
 }
 
+[md-theme="default"] .md-background-bg.md-hue-2 {
+    background-color: rgb(245,245,245);
+    color: rgba(0,0,0,0.87);
+}
+
 // TODO: añadido luego. Probar perfect-scrollbar
 //html, body {
 //    overflow: auto !important;

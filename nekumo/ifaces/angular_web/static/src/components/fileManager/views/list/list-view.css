@@ -1,0 +1,26 @@
+#file-manager .list-view > thead tr th:first-child {
+  border-bottom: none;
+  width: 106px; }
+
+#file-manager .list-view > tbody tr {
+  cursor: pointer;
+  outline: none; }
+  #file-manager .list-view > tbody tr.selected {
+    background: #E3F2FD; }
+  #file-manager .list-view > tbody tr td {
+    padding: 24px 8px;
+    border-bottom: none; }
+    #file-manager .list-view > tbody tr td.file-icon {
+      padding: 24px;
+      text-align: center; }
+    #file-manager .list-view > tbody tr td.name {
+      font-weight: 500; }
+    #file-manager .list-view > tbody tr td.type {
+      text-transform: capitalize; }
+    #file-manager .list-view > tbody tr td.owner {
+      text-transform: capitalize; }
+    #file-manager .list-view > tbody tr td.show-details {
+      text-align: center; }
+    #file-manager .list-view > tbody tr td.more {
+      padding: 24px 16px;
+      text-align: center; }

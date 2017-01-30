@@ -1,0 +1,37 @@
+#file-manager .grid-view {
+  padding: 32px 24px 24px 24px; }
+  #file-manager .grid-view .item {
+    margin: 8px;
+    width: 250px;
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer; }
+    #file-manager .grid-view .item.folder {
+      height: 64px;
+      padding: 8px 16px; }
+      #file-manager .grid-view .item.folder .title md-icon {
+        margin-right: 16px; }
+      #file-manager .grid-view .item.folder .title .name {
+        font-size: 15px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden; }
+      #file-manager .grid-view .item.folder .show-details .md-icon-button {
+        margin: 0; }
+    #file-manager .grid-view .item.file .preview {
+      background: #FFFFFF;
+      padding: 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      width: 100%; }
+    #file-manager .grid-view .item.file .bottom {
+      height: 64px;
+      padding: 8px 16px; }
+      #file-manager .grid-view .item.file .bottom .title md-icon {
+        margin-right: 16px; }
+      #file-manager .grid-view .item.file .bottom .title .name {
+        font-size: 15px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden; }
+      #file-manager .grid-view .item.file .bottom .show-details .md-icon-button {
+        margin: 0; }

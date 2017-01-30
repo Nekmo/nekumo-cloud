@@ -1,0 +1,62 @@
+<!-- SIDENAV HEADER -->
+<div class="header" layout="column" layout-align="space-between start">
+
+    <div class="logo" layout="row" layout-align="start center">
+        <span class="logo-icon">
+            <md-icon md-font-set="mdi" md-font-icon="mdi-folder" class="icon s24"></md-icon>
+        </span>
+        <span class="logo-text" translate="FM.FILE_MANAGER">File Manager</span>
+    </div>
+
+    <div class="account">
+        <div class="title">John Doe</div>
+        <md-select class="account-selection simplified" ng-model="vm.selectedAccount" placeholder="Select Account">
+            <md-option ng-repeat="(provider, address) in vm.accounts" value="{{provider}}">{{address}}</md-option>
+        </md-select>
+    </div>
+
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<div class="content">
+
+    <div class="navigation-simple" layout="column">
+        <md-button class="item" aria-label="inbox">
+            <div class="context" layout="row" layout-align="start center">
+                <md-icon md-font-set="mdi" md-font-icon="mdi-folder" class="s16"></md-icon>
+                <div class="title" translate="FM.MY_FILES">My Files</div>
+            </div>
+        </md-button>
+
+        <md-button class="item" aria-label="starred">
+            <div class="context" layout="row" layout-align="start center">
+                <md-icon md-font-set="mdi" md-font-icon="mdi-star" class="s16"></md-icon>
+                <div class="title" translate="FM.STARRED">Starred</div>
+            </div>
+        </md-button>
+
+        <md-button class="item" aria-label="starred">
+            <div class="context" layout="row" layout-align="start center">
+                <md-icon md-font-set="mdi" md-font-icon="mdi-folder-account" class="s16"></md-icon>
+                <div class="title" translate="FM.SHARRED_WITH_ME">Sharred with me</div>
+            </div>
+        </md-button>
+
+        <md-button class="item" aria-label="starred">
+            <div class="context" layout="row" layout-align="start center">
+                <md-icon md-font-set="mdi" md-font-icon="mdi-clock" class="s16"></md-icon>
+                <div class="title" translate="FM.RECENT">Recent</div>
+            </div>
+        </md-button>
+
+        <md-button class="item" aria-label="starred">
+            <div class="context" layout="row" layout-align="start center">
+                <md-icon md-font-set="mdi" md-font-icon="mdi-checkbox-marked-circle" class="s16"></md-icon>
+                <div class="title" translate="FM.OFFLINE">Offline</div>
+            </div>
+        </md-button>
+    </div>
+
+</div>
+<!-- / SIDENAV CONTENT -->

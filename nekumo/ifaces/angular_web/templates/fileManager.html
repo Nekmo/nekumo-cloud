@@ -6,7 +6,7 @@
 {#    <div id="file-manager" class="page-layout simple right-sidenav layout-row full-height" layout="row"#}
 {#         ng-controller="FileManagerController as vm" style="overflow: hidden;">#}
     <div id="file-manager" class="page-layout simple right-sidenav" layout="row"
-         ng-controller="FileManagerController as vm">
+         ng-controller="FileManagerController">
 
         <!-- MAIN SIDENAV (EXTRA SIDENAV) -->
         <md-sidenav class="main-sidenav" md-component-id="main-sidenav"
@@ -26,7 +26,7 @@
                     <!-- TOOLBAR -->
                     <div class="toolbar" layout="row" layout-align="space-between">
 
-                        <md-button class="md-icon-button main-sidenav-toggle" ng-click="vm.toggleSidenav('main-sidenav')"
+                        <md-button class="md-icon-button main-sidenav-toggle" ng-click="toggleSidenav('main-sidenav')"
                                    aria-label="Toggle Main Sidenav" translate
                                    translate-attr-aria-label="FILE.TOOGLE_MAIN_SIDENAV">
                             <md-icon md-font-set="mdi" md-font-icon="mdi-menu" class="icon"></md-icon>
@@ -39,16 +39,16 @@
                                 <md-tooltip><span translate="FM.SEARCH">Search</span></md-tooltip>
                             </md-button>
 
-                            <md-button ng-if="vm.currentView === 'list'" class="md-icon-button"
-                                       ng-click="vm.toggleView()"
+                            <md-button ng-if="currentView === 'list'" class="md-icon-button"
+                                       ng-click="toggleView()"
                                        aria-label="view type" translate
                                        translate-attr-aria-label="FM.GRID_VIEW">
                                 <md-icon md-font-set="mdi" md-font-icon="mdi-view-module"></md-icon>
                                 <md-tooltip><span translate="FM.GRID_VIEW">Grid View</span></md-tooltip>
                             </md-button>
 
-                            <md-button ng-if="vm.currentView === 'grid'" class="md-icon-button" aria-label="view type"
-                                       ng-click="vm.toggleView()" translate
+                            <md-button ng-if="currentView === 'grid'" class="md-icon-button" aria-label="view type"
+                                       ng-click="toggleView()" translate
                                        translate-attr-aria-label="FM.LIST_VIEW">
                                 <md-icon md-font-set="mdi" md-font-icon="mdi-view-headline"></md-icon>
                                 <md-tooltip><span translate="FM.LIST_VIEW">List View</span></md-tooltip>
@@ -59,11 +59,11 @@
 
                     <!-- BREADCRUMB -->
                     <div class="breadcrumb text-truncate" layout="row" layout-align="start center">
-                        <span ng-click="vm.navigateTo(vm.root);">Root</span>
+                        <span ng-click="navigateTo(root);">Root</span>
                         <md-icon md-font-set="mdi" md-font-icon="mdi-chevron-right" class="icon separator"
-                                 ng-if="vm.breadcrumb.length"></md-icon>
-                        <span ng-repeat="entry in vm.breadcrumb track by $index" ng-class="($last ? 'is-last' : '')"
-                              ng-click="vm.navigateTo(entry.path)">
+                                 ng-if="breadcrumb.length"></md-icon>
+                        <span ng-repeat="entry in breadcrumb track by $index" ng-class="($last ? 'is-last' : '')"
+                              ng-click="navigateTo(entry.path)">
                             {% raw %}{{ entry.name }}{% endraw %}
                             <md-icon md-font-set="mdi" md-font-icon="mdi-chevron-right" class="icon separator"></md-icon>
                         </span>
@@ -73,12 +73,12 @@
 
                 <!-- ADD FILE BUTTON -->
                 <div id="file-uploader"
-                     flow-init="vm.ngFlowOptions"
-                     flow-name="vm.ngFlow.flow"
-                     flow-files-submitted="vm.upload()"
-                     flow-file-added="vm.fileAdded($file)"
-                     flow-file-success="vm.fileSuccess($file, $message)"
-                     flow-complete="vm.uploadComplete()">
+                     flow-init="ngFlowOptions"
+                     flow-name="ngFlow.flow"
+                     flow-files-submitted="upload()"
+                     flow-file-added="fileAdded($file)"
+                     flow-file-success="fileSuccess($file, $message)"
+                     flow-complete="uploadComplete()">
 
                     <md-button flow-btn class="add-file-button md-fab md-warn"
                                aria-label="Add file" translate
@@ -92,9 +92,9 @@
 
             <!-- CONTENT -->
             <md-content class="content" flex ms-scroll>
-                <div ng-if="vm.currentView === 'grid'"
+                <div ng-if="currentView === 'grid'"
                      ng-include="'/.nekumo/static/src/components/fileManager/views/grid/grid-view.html'"></div>
-                <div ng-if="vm.currentView === 'list'"
+                <div ng-if="currentView === 'list'"
                      ng-include="'/.nekumo/static/src/components/fileManager/views/list/list-view.html'"></div>
             </md-content>
             <!-- / CONTENT -->

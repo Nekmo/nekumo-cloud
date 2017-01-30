@@ -1,0 +1,49 @@
+<!-- GRID VIEW -->
+<div class="grid-view" layout="column">
+    <div class="folders" layout="row" layout-wrap>
+        <div class="md-background-bg md-hue-2 md-whiteframe-1dp item folder" ng-click="select(folder)"
+             ng-repeat="folder in entries | filter:{'isDir': true} | filter:global.search"
+             layout="row" layout-align="space-between center">
+            <div layout="row" class="title" layout-align="start center">
+                <span class="file-icon">
+                    <i class="{{folder.icon_class}}"></i>
+                </span>
+                <span class="name" ng-click="navigateTo(folder.path)">{{folder.name}}</span>
+            </div>
+
+            <div class="show-details" hide-gt-md>
+                <md-button class="md-icon-button sidenav-toggle" aria-label="Details" translate translate-attr-aria-label="FM.DETAILS">
+                    <md-icon md-font-set="mdi" md-font-icon="mdi-information-outline" ng-click="toggleDetails
+                    (folder)"></md-icon>
+                </md-button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="files" layout="row" layout-wrap>
+        <div ng-click="select(file)" class="md-whiteframe-1dp item file"
+             ng-repeat="file in entries | filter:{'isDir': false} | filter:global.search" layout="column">
+            <div class="preview">
+                <img ng-src="{{file.preview}}">
+            </div>
+
+            <div class="bottom md-background-bg md-hue-2" layout="row" layout-align="space-between center">
+                <div layout="row" class="title" layout-align="start center" flex>
+                    <span class="file-icon">
+                        <i class="{{file.icon_class}}"></i>
+                    </span>
+                    <span class="name" ng-click="navigateTo(file.path)">{{file.name}}</span>
+                </div>
+
+                <div class="show-details" hide-gt-md>
+                    <md-button class="md-icon-button sidenav-toggle" aria-label="Details" translate translate-attr-aria-label="FM.DETAILS">
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-information-outline" ng-click="toggleDetails
+                        (file)"></md-icon>
+                    </md-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- / GRID VIEW -->

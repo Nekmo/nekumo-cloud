@@ -1,0 +1,82 @@
+<!-- SIDENAV HEADER -->
+<div class="header md-accent-bg" layout="column" layout-align="space-between">
+    <div class="toolbar" layout="row" layout-align="end center">
+        <md-button class="md-icon-button" ng-click="delete()" aria-label="Delete" translate
+                   translate-attr-aria-label="FM.DELETE">
+            <md-icon md-font-set="mdi" md-font-icon="mdi-delete"></md-icon>
+            <md-tooltip><span translate="FM.DELETE">Delete</span></md-tooltip>
+        </md-button>
+
+        <md-button class="md-icon-button" aria-label="Download" translate translate-attr-aria-label="FM.DOWNLOAD">
+            <md-icon md-font-set="mdi" md-font-icon="mdi-download"></md-icon>
+            <md-tooltip><span translate="FM.DOWNLOAD">Download</span></md-tooltip>
+        </md-button>
+
+        <options></options>
+    </div>
+
+    <div>
+        <div class="title">{{selected.name}}</div>
+        <div class="subtitle secondary-text"><span translate="FM.EDITED">Edited</span>: {{selected.modified}}</div>
+    </div>
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<md-content class="content" flex ms-scroll>
+
+    <div class="file-details">
+        <div class="preview file-icon" layout="row" layout-align="center center">
+            <i class="{{ selected.icon_class }} s128"></i>
+        </div>
+
+        <md-list class="offline-switch">
+            <md-list-item>
+                <p translate="FM.AVAILABLE_OFFLINE">Available Offline</p>
+                <md-switch class="md-secondary" ng-model="selected.offline" aria-label="Toggle offline" translate
+                           translate-attr-aria-label="FM.TOOGLE_OFFLINE"></md-switch>
+            </md-list-item>
+        </md-list>
+
+        <div class="title" translate="FM.INFO">Info</div>
+
+        <table>
+            <tr class="type">
+                <th translate="FM.TYPE">Type</th>
+                <td>{{selected.type}}</td>
+            </tr>
+
+            <tr class="size">
+                <th translate="FM.SIZE">Size</th>
+                <td>{{selected.size === '' ? '-': selected.size}}</td>
+            </tr>
+
+            <tr class="location">
+                <th translate="FM.LOCATION">Location</th>
+                <td>{{selected.location}}</td>
+            </tr>
+
+            <tr class="owner">
+                <th translate="FM.OWNER">Owner</th>
+                <td>{{selected.owner}}</td>
+            </tr>
+
+            <tr class="modified">
+                <th translate="FM.MODIFIED">Modified</th>
+                <td>{{selected.modified}}</td>
+            </tr>
+
+            <tr class="opened">
+                <th translate="FM.OPENED">Opened</th>
+                <td>{{selected.opened}}</td>
+            </tr>
+
+            <tr class="created">
+                <th translate="FM.CREATED">Created</th>
+                <td>{{selected.created}}</td>
+            </tr>
+        </table>
+    </div>
+
+</md-content>
+<!-- / SIDENAV CONTENT -->
