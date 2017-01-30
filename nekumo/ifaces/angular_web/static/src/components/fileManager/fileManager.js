@@ -2,7 +2,7 @@ var module = angular.module('FileManagerApp').config(['fileManagerConfigProvider
     var defaults = config.$get();
     config.set({
         appName: 'angular-filemanager',
-        tplPath: '/static/own_libs/angular-filemanager/src/templates',
+        tplPath: '/.nekumo/static/own_libs/angular-filemanager/src/templates',
         pickCallback: function(item) {
             var msg = 'Picked %s "%s" for external use'
                 .replace('%s', item.type)

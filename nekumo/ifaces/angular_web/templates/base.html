@@ -6,14 +6,24 @@
         <title>{% block title %}{% endblock %}</title>
         <!-- https://docs.angularjs.org/error/$location/nobase -->
         <base href="/">
+        <meta name="description" content="">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <base href="/">
         {% block extra_head %}
             {% block css %}{% endblock %}
         {% endblock %}
         {% endblock %}
     </head>
-    <body class="ng-cloak">
-        {% block content %}
-        {% endblock %}
+    <body class="ng-cloak" md-theme="default">
+        <div id="main" class="animate-slide-up" ui-view="main" layout="column">
+            <div id="layout-content-only" class="template-layout" layout="column" flex>
+                <md-content id="content" class="animate-slide-up md-hue-2" ui-view="content" flex>
+                    {% block content %}
+                    {% endblock %}
+                </md-content>
+            </div>
+        </div>
         <script src="{{ url_for('static', filename='src/libs/angular/angular.min.js') }}"></script>
         <script src="{{ url_for('static', filename='src/libs/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='src/libs/bootstrap-sass/assets/javascripts/bootstrap.min.js') }}"></script>

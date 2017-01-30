@@ -1,0 +1,38 @@
+@mixin noSelectable {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.noselect {
+    @include noSelectable;
+}
+
+table thead {
+    @include noSelectable;
+}
+
+
+/* Extra small devices (phones, less than 768px) */
+//@media (max-width:767px) {
+//  body {font-size: 35px;}
+//}
+//
+///* Small devices (tablets, 768px and up) */
+//@media (min-width:768px) {
+//  body {font-size: 30px;}
+//}
+
+///* Medium devices (desktops, 992px and up) */
+//@media (min-width:992px) {
+//  body {font-size: 20px;}
+//}
+//
+///* Large devices (large desktops, 1200px and up) */
+//@media (min-width:1200px) {
+//  body {font-size: 30px;}
+//}

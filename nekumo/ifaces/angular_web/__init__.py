@@ -1,18 +1,48 @@
 
 import os
 
+import datetime
+
+from flask import json
+from flask.json import JSONEncoder
+
 from nekumo.conf.base import Input
 from nekumo.gateways.base import ALL_METHODS_PROPERTIES
 from nekumo.ifaces.base import IfaceBase, IfaceConfig
 from flask import Flask
 from flask_socketio import SocketIO
 import socketio as socketio_lib
+from flask import json as flask_json
 
 from nekumo.ifaces.simple_web.jinja import filters
 
 NEKUMO_ROOT = '/.nekumo'
 
-socketio = SocketIO()
+
+class NekumoEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.isoformat()
+        elif isinstance(obj, datetime.date):
+            return obj.isoformat()
+        elif isinstance(obj, datetime.timedelta):
+            return (datetime.datetime.min + obj).time().isoformat()
+        else:
+            return super(NekumoEncoder, self).default(obj)
+
+
+class FlaskSafeJSON(object):
+    @staticmethod
+    def dumps(*args, **kwargs):
+        kwargs['cls'] = NekumoEncoder
+        return flask_json.dumps(*args, **kwargs)
+
+    @staticmethod
+    def loads(*args, **kwargs):
+        return flask_json.loads(*args, **kwargs)
+
+
+socketio = SocketIO(json=FlaskSafeJSON)
 
 
 class AngularWebConfig(IfaceConfig):
@@ -57,7 +87,7 @@ class AngularWebIface(IfaceBase):
     def get_app_flask(name=None, debug=False, flask_class=Flask):
         if name is None:
             name = __name__
-        app = flask_class(name)
+        app = flask_class(name, static_path='/.nekumo/static')
         app.debug = debug
         import binascii
         app.secret_key = binascii.hexlify(os.urandom(24))

@@ -71,9 +71,20 @@ Entry = function(data) {
     });
     angular.extend(this, data);
 
+    this.modified = new Date(data.mtime);
     this.isDir = this.type == 'directory';
     this.icon_class = getIconClass(this.mimetype);
-    console.debug(this.icon_class);
+    if(this.parentDir && !_.endsWith(this.parentDir, '/')){
+        this.parentDir += '/';
+    }
+    if(!this.name){
+        this.name = _.last(_.trim(this.path, '/').split('/'));
+    } else if(!this.path){
+        this.path = this.parentDir + this.name;
+    }
+    if(this.isDir && !_.endsWith(this.path, '/')){
+        this.path += '/';
+    }
 };
 
 
@@ -107,16 +118,21 @@ module.factory('API', function (socketFactory, $q, Entry) {
         list: function (path) {
             var deferred = $q.defer();
             socket.emit('list', {'entry': path}, function (data) {
-                deferred.resolve(_.map(data, Entry));
+                deferred.resolve(_.map(data, function(x){
+                    return Entry(_.extend(x, {parentDir: path}))
+                }));
             });
             return deferred.promise;
             // return $q(function (resolve, reject) {
             //     socket.emit('list', {'entry': path}, resolve);
             // });
         },
-        rename: function (entry, newPath) {
+        rename: function (entry, newName) {
+            if(_.isObject(entry)){
+                entry = entry.path;
+            }
             return $q(function (resolve, reject) {
-                socket.emit('rename', {'entry': entry, 'new_path': newPath}, resolve);
+                socket.emit('rename', {'entry': entry, 'new_name': newName}, resolve);
             })
         },
         move: function (entry, dest) {

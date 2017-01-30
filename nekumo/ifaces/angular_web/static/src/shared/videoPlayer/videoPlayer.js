@@ -15,7 +15,7 @@ module.directive('videoPlayer', function () {
             src: '=',
             mimeType: '='
         },
-        templateUrl: '/static/src/shared/videoPlayer/videoPlayer.html'
+        templateUrl: '/.nekumo/static/src/shared/videoPlayer/videoPlayer.html'
     }
 });
 

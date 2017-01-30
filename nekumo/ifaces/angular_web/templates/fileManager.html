@@ -3,12 +3,14 @@
 
 {% block content %}
 
+{#    <div id="file-manager" class="page-layout simple right-sidenav layout-row full-height" layout="row"#}
+{#         ng-controller="FileManagerController as vm" style="overflow: hidden;">#}
     <div id="file-manager" class="page-layout simple right-sidenav" layout="row"
          ng-controller="FileManagerController as vm">
 
         <!-- MAIN SIDENAV (EXTRA SIDENAV) -->
         <md-sidenav class="main-sidenav" md-component-id="main-sidenav"
-                    ng-include="'/static/src/components/fileManager/sidenavs/main/main-sidenav.html'" ms-scroll
+                    ng-include="'/.nekumo/static/src/components/fileManager/sidenavs/main/main-sidenav.html'" ms-scroll
                     ms-sidenav-helper>
         </md-sidenav>
         <!-- / MAIN SIDENAV (EXTRA SIDENAV) -->
@@ -57,9 +59,14 @@
 
                     <!-- BREADCRUMB -->
                     <div class="breadcrumb text-truncate" layout="row" layout-align="start center">
-                    <span data-ng-repeat="path in vm.path">{{path}}
-                        <md-icon md-font-set="mdi" md-font-icon="mdi-chevron-right" class="icon separator"></md-icon>
-                    </span>
+                        <span ng-click="vm.navigateTo(vm.root);">Root</span>
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-chevron-right" class="icon separator"
+                                 ng-if="vm.breadcrumb.length"></md-icon>
+                        <span ng-repeat="entry in vm.breadcrumb track by $index" ng-class="($last ? 'is-last' : '')"
+                              ng-click="vm.navigateTo(entry.path)">
+                            {% raw %}{{ entry.name }}{% endraw %}
+                            <md-icon md-font-set="mdi" md-font-icon="mdi-chevron-right" class="icon separator"></md-icon>
+                        </span>
                     </div>
                     <!-- / BREADCRUMB -->
                 </div>
@@ -86,9 +93,9 @@
             <!-- CONTENT -->
             <md-content class="content" flex ms-scroll>
                 <div ng-if="vm.currentView === 'grid'"
-                     ng-include="'/static/src/components/fileManager/views/grid/grid-view.html'"></div>
+                     ng-include="'/.nekumo/static/src/components/fileManager/views/grid/grid-view.html'"></div>
                 <div ng-if="vm.currentView === 'list'"
-                     ng-include="'/static/src/components/fileManager/views/list/list-view.html'"></div>
+                     ng-include="'/.nekumo/static/src/components/fileManager/views/list/list-view.html'"></div>
             </md-content>
             <!-- / CONTENT -->
 
@@ -98,7 +105,7 @@
         <!-- SIDENAV -->
         <md-sidenav class="sidenav details-sidenav md-sidenav-right" md-is-locked-open="$mdMedia('gt-md')"
                     md-component-id="details-sidenav"
-                    ng-include="'/static/src/components/fileManager/sidenavs/details/details-sidenav.html'" ms-scroll
+                    ng-include="'/.nekumo/static/src/components/fileManager/sidenavs/details/details-sidenav.html'" ms-scroll
                     ms-sidenav-helper>
         </md-sidenav>
         <!-- / SIDENAV -->
@@ -117,18 +124,23 @@
     <script src="{{ url_for('static', filename='src/libs/angular-messages/angular-messages.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/angular-material/angular-material.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/angular-sanitize/angular-sanitize.min.js') }}"></script>
+    <!-- videogular -->
     <script src="{{ url_for('static', filename='src/libs/videogular/videogular.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/videogular-buffering/vg-buffering.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/videogular-controls/vg-controls.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/videogular-overlay-play/vg-overlay-play.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/angular-event-dispatcher/dist/angular-event-dispatcher.js') }}"></script>
     <script src="{{ url_for('static', filename='src/shared/videoPlayer/videoPlayer.js') }}"></script>
+
+
     <script src="{{ url_for('static', filename='src/shared/chromecast/chromecast.js') }}"></script>
     <script src="{{ url_for('static', filename='src/shared/preview/preview.js') }}"></script>
     <script src="{{ url_for('static', filename='src/shared/fileManagerApi/fileManagerApi.js') }}"></script>
     <script src="{{ url_for('static', filename='src/shared/utils/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='src/components/fileManager/file-manager.controller.js') }}"></script>
     <script src="{{ url_for('static', filename='src/components/fileManager/manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/components/fileManager/options/options.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/shared/theme/theme.js') }}"></script>
 
     <!-- Chromecast -->
     <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
@@ -139,6 +151,8 @@
 {#    <link href="{{ url_for('static', filename='src/components/fileManager/app.css') }}" rel="stylesheet">#}
     <link href="{{ url_for('static', filename='src/shared/theme/theme.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='src/components/fileManager/file-manager.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/components/fileManager/options/options.css') }}" rel="stylesheet">
+
     <link href="{{ url_for('static', filename='src/libs/videogular-themes-default/videogular.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='src/libs/mdi/css/materialdesignicons.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='src/shared/preview/preview.css') }}" rel="stylesheet">

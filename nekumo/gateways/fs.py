@@ -124,7 +124,7 @@ class FSNekumoDirList(NekumoEntryMixin, DirList, NekumoDirListBase):
             # entry['rights'] = "drwxr-xr-x"
             entry['date'] = "2016-03-03 15:31:40"
             return entry
-        return list(map(upd, self.values('name', 'size', 'type', 'mimetype')))
+        return list(map(upd, self.values('name', 'size', 'type', 'mimetype', 'mtime')))
 
 
 class FSConfig(GatewayConfig):

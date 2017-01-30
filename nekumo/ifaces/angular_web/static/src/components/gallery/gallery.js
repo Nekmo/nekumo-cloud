@@ -7,7 +7,7 @@ module.directive('gallery', function () {
         scope: {
             selectedSrc: '='
         },
-        templateUrl: '/static/src/components/gallery/gallery.html'
+        templateUrl: '/.nekumo/static/src/components/gallery/gallery.html'
     }
 });
 

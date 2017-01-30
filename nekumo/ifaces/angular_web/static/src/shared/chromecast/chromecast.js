@@ -1250,7 +1250,7 @@ module.factory('$chromecast', function (EventDispatcher) {
 // })
 
 module.factory('$chromecastPlayer', function ($document, $templateRequest, $compile, $rootScope, $chromecast) {
-    $templateRequest("/static/src/shared/chromecast/player.html").then(function(html) {
+    $templateRequest("/.nekumo/static/src/shared/chromecast/player.html").then(function(html) {
         var body = $document.find('body').eq(0);
 
         var preview = angular.element(html);

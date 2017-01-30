@@ -11,7 +11,7 @@ module.factory('$previewGallery', function ($templateRequest, $document, $compil
         // $compile(backdrop)({});
         // body.append(backdrop);
 
-        $templateRequest("/static/src/shared/preview/preview.html").then(function(html){
+        $templateRequest("/.nekumo/static/src/shared/preview/preview.html").then(function(html){
 
             $chromecast.setSrc(data.src);
 

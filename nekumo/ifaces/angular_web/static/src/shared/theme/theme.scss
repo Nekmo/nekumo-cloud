@@ -11,6 +11,7 @@
 @import 'icons';
 @import 'material';
 @import 'typography';
+@import "extras";
 
 //@import 'plugins/angular-google-map.scss';
 //@import 'plugins/angular-moment-picker.scss';
@@ -25,3 +26,29 @@
 
 @import 'helpers';
 @import 'print';
+
+/* Accent */
+[md-theme="default"] .md-accent-bg {
+    background-color: rgb(3,155,229);
+    color: rgba(255,255,255,1);
+}
+
+[md-theme="default"] .md-accent-bg .secondary-text,
+[md-theme="default"] .md-accent-bg .icon {
+    color: rgba(255,255,255,0.7);
+}
+
+[md-theme="default"] .md-accent-bg .hint-text,
+[md-theme="default"] .md-accent-bg .disabled-text {
+    color: rgba(255,255,255,0.3);
+}
+
+[md-theme="default"] .md-accent-bg .fade-text,
+[md-theme="default"] .md-accent-bg .divider {
+    color: rgba(255,255,255,0.12);
+}
+
+// TODO: añadido luego. Probar perfect-scrollbar
+//html, body {
+//    overflow: auto !important;
+//}
