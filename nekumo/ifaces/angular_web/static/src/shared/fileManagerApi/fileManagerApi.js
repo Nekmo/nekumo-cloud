@@ -45,6 +45,13 @@ function entryEntriesDict(entry_entries){
     return createDict((_.isArray(entry_entries) ? 'entries' : 'entry'), entry_entries);
 }
 
+function getPath(entry_entries){
+    if(_.isArray(entry_entries)){
+        return _.map(entry_entries, function (x){ return x.path });
+    } else {
+        return entry_entries.path;
+    }
+}
 
 function getIconClass(mimetype){
     var mime = null;
@@ -143,7 +150,7 @@ module.factory('API', function (socketFactory, $q, Entry) {
         },
         delete: function (entry_entries) {
             return $q(function (resolve, reject) {
-                socket.emit('delete', entryEntriesDict(entry_entries), resolve);
+                socket.emit('delete', entryEntriesDict(getPath(entry_entries)), resolve);
             });
         }
     }

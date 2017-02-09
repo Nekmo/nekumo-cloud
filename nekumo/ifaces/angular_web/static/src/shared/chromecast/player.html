@@ -1,18 +1,22 @@
-<div id="player">
-    <div layout="row">
+<div id="player" class="md-whiteframe-3dp" flex-xs="100" flex-sm="100" flex-md="60" flex-lg="50" flex-xl="40"
+     ng-if="playerState !== null">
+    <div layout="row" hide-gt-sm>
+        <ng-include src="'/.nekumo/static/src/shared/chromecast/playerSlider.html'" include-replace></ng-include>
+    </div>
+    <div layout="row" class="controllers">
         <div>
-            <md-button class="md-raised md-primary" ng-click="$chromecast.togglePause();">
+            <md-button class="md-raised md-primary play-pause" ng-click="$chromecast.togglePause();">
                 <md-icon md-font-set="mdi" md-font-icon="mdi-play" ng-if="playerState == 'PAUSED'"></md-icon>
                 <md-icon md-font-set="mdi" md-font-icon="mdi-pause" ng-if="playerState != 'PAUSED'"></md-icon>
             </md-button>
+            <md-button ng-click="undo();" class="undo">
+                <md-icon md-font-set="mdi" md-font-icon="mdi-undo"></md-icon>
+            </md-button>
             <span class="timing">{{ (currentTime * 1000)|duration:'h:mm:ss' }}</span>
         </div>
-        <md-slider flex ng-model="currentTime" ng-change="$chromecast.seekTo(currentTime)"
-                   min="1" max="{{ duration }}"
-                   aria-label="timer">
-        </md-slider>
+        <ng-include src="'/.nekumo/static/src/shared/chromecast/playerSlider.html'" include-replace></ng-include>
         <div>
-            <span class="timing">{{ (duration * 1000)|duration:'h:mm:ss' }}</span>
+            <span class="timing" hide-xs hide-sm>{{ (duration * 1000)|duration:'h:mm:ss' }}</span>
             <div id="volume">
                 <md-button ng-class="{'md-raised': volumeSlider}" ng-click="toggleVolumeSlider();">
                     <md-icon md-font-set="mdi" md-font-icon="mdi-volume-{{ volumeLevelName }}"></md-icon>

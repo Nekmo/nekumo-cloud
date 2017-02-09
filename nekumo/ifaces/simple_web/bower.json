@@ -18,6 +18,7 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap-sass": "^3.3.7"
+    "bootstrap-sass": "^3.3.7",
+    "angular-hotkeys": "^0.2.2"
   }
 }

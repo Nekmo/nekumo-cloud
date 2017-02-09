@@ -1,12 +1,10 @@
 {% extends "base.html" %}
-{% block ng_app %}fileManager{% endblock %}
-
+{% block ng_app %}mediaApp{% endblock %}
 {% block content %}
 
 {#    <div id="file-manager" class="page-layout simple right-sidenav layout-row full-height" layout="row"#}
 {#         ng-controller="FileManagerController as vm" style="overflow: hidden;">#}
-    <div id="file-manager" class="page-layout simple right-sidenav" layout="row"
-         ng-controller="FileManagerController">
+    <div id="media" class="page-layout simple right-sidenav" layout="row" ng-controller="mediaCtrl">
 
         <!-- MAIN SIDENAV (EXTRA SIDENAV) -->
         <md-sidenav class="main-sidenav" md-component-id="main-sidenav"
@@ -22,40 +20,7 @@
             <div class="header md-accent-bg">
 
                 <div class="header-content" layout="column" layout-align="space-between">
-
-                    <!-- TOOLBAR -->
-                    <div class="toolbar" layout="row" layout-align="space-between">
-
-                        <md-button class="md-icon-button main-sidenav-toggle" ng-click="toggleSidenav('main-sidenav')"
-                                   aria-label="Toggle Main Sidenav" translate
-                                   translate-attr-aria-label="FILE.TOOGLE_MAIN_SIDENAV">
-                            <md-icon md-font-set="mdi" md-font-icon="mdi-menu" class="icon"></md-icon>
-                        </md-button>
-
-                        <div class="right-side" layout="row">
-                            <md-button class="md-icon-button" aria-label="Search" translate
-                                       translate-attr-aria-label="FM.SEARCH">
-                                <md-icon md-font-set="mdi" md-font-icon="mdi-magnify"></md-icon>
-                                <md-tooltip><span translate="FM.SEARCH">Search</span></md-tooltip>
-                            </md-button>
-
-                            <md-button ng-if="currentView === 'list'" class="md-icon-button"
-                                       ng-click="toggleView()"
-                                       aria-label="view type" translate
-                                       translate-attr-aria-label="FM.GRID_VIEW">
-                                <md-icon md-font-set="mdi" md-font-icon="mdi-view-module"></md-icon>
-                                <md-tooltip><span translate="FM.GRID_VIEW">Grid View</span></md-tooltip>
-                            </md-button>
-
-                            <md-button ng-if="currentView === 'grid'" class="md-icon-button" aria-label="view type"
-                                       ng-click="toggleView()" translate
-                                       translate-attr-aria-label="FM.LIST_VIEW">
-                                <md-icon md-font-set="mdi" md-font-icon="mdi-view-headline"></md-icon>
-                                <md-tooltip><span translate="FM.LIST_VIEW">List View</span></md-tooltip>
-                            </md-button>
-                        </div>
-                    </div>
-                    <!-- / TOOLBAR -->
+                    <div ng-include="'/.nekumo/static/src/shared/nekumo/header.html'"></div>
 
                     <!-- BREADCRUMB -->
                     <div class="breadcrumb text-truncate" layout="row" layout-align="start center">
@@ -88,13 +53,30 @@
                 </div>
                 <!-- / ADD FILE BUTTON -->
             </div>
+            <md-tabs md-dynamic-height id="media-tabs" md-center-tabs="true">
+                <md-tab label="All">
+                    <div ng-include="'/.nekumo/static/src/components/media/grid.html'"></div>
+                </md-tab>
+                <md-tab label="Images">
+
+                </md-tab>
+                <md-tab label="Video">
+
+                </md-tab>
+                <md-tab label="Music">
+
+                </md-tab>
+            </md-tabs>
+
             <!-- / HEADER -->
 
             <!-- CONTENT -->
             <md-content class="content" flex ms-scroll>
+{#                <media selected-src="'http://192.168.88.11:7080{{ entry.iface_path }}'"></media>#}
+                <!--
                 <div class="loading" ng-if="!isLoaded">
                     <md-progress-circular md-diameter="96"></md-progress-circular>
-                </div>
+                </div> -->
                 <div ng-if="!entries.length && isLoaded">
                     <div flex-xs flex="40" flex-offset="30" layout="column" id="directory-empty">
                         <md-card>
@@ -125,25 +107,12 @@
                             </md-card-actions>
                         </md-card>
                     </div>
-
                 </div>
-                <div ng-if="entries.length && currentView === 'grid'"
-                     ng-include="'/.nekumo/static/src/components/fileManager/views/grid/grid-view.html'"></div>
-                <div ng-if="entries.length && currentView === 'list'"
-                     ng-include="'/.nekumo/static/src/components/fileManager/views/list/list-view.html'"></div>
             </md-content>
             <!-- / CONTENT -->
 
         </div>
         <!-- / CENTER -->
-
-        <!-- SIDENAV -->
-        <md-sidenav class="sidenav details-sidenav md-sidenav-right" md-is-locked-open="$mdMedia('gt-md')"
-                    md-component-id="details-sidenav"
-                    ng-include="'/.nekumo/static/src/components/fileManager/sidenavs/details/details-sidenav.html'" ms-scroll
-                    ms-sidenav-helper>
-        </md-sidenav>
-        <!-- / SIDENAV -->
 
     </div>
 
@@ -153,7 +122,7 @@
     <script src="{{ url_for('static', filename='src/libs/angular-duration-format/dist/angular-duration-format.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/angular-aria/angular-aria.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/angular-messages/angular-messages.min.js') }}"></script>
-d    <script src="{{ url_for('static', filename='src/libs/angular-sanitize/angular-sanitize.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-sanitize/angular-sanitize.min.js') }}"></script>
     <!-- videogular -->
     <script src="{{ url_for('static', filename='src/libs/videogular/videogular.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/videogular-buffering/vg-buffering.min.js') }}"></script>
@@ -171,6 +140,8 @@ d    <script src="{{ url_for('static', filename='src/libs/angular-sanitize/angul
     <script src="{{ url_for('static', filename='src/components/fileManager/manager.js') }}"></script>
     <script src="{{ url_for('static', filename='src/components/fileManager/options/options.js') }}"></script>
 
+    <script src="{{ url_for('static', filename='src/components/media/media.js') }}"></script>
+
     <!-- Chromecast -->
     <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 
@@ -181,10 +152,12 @@ d    <script src="{{ url_for('static', filename='src/libs/angular-sanitize/angul
     <link href="{{ url_for('static', filename='src/shared/theme/theme.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='src/components/fileManager/file-manager.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='src/components/fileManager/options/options.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='src/components/media/media.css') }}" rel="stylesheet">
 
     <link href="{{ url_for('static', filename='src/libs/videogular-themes-default/videogular.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='src/libs/mdi/css/materialdesignicons.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='src/shared/preview/preview.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='src/shared/videoPlayer/chromecast.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='src/shared/chromecast/chromecast.css') }}" rel="stylesheet">
+
 {% endblock %}

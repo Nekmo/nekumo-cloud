@@ -2,6 +2,7 @@ import os
 
 from nekumo.conf.base import Config
 from nekumo.core.i18n import _
+from nekumo.models import Path, get_or_create
 
 ALL_METHODS_PROPERTIES = {
     'name': _('Name'),
@@ -13,9 +14,17 @@ ALL_METHODS_PROPERTIES = {
 
 
 class GatewayConfig(Config):
+    scheme = None
+
     def __init__(self, uri):
         super().__init__()
         self.uri = uri
+
+    @classmethod
+    def validate_uri(cls, uri):
+        """Comprobar si la uri pertenece a este gateway
+        """
+        return uri.scheme == cls.scheme
 
 
 class NekumoUploadBase(object):
@@ -119,6 +128,11 @@ class NekumoEntryBase(object):
                 break
         return list(reversed(items))
 
+    @property
+    def id(self):
+        p, exists = get_or_create(self.gateway.nekumo.session, Path, path=self.gateway_path, gateway_id=self.gateway.id)
+        return p.id
+
 
 class NekumoDirBase(NekumoEntryBase):
     methods = NekumoEntryBase.methods + ['list', 'mkdir']
@@ -148,8 +162,9 @@ class NekumoDirListBase(object):
 class GatewayBase(object):
     config_class = None
 
-    def __init__(self, config):
+    def __init__(self, config, nekumo):
         self.config = config
+        self.nekumo = nekumo
 
     @property
     def root_path(self):
@@ -161,4 +176,12 @@ class GatewayBase(object):
 
     @classmethod
     def parse(cls, args, parser_argument):
-        return [cls(cls.config_class(gateway_uri)) for gateway_uri in getattr(args, parser_argument.dest)]
+        # TODO: borrar?
+        return [cls(cls.config_class(gateway_uri))
+                for gateway_uri in getattr(args, parser_argument.dest)]
+
+    @property
+    def id(self):
+        """El id es el identificado único que diferencia un gateway de otro.
+        """
+        return self.config.uri

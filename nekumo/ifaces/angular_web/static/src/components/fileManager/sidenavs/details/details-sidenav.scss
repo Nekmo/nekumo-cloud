@@ -15,12 +15,13 @@
         }
 
         .header {
-            height: 200px;
-            min-height: 200px;
-            max-height: 200px;
+            height: 170px;
+            min-height: 170px;
+            max-height: 170px;
             padding: 24px 24px;
 
             .title {
+                overflow-wrap: break-word;
                 font-size: 15px;
                 margin-bottom: 8px;
             }
@@ -39,6 +40,15 @@
                 .preview {
                     background: #FFFFFF;
                     height: 240px;
+                    position: relative;
+
+                    .thumb {
+                        background-position: center;
+                        background-size: cover;
+                        position: absolute;
+                        width: 280px;
+                        height: 157px;
+                    }
                 }
 
                 .offline-switch {

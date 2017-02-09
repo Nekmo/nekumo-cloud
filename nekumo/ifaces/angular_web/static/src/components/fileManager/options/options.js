@@ -1,35 +1,52 @@
 var module = angular.module('fmOptions', ['ngMaterial', 'fileManagerApi']);
 
-module.factory('Dialog', function ($mdPanel) {
-    var position = $mdPanel.newPanelPosition().absolute().center();
-    var defaultConfig = {
-        position: position,
-        attachTo: angular.element(document.body),
-        trapFocus: true,
-        zIndex: 150,
-        clickOutsideToClose: true,
-        escapeToClose: true,
-        focusOnOpen: true,
-        disableParentScroll: false,
-        hasBackdrop: true
+// module.factory('Dialog', function ($mdPanel) {
+//     var position = $mdPanel.newPanelPosition().absolute().center();
+//     var defaultConfig = {
+//         position: position,
+//         attachTo: angular.element(document.body),
+//         trapFocus: true,
+//         zIndex: 150,
+//         clickOutsideToClose: true,
+//         escapeToClose: true,
+//         focusOnOpen: true,
+//         disableParentScroll: false,
+//         hasBackdrop: true
+//     };
+//     function Dialog(config) {
+//         config = angular.extend(_.clone(defaultConfig), config);
+//         this.constructor.prototype.open = function () {
+//             $mdPanel.open(config);
+//         };
+//     }
+//     return Dialog
+// });
+
+module.factory('countEntries', function () {
+    return function(entry_entries){
+        var typesNames = {directory: ['directory', 'directories'], file: ['file', 'files']};
+        var entries = (_.isArray(entry_entries) ? entry_entries : [entry_entries]);
+        if(!entries.length){
+            return 'nothing'
+        }
+        var type = entries[0].type;
+        for(var i = 0; i < entries.length; i++){
+            if(entries[i].type != type){
+                return sprintf('%d %s and %s', entries.length, typesNames['directory'][1], typesNames['files'][1]);
+            }
+        }
+        return sprintf('%d %s', entries.length, typesNames[type][(entries.length > 1 ? 1 : 0)]);
     };
-    function Dialog(config) {
-        config = angular.extend(_.clone(defaultConfig), config);
-        this.constructor.prototype.open = function () {
-            $mdPanel.open(config);
-        };
-    }
-    return Dialog
+
 });
 
-module.factory('deleteDialog', function ($mdDialog, API) {
+
+module.factory('DeleteDialog', function ($mdDialog, API, countEntries) {
     var confirm = $mdDialog.confirm()
           .title('Are you sure to delete?')
-          .textContent('All of the banks have agreed to forgive you your debts.')
           .ariaLabel('Confirm delete')
-          .targetEvent(ev)
-          .ok('Please do it!')
-          .cancel('Sounds like a scam');
+          .ok('Delete')
+          .cancel('Cancel');
 
     function DeleteDialog(entry_entries, ev) {
         var confirmDialog = confirm;
@@ -45,7 +62,7 @@ module.factory('deleteDialog', function ($mdDialog, API) {
 
         this.constructor.prototype.show = function () {
             $mdDialog.show(confirmDialog).then(function(newName) {
-                API.delete(entry, newName);
+                API.delete(entry_entries, newName);
             });
         };
     }
@@ -56,7 +73,6 @@ module.factory('deleteDialog', function ($mdDialog, API) {
 });
 
 module.factory('RenameDialog', function ($mdDialog, API) {
-        // Appending dialog to document.body to cover sidenav in docs app
     var confirm = $mdDialog.prompt()
         .ariaLabel('Name')
         .ok('Rename')
@@ -98,7 +114,7 @@ module.directive('options', function () {
     }
 });
 
-module.controller('optionsCtrl', function ($scope, RenameDialog) {
+module.controller('optionsCtrl', function ($scope, RenameDialog, DeleteDialog) {
 
     $scope.openMenu = function($mdOpenMenu, ev) {
         originatorEv = ev;
@@ -107,7 +123,11 @@ module.controller('optionsCtrl', function ($scope, RenameDialog) {
 
     $scope.openRename = function (entry, ev) {
         RenameDialog(entry, ev).open();
-    }
+    };
+
+    $scope.openDelete = function (entry, ev) {
+        DeleteDialog(entry, ev).open();
+    };
 });
 
 var renameDialogCtrl = function () {

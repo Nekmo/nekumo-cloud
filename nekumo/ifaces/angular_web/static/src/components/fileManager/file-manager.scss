@@ -117,6 +117,33 @@ $layout-breakpoint-sm:     960px !default;
             color: #9f9f9f;
         }
     }
+
+    #directory-empty {
+        margin-top: 60px;
+
+        md-card {
+            .md-card-image {
+                position: relative;
+                background: #FF5722;
+                height: 120px;
+
+                .mdi {
+                    position: absolute;
+                    color: #fbfbfb;
+                    font-size: 180px;
+                    height: 120px;
+                    width: 200px;
+                    top: 0;
+                    right: 0;
+                    overflow: hidden;
+                }
+
+                .mdi::before {
+                    transform: translate(0, 70px);
+                }
+            }
+        }
+    }
 }
 
 // RESPONSIVE

@@ -1,4 +1,8 @@
 #file-manager {
+    //.folders, .files {
+    //    justify-content: center;
+    //}
+
 
     .grid-view {
         padding: 32px 24px 24px 24px;
@@ -40,8 +44,11 @@
 
                 .preview {
                     background: #FFFFFF;
-                    padding: 16px;
+                    background-position: center;
+                    background-size: cover;
+                    // padding: 16px;
                     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+                    height: 143px;
                     width: 100%;
                 }
 

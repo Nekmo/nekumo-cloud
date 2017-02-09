@@ -1,0 +1,5 @@
+<md-slider flex ng-model="currentTime"
+           min="1" max="{{ duration }}"
+           ng-change="$chromecast.seekTo(currentTime)"
+           aria-label="timer">
+</md-slider>

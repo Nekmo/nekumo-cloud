@@ -1,10 +1,27 @@
 #player {
+    width: 100%;
+    right: 40px;
+    bottom: 40px;
+    position: fixed;
+    background: white;
+
+    .play-pause {
+        margin-left: 10px;
+    }
+
     button {
         min-width: 50px;
+        margin: 5px;
 
         md-icon {
             font-size: 30px;
+            width: auto;
         }
+    }
+
+    md-slider {
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
     .timing {
@@ -29,6 +46,28 @@
             border-radius: 3px;
             background-color: #fff;
             position: absolute;
+            bottom: 52px;
+            width: 50px;
+
+            .md-slider-wrapper {
+                width: auto;
+            }
+        }
+    }
+}
+
+@media (max-width: 960px) {
+
+
+    #player {
+        right: 0;
+        bottom: 0;
+        .controllers {
+            justify-content: center;
+
+            md-slider {
+                display: none;
+            }
         }
     }
 }

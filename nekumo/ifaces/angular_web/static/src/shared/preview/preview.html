@@ -2,7 +2,7 @@
     <div ng-controller="previewGalleryCtrl">
         <div ng-switch="player">
             <div ng-switch-when="video" id="video-preview">
-                <video-player src="src" mime-type="mimeType"></video-player>
+                <video-player src="entry.path" mime-type="entry.mimetype"></video-player>
             </div>
         </div>
     </div>

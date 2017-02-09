@@ -10,24 +10,25 @@ import asyncio
 import os
 
 from nekumo.core.nekumo import Nekumo
-from nekumo.gateways import get_gateways
+from nekumo.gateways import get_gateway_classes
 from nekumo.ifaces.angular_web import AngularWebConfig
 from nekumo.ifaces.simple_web import SimpleWebConfig
 
 
 class NekumoManagement(object):
+    nekumo = None
 
     def __init__(self):
         self.parser = argparse.ArgumentParser(description=__doc__)
-        self.gateway_classes = self.get_gateway_classes()
-        self.nekumo = Nekumo()
-        self.add_parsers()
+        self.parser.add_argument('gateway', nargs='+')
+        # self.gateway_classes = self.get_gateway_classes()
+        # self.add_parsers()
 
-    def add_parsers(self):
-        self.gateway_parsers = self.set_gateway_parsers(self.gateway_classes)
+    # def add_parsers(self):
+    #     self.gateway_parsers = self.set_gateway_parsers(self.gateway_classes)
 
     def get_gateway_classes(self):
-        return get_gateways()
+        return get_gateway_classes()
 
     def set_gateway_parsers(self, gateways=None):
         gateways = gateways or self.get_gateway_classes()
@@ -40,7 +41,7 @@ class NekumoManagement(object):
         if argv is None:
             argv = sys.argv
         args = self.parser.parse_args(argv[1:])
-        self.nekumo.gateways = list(self.parse_gateways(args))
+        self.nekumo = Nekumo(args.gateway)
         self.nekumo.ifaces = list(self.parse_ifaces(args))
         if 'NEKUMO_DEBUG_IFACE' not in os.environ:
             loop = asyncio.get_event_loop()

@@ -1,5 +1,6 @@
 import os
 import shutil
+from uuid import uuid4
 
 from nekumo.conf.base import ParserInput
 from nekumo.gateways.base import GatewayBase, GatewayConfig, NekumoDirListBase, NekumoFileBase, NekumoDirBase, \
@@ -8,6 +9,26 @@ from os3.fs.directory import Dir, DirList
 from os3.fs.entry import Entry
 from os3.fs.file import File
 from os3.utils.nodes import deep_scandir
+
+
+XATTR_KEY = 'user.id'
+
+def generate_id():
+    return uuid4().hex
+
+
+def get_id(path):
+    import xattr
+    try:
+        return xattr.getxattr(path, XATTR_KEY)
+    except OSError:
+        pass
+    try:
+        id = generate_id()
+        xattr.setxattr(path, XATTR_KEY, id.encode('utf-8'))
+        return id
+    except:
+        pass
 
 
 class NekumoEntryMixin(object):
@@ -72,6 +93,10 @@ class FSNekumoEntry(NekumoEntryMixin, Entry, NekumoEntryBase):
         path = cls._get_path(path)
         return cls.get_cls(path)(path, gateway=gateway)
 
+    @property
+    def id(self):
+        return get_id(self.gateway_path) or super(FSNekumoEntry, self).id
+
     def __repr__(self):
         return self.name
 
@@ -129,6 +154,11 @@ class FSNekumoDirList(NekumoEntryMixin, DirList, NekumoDirListBase):
 
 class FSConfig(GatewayConfig):
     uri = ParserInput('--fs-gateway')
+    scheme = 'file'
+
+    @classmethod
+    def validate_uri(cls, uri):
+        return (not uri.scheme or uri.scheme == cls.scheme) and os.path.exists(uri.path)
 
 
 class FSGateway(GatewayBase):

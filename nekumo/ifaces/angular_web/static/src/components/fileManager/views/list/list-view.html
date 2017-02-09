@@ -18,11 +18,12 @@
     </thead>
 
     <tbody>
-        <tr ng-repeat="file in entries | filter:global.search | orderBy:['-isDir', columnName]:scope
-        .reverse"
-            ng-click="select(file)" ng-class="{'selected': selected === file}">
-            <td class="file-icon">
-                <i class="{{ file.icon_class }}"></i>
+        <tr ng-repeat="file in entries | filter:global.search | orderBy:['-isDir', columnName]:scope.reverse"
+            ng-click="select(file, true)" ng-class="{'selected': file.selected}">
+            <td class="file-icon" ng-click="select(file, false, $event)">
+                <i class="{{ file.icon_class }}" ng-if="!file.selected"></i>
+                <md-checkbox ng-if="file.selected" ng-model="i" aria-label="checkbox"
+                             ng-init="i = true"></md-checkbox>
             </td>
             <td class="name"><a ng-click="navigateTo(file.path)" href="#">{{file.name}}</a></td>
             <td class="type" hide show-gt-md>{{file.type}}</td>
@@ -33,7 +34,7 @@
                 <md-button class="md-icon-button sidenav-toggle" ng-click="toggleDetails(file)"
                            aria-label="Details"
                            translate translate-attr-aria-label="FM.DETAILS">
-                    <md-icon md-font-icon="icon-information-outline"></md-icon>
+                    <md-icon md-font-set="mdi" md-font-icon="mdi-information-outline"></md-icon>
                 </md-button>
             </td>
             <td class="options">
