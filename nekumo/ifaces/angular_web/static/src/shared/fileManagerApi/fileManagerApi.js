@@ -142,10 +142,15 @@ module.factory('API', function (socketFactory, $q, Entry) {
                 socket.emit('rename', {'entry': entry, 'new_name': newName}, resolve);
             })
         },
-        move: function (entry, dest) {
+        move: function (entry_entries, target) {
+            return $q(function (resolve, reject) {
+                socket.emit('move', _.extend(entryEntriesDict(getPath(entry_entries)), {target: target.path}), resolve);
+            });
+        },
+        copy: function (entry_entries, target) {
             // TODO: incompleto
             return $q(function (resolve, reject) {
-                socket.emit('move', {'entry': entry, 'new_name': newName}, resolve);
+                socket.emit('copy', _.extend(entryEntriesDict(getPath(entry_entries)), {target: target.path}), resolve);
             });
         },
         delete: function (entry_entries) {

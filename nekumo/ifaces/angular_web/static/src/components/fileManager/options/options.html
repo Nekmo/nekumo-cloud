@@ -22,16 +22,22 @@
                     Rename
                 </md-button>
             </md-menu-item>
-            <md-menu-item>
-                <md-button>
+            <md-menu-item ng-if="!$rootScope.pasteAction">
+                <md-button ng-click="openCopy(entry, $event);">
                     <md-icon md-font-set="mdi" md-font-icon="mdi-content-copy" md-menu-align-target></md-icon>
                     Copy
                 </md-button>
             </md-menu-item>
-            <md-menu-item>
-                <md-button ng-click="ctrl.checkVoicemail()">
+            <md-menu-item ng-if="!$rootScope.pasteAction">
+                <md-button ng-click="openMove(entry, $event);">
                     <md-icon md-font-set="mdi" md-font-icon="mdi-content-cut" md-menu-align-target></md-icon>
                     Cut
+                </md-button>
+            </md-menu-item>
+            <md-menu-item ng-if="$rootScope.pasteAction">
+                <md-button ng-click="openPaste(entry, $event);">
+                    <md-icon md-font-set="mdi" md-font-icon="mdi-content-paste" md-menu-align-target></md-icon>
+                    Paste
                 </md-button>
             </md-menu-item>
             <md-menu-item>

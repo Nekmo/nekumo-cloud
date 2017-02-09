@@ -12,7 +12,7 @@
     @include noSelectable;
 }
 
-table thead {
+table thead, table tbody {
     @include noSelectable;
 }
 

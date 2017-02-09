@@ -71,8 +71,8 @@ class FSNekumoEntry(NekumoEntryMixin, Entry, NekumoEntryBase):
     def move(self, target):
         super(FSNekumoEntry, self).move(self.gateway.get_entry(target).gateway_path)
 
-    def copy(self, dst, symlinks=False, ignore=None):
-        super(FSNekumoEntry, self).copy(self.gateway.get_entry(dst).gateway_path, symlinks, ignore)
+    def copy(self, target, symlinks=False, ignore=None):
+        super(FSNekumoEntry, self).copy(self.gateway.get_entry(target).gateway_path, symlinks, ignore)
 
     def download(self):
         return NekumoLocalDownload(self.gateway_path)

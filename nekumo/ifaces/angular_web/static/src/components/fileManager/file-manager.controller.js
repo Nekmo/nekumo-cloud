@@ -21,7 +21,6 @@ module.directive('countEntries', function(entry_entries) {
 });
 
 module.controller('FileManagerController', function($rootScope, $scope, $mdSidenav, $location, API, Entry, hotkeys) {
-    var vm = this;
 
     $scope.scope = $scope;
 
@@ -96,7 +95,7 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
 
     $scope.indexOfEntry = function (item) {
         return $scope.entries.indexOf(item);
-    }
+    };
 
     $scope.toggleDetails = function(item) {
         $scope.selected = item;

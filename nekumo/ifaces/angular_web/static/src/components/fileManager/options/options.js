@@ -22,6 +22,24 @@ var module = angular.module('fmOptions', ['ngMaterial', 'fileManagerApi']);
 //     return Dialog
 // });
 
+function copyMoveDialog($rootScope, $mdToast, entries, countEntries) {
+    $rootScope.pasteEntries = entries;
+
+    $rootScope.pasteToast = $mdToast.show(
+        $mdToast.simple()
+            .action('Cancel')
+            .textContent(sprintf('%s on the clipboard', countEntries(entries)))
+            .hideDelay(0)
+    );
+    $rootScope.pasteToast.then(function(response) {
+        if ( response == 'ok' ) {
+            $rootScope.pasteAction = '';
+            $rootScope.pasteEntries = [];
+        }
+    });
+
+}
+
 module.factory('countEntries', function () {
     return function(entry_entries){
         var typesNames = {directory: ['directory', 'directories'], file: ['file', 'files']};
@@ -32,7 +50,7 @@ module.factory('countEntries', function () {
         var type = entries[0].type;
         for(var i = 0; i < entries.length; i++){
             if(entries[i].type != type){
-                return sprintf('%d %s and %s', entries.length, typesNames['directory'][1], typesNames['files'][1]);
+                return sprintf('%d %s and %s', entries.length, typesNames['directory'][1], typesNames['file'][1]);
             }
         }
         return sprintf('%d %s', entries.length, typesNames[type][(entries.length > 1 ? 1 : 0)]);
@@ -55,10 +73,6 @@ module.factory('DeleteDialog', function ($mdDialog, API, countEntries) {
         if(ev){
             confirmDialog = confirmDialog.targetEvent(ev);
         }
-
-        this.constructor.prototype.open = function () {
-            this.show();
-        };
 
         this.constructor.prototype.show = function () {
             $mdDialog.show(confirmDialog).then(function(newName) {
@@ -90,9 +104,6 @@ module.factory('RenameDialog', function ($mdDialog, API) {
         if(ev){
             confirmDialog = confirmDialog.targetEvent(ev);
         }
-        this.constructor.prototype.open = function () {
-            this.show();
-        };
 
         this.constructor.prototype.show = function () {
             $mdDialog.show(confirmDialog).then(function(newName) {
@@ -105,29 +116,110 @@ module.factory('RenameDialog', function ($mdDialog, API) {
     };
 });
 
+
+module.factory('CopyDialog', function ($rootScope, $mdToast, countEntries) {
+
+    function CopyDialog(entries) {
+
+        this.constructor.prototype.show = function () {
+            $rootScope.pasteAction = 'copy';
+            copyMoveDialog($rootScope, $mdToast, entries, countEntries)
+        };
+    }
+
+    return function (entries, ev) {
+        return new CopyDialog(entries, ev);
+    };
+});
+
+
+module.factory('MoveDialog', function ($rootScope, $mdToast, countEntries) {
+
+    function MoveDialog(entries) {
+
+        this.constructor.prototype.show = function () {
+            $rootScope.pasteAction = 'move';
+            copyMoveDialog($rootScope, $mdToast, entries, countEntries)
+        };
+    }
+
+    return function (entries, ev) {
+        return new MoveDialog(entries, ev);
+    };
+});
+
+
+module.factory('PasteDialog', function ($rootScope, $timeout, $mdToast, API, countEntries) {
+    function PasteDialog(entry) {
+
+        this.constructor.prototype.show = function () {
+            API[$rootScope.pasteAction]($rootScope.pasteEntries, entry);
+            $mdToast.hide($rootScope.pasteToast);
+
+            $timeout(function () {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .action('Cancel')
+                        .textContent(sprintf('%s pasted', countEntries($rootScope.pasteEntries)))
+                        // .position(pinTo )
+                        .hideDelay(1500)
+                );
+                $rootScope.pasteEntries = [];
+                $rootScope.pasteAction = '';
+            }, 1000);
+        };
+    }
+
+    return function (entries, ev) {
+        return new PasteDialog(entries, ev);
+    };
+});
+
+
 module.directive('options', function () {
     return {
         scope: {
-            entry: '='
+            entry: '=',
+            entries: '='
         },
         templateUrl: '/.nekumo/static/src/components/fileManager/options/options.html'
     }
 });
 
-module.controller('optionsCtrl', function ($scope, RenameDialog, DeleteDialog) {
+
+module.controller('optionsCtrl', function ($scope, $rootScope, RenameDialog, DeleteDialog, CopyDialog, MoveDialog,
+                                           PasteDialog) {
+    $scope.$rootScope = $rootScope;
+
+    function getEntries(entry) {
+        return _.union($scope.entries, [entry]);
+    }
 
     $scope.openMenu = function($mdOpenMenu, ev) {
-        originatorEv = ev;
+        console.log($scope.entries);
+        // originatorEv = ev;
         $mdOpenMenu(ev);
     };
 
     $scope.openRename = function (entry, ev) {
-        RenameDialog(entry, ev).open();
+        RenameDialog(entry, ev).show();
     };
 
     $scope.openDelete = function (entry, ev) {
-        DeleteDialog(entry, ev).open();
+        DeleteDialog(getEntries(entry), ev).show();
     };
+
+    $scope.openCopy = function (entry, ev) {
+        CopyDialog(getEntries(entry), ev).show()
+    };
+
+    $scope.openMove = function (entry, ev) {
+        MoveDialog(getEntries(entry), ev).show()
+    };
+
+    $scope.openPaste = function (entry, ev) {
+        PasteDialog(entry, ev).show()
+    }
 });
 
 var renameDialogCtrl = function () {

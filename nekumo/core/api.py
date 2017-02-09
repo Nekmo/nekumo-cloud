@@ -19,10 +19,14 @@ class NekumoListAPI(object):
         return getattr(self, method)(**kwargs)
 
     def move(self, target):
-        raise NotImplementedError
+        for entry in self.entries:
+            entry.move(target)
+        return {'method': 'move'}
 
     def copy(self, target):
-        raise NotImplementedError
+        for entry in self.entries:
+            entry.copy(target)
+        return {'method': 'copy'}
 
     def download(self):
         raise NotImplementedError
