@@ -5,6 +5,7 @@ import datetime
 
 from flask import json
 from flask.json import JSONEncoder
+from os3.core.comparators import StartsWithEqual
 
 from nekumo.conf.base import Input
 from nekumo.gateways.base import ALL_METHODS_PROPERTIES
@@ -27,6 +28,8 @@ class NekumoEncoder(json.JSONEncoder):
             return obj.isoformat()
         elif isinstance(obj, datetime.timedelta):
             return (datetime.datetime.min + obj).time().isoformat()
+        elif isinstance(obj, StartsWithEqual):
+            return obj.name
         else:
             return super(NekumoEncoder, self).default(obj)
 

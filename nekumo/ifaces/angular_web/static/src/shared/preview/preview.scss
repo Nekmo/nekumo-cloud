@@ -8,6 +8,31 @@
     transform: translate(-50%, -50%)
 }
 
+#image-preview {
+    // position: fixed;
+
+    img {
+        max-width: 80vw;
+        max-height: 80vh;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: url('/.nekumo/static/src/shared/preview/transparent-background.png');
+    }
+}
+
+#audio-preview {
+    md-card {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 400px;
+        min-height: 80px;
+    }
+}
+
 #backdrop {
     width: 100%;
     height: 100%;

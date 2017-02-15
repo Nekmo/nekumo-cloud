@@ -139,9 +139,9 @@
 
         <!-- SIDENAV -->
         <md-sidenav class="sidenav details-sidenav md-sidenav-right" md-is-locked-open="$mdMedia('gt-md')"
-                    md-component-id="details-sidenav"
-                    ng-include="'/.nekumo/static/src/components/fileManager/sidenavs/details/details-sidenav.html'" ms-scroll
-                    ms-sidenav-helper>
+                    md-component-id="details-sidenav" ng-controller="DetailsSidenavCtrl"
+                    ng-include="'/.nekumo/static/src/components/fileManager/sidenavs/details/details-sidenav.html'"
+                    ms-scroll ms-sidenav-helper>
         </md-sidenav>
         <!-- / SIDENAV -->
 
@@ -153,7 +153,7 @@
     <script src="{{ url_for('static', filename='src/libs/angular-duration-format/dist/angular-duration-format.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/angular-aria/angular-aria.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/angular-messages/angular-messages.min.js') }}"></script>
-d    <script src="{{ url_for('static', filename='src/libs/angular-sanitize/angular-sanitize.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-sanitize/angular-sanitize.min.js') }}"></script>
     <!-- videogular -->
     <script src="{{ url_for('static', filename='src/libs/videogular/videogular.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/videogular-buffering/vg-buffering.min.js') }}"></script>

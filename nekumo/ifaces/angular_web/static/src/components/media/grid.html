@@ -1,3 +1,31 @@
+<!--
 <div ng-controller="gridCtrl" class="grid period-media layout-wrap layout-row" layout="row" layout-wrap="">
     <grid-item entry="entry" ng-repeat="entry in entries"></grid-item>
+</div>
+-->
+<div ng-controller="gridCtrl" flex ng-cloak>
+    <div ng-if="entries.length">
+        <h2>{{ title }}</h2>
+        <md-grid-list
+                md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-lg="6" md-cols-xl="7"
+                md-row-height-gt-md="1:1" md-row-height="4:3"
+                md-gutter="8px" md-gutter-gt-sm="4px" >
+            <!-- <grid-item entry="entry" ng-repeat="entry in entries"></grid-item> -->
+            <md-grid-tile
+                    ng-click="preview(entry);"
+                    class="media-entry"
+                    ng-repeat="entry in entries"
+                    md-rowspan="{{tile.span.row}}"
+                    md-colspan="{{tile.span.col}}"
+                    md-colspan-sm="1"
+                    md-colspan-xs="1"
+                    style="background-image: url('/.nekumo/thumb/{{ entry.path }}')" >
+                <md-icon md-svg-icon="{{tile.icon}}"></md-icon>
+                <md-grid-tile-footer><h3>{{entry.name}}</h3></md-grid-tile-footer>
+            </md-grid-tile>
+        </md-grid-list>
+    </div>
+    <div ng-if="!entries.length && isSelected">
+        <ng-include src="'/.nekumo/static/src/components/media/no-results.html'"></ng-include>
+    </div>
 </div>

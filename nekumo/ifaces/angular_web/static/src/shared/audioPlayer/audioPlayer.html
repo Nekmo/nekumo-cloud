@@ -1,0 +1,23 @@
+<div ng-controller="audioPlayerCtrl">
+    <!-- <md-card md-theme="'dark-orange'" md-theme-watch> -->
+    <md-card>
+        <span>{{ sound.currentTime|trackTime }} </span>
+        <md-slider flex ng-model="sound.progress"
+                   step="0.001"
+                   max="1"
+                   aria-label="timer">
+        </md-slider>
+        <div class="row">
+            <md-button ng-click="sound.paused ? sound.play() : sound.pause()" flex>
+                <md-icon md-font-set="mdi" md-font-icon="mdi-play" ng-if="sound.paused"></md-icon>
+                <md-icon md-font-set="mdi" md-font-icon="mdi-pause" ng-if="!sound.paused"></md-icon>
+            </md-button>
+            <md-button ng-click="sound.stop();" flex>
+                <md-icon md-font-set="mdi" md-font-icon="mdi-stop"></md-icon>
+            </md-button>
+
+        </div>
+    </md-card>
+
+    <span></span>
+</div>

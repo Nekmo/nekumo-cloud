@@ -4,6 +4,12 @@
             <div ng-switch-when="video" id="video-preview">
                 <video-player src="entry.path" mime-type="entry.mimetype"></video-player>
             </div>
+            <div ng-switch-when="image" id="image-preview">
+                <img src="{{ entry.path }}" alt="{{ entry.path }}" />
+            </div>
+            <div ng-switch-when="audio" id="audio-preview">
+                <audio-player src="entry.path"></audio-player>
+            </div>
         </div>
     </div>
 </div>

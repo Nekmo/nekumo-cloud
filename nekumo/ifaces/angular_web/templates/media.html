@@ -53,9 +53,31 @@
                 </div>
                 <!-- / ADD FILE BUTTON -->
             </div>
+            <md-nav-bar
+                    class="center"
+                    md-selected-nav-item="category"
+                    nav-bar-aria-label="navigation links">
+                <md-nav-item md-nav-click="goto('page1')" name="all">
+                    All
+                </md-nav-item>
+                <md-nav-item md-nav-click="goto('page2')" name="images">
+                    Images
+                </md-nav-item>
+                <md-nav-item md-nav-click="goto('page3')" name="videos">
+                    Video
+                </md-nav-item>
+                <md-nav-item md-nav-click="goto('page3')" name="audios">
+                    Audios
+                </md-nav-item>
+                <md-nav-item md-nav-click="goto('page3')" name="config">
+                    Config
+                </md-nav-item>
+            </md-nav-bar>
+
+            <!--
             <md-tabs md-dynamic-height id="media-tabs" md-center-tabs="true">
                 <md-tab label="All">
-                    <div ng-include="'/.nekumo/static/src/components/media/grid.html'"></div>
+
                 </md-tab>
                 <md-tab label="Images">
 
@@ -68,6 +90,8 @@
                 </md-tab>
             </md-tabs>
 
+            -->
+
             <!-- / HEADER -->
 
             <!-- CONTENT -->
@@ -77,37 +101,22 @@
                 <div class="loading" ng-if="!isLoaded">
                     <md-progress-circular md-diameter="96"></md-progress-circular>
                 </div> -->
-                <div ng-if="!entries.length && isLoaded">
-                    <div flex-xs flex="40" flex-offset="30" layout="column" id="directory-empty">
-                        <md-card>
-                            <div class="md-card-image">
-                                <i class="mdi mdi-package-variant"></i>
-                            </div>
-                            <md-card-title>
-                                <md-card-title-text>
-                                    <span class="md-headline">Directory is empty</span>
-                                </md-card-title-text>
-                            </md-card-title>
-                            <md-card-content>
-                                <p>
-                                    There is still nothing in this directory. This may be a good time to upload a file.
-                                    Think about it, okay?
-                                </p>
-                            </md-card-content>
-                            <md-card-actions layout="row" layout-align="end center">
-                                <md-button class="md-icon-button" aria-label="Favorite">
-                                    <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
-                                </md-button>
-                                <md-button class="md-icon-button" aria-label="Settings">
-                                    <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
-                                </md-button>
-                                <md-button class="md-icon-button" aria-label="Share">
-                                    <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
-                                </md-button>
-                            </md-card-actions>
-                        </md-card>
-                    </div>
-                </div>
+                <!-- <div ng-include="'/.nekumo/static/src/components/media/grid.html'"></div> -->
+                <grid entries="imageEntries" title="Images"
+                      is-selected="category == 'images'"
+                      ng-if="['images', 'all'].indexOf(category) >= 0"></grid>
+                <grid entries="videoEntries" title="Videos"
+                      is-selected="category == 'videos'"
+                      ng-if="['videos', 'all'].indexOf(category) >= 0"></grid>
+                <grid entries="audioEntries" title="Audios"
+                      is-selected="category == 'audios'"
+                      ng-if="['audios', 'all'].indexOf(category) >= 0"></grid>
+                <grid entries="otherEntries" title="Others"
+                      is-selected="category == 'others'"
+                      ng-if="['others', 'all'].indexOf(category) >= 0"></grid>
+                <ng-include src="'/.nekumo/static/src/components/media/no-results.html'"
+                    ng-if="category == 'all' && !imageEntries && !videoEntries && !audioEntries &&
+                    !otherEntries"></ng-include>
             </md-content>
             <!-- / CONTENT -->
 
@@ -128,10 +137,14 @@
     <script src="{{ url_for('static', filename='src/libs/videogular-buffering/vg-buffering.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/videogular-controls/vg-controls.min.js') }}"></script>
     <script src="{{ url_for('static', filename='src/libs/videogular-overlay-play/vg-overlay-play.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/angular-event-dispatcher/dist/angular-event-dispatcher.js') }}"></script>
     <script src="{{ url_for('static', filename='src/shared/videoPlayer/videoPlayer.js') }}"></script>
 
+    <script src="{{ url_for('static', filename='src/libs/videogular/videogular.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/shared/audioPlayer/audioPlayer.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/libs/angular-audio/app/angular.audio.js') }}"></script>
 
+
+    <script src="{{ url_for('static', filename='src/libs/angular-event-dispatcher/dist/angular-event-dispatcher.js') }}"></script>
     <script src="{{ url_for('static', filename='src/shared/chromecast/chromecast.js') }}"></script>
     <script src="{{ url_for('static', filename='src/shared/preview/preview.js') }}"></script>
     <script src="{{ url_for('static', filename='src/shared/fileManagerApi/fileManagerApi.js') }}"></script>

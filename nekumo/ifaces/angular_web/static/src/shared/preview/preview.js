@@ -1,9 +1,11 @@
 /**
  * Created by nekmo on 22/01/17.
  */
-var module = angular.module('preview', ['videoPlayer']);
+var module = angular.module('preview', ['videoPlayer', 'audioPlayer']);
 var playerMimetypes = {
-    'video': 'video'
+    'video': 'video',
+    'audio': 'audio',
+    'image': 'image'
 };
 
 function getPlayer(entry) {
@@ -29,6 +31,7 @@ module.factory('$previewGallery', function ($templateRequest, $document, $compil
                 preview: preview
             });
 
+            // Puedo usar justo para este punto ocLazy?
             $compile(preview)(scope);
             body.append(preview);
         });

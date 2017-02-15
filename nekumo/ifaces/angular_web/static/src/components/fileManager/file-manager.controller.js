@@ -5,9 +5,10 @@ var module = angular.module('app.file-manager', ['ngMaterial', 'fileManagerApi',
 
 
 
-    module.config(function($locationProvider) {
-        $locationProvider.html5Mode(true).hashPrefix('');
-    });
+module.config(function($locationProvider) {
+    $locationProvider.html5Mode(true).hashPrefix('');
+});
+
 
 module.directive('reverseIcon', function(){
     return {
@@ -16,11 +17,9 @@ module.directive('reverseIcon', function(){
     };
 });
 
-module.directive('countEntries', function(entry_entries) {
 
-});
-
-module.controller('FileManagerController', function($rootScope, $scope, $mdSidenav, $location, API, Entry, hotkeys) {
+module.controller('FileManagerController', function($rootScope, $scope, $mdSidenav, $location, API, Entry, hotkeys,
+                                                    $q) {
 
     $scope.scope = $scope;
 
@@ -42,7 +41,7 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
 
     $scope.isLoaded = false;
     $scope.entries = [];  // All entries loaded
-    $scope.entriesSelected = []; // Selected entries
+    $scope.entriesSelected = null; // Selected entries
     $scope.selected = null;  // Deprecated
     $scope.ctrlPulsed = false;  // Select items with ctrl
     $scope.shiftPulsed = false;  // Select items with shift
@@ -50,6 +49,7 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
 
     // Methods
     $scope.currentDirectory = null;
+    $scope.currentDirectoryData = null;
 
     $scope.sortBy = function(id) {
         $scope.reverse = ($scope.sortColumn === id) ? !$scope.reverse : false;
@@ -118,12 +118,30 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
         $scope.entriesSelected = [];
     };
 
+    $scope.totalSize = function (entries) {
+        // Tamaño total para el sidevar
+        entries = (entries === undefined ? $scope.entriesSelected : entries);
+        return _.sumBy(entries, 'size');
+    };
+
+    function getCurrentDirectoryData () {
+        var deferred = $q.defer();
+        API.details($scope.currentDirectory).then(function (data) {
+            $scope.currentDirectoryData = data;
+            deferred.resolve(data);
+        });
+        return deferred.promise
+    }
+
     function setEntries(path) {
         $scope.isLoaded = false;
         $scope.entries = [];
         API.list(path).then(function (data) {
             $scope.entries = data;
             $scope.isLoaded = true;
+            getCurrentDirectoryData().then(function () {
+                $scope.cleanSelected();
+            });
         });
     }
 
@@ -183,4 +201,14 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
         }
     });
 
+});
+
+module.controller('DetailsSidenavCtrl', function ($scope) {
+    $scope.$watch('entriesSelected', function () {
+        if($scope.entriesSelected == null){
+            return
+        }
+        $scope.selected = (
+            ($scope.entriesSelected).length > 1 ? null : $scope.entriesSelected[0] || $scope.currentDirectoryData);
+    }, true);
 });

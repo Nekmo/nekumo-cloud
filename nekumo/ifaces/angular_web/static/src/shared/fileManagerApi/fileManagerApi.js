@@ -27,6 +27,13 @@ var MIMETYPE_ICONS = {
     '': classIcon('help-circle', 'unknown')
 };
 
+var MIMETYPE_CATEGORIES = {
+    'video': 'video',
+    'image': 'image',
+    'text': 'text',
+    'audio': 'audio'
+};
+
 // module.config(function (socketFactoryProvider) {
 //   socketFactoryProvider.prefix('');
 // });
@@ -61,6 +68,14 @@ function getIconClass(mimetype){
     return _.get(MIMETYPE_ICONS, mimetype, _.get(MIMETYPE_ICONS, mime)) || MIMETYPE_ICONS[''];
 }
 
+function getCategory(mimetype){
+    var mime = null;
+    if(mimetype){
+        mime = mimetype.split('/')[0];
+    }
+    return _.get(MIMETYPE_CATEGORIES, mimetype, _.get(MIMETYPE_CATEGORIES, mime));
+}
+
 Entry = function(data) {
     angular.extend(this, {
         "type": "folder",
@@ -79,8 +94,11 @@ Entry = function(data) {
     angular.extend(this, data);
 
     this.modified = new Date(data.mtime);
+    this.opened = new Date(data.atime);
     this.isDir = this.type == 'directory';
     this.icon_class = getIconClass(this.mimetype);
+    this.tags = [];
+
     if(this.parentDir && !_.endsWith(this.parentDir, '/')){
         this.parentDir += '/';
     }
@@ -92,6 +110,7 @@ Entry = function(data) {
     if(this.isDir && !_.endsWith(this.path, '/')){
         this.path += '/';
     }
+    this.category = getCategory(this.mimetype);
 };
 
 
@@ -152,6 +171,16 @@ module.factory('API', function (socketFactory, $q, Entry) {
             return $q(function (resolve, reject) {
                 socket.emit('copy', _.extend(entryEntriesDict(getPath(entry_entries)), {target: target.path}), resolve);
             });
+        },
+        details: function (entry) {
+            if(_.isObject(entry)){
+                entry = entry.path;
+            }
+            return $q(function (resolve, reject) {
+                socket.emit('details', {'entry': entry}, function (data) {
+                    resolve(Entry(data));
+                });
+            })
         },
         delete: function (entry_entries) {
             return $q(function (resolve, reject) {

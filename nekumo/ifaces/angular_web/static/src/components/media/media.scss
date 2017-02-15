@@ -5,6 +5,16 @@ $shadow-ambient-shadow-opacity: 0.12 !default;
 $whiteframe-shadow-1dp: 0px 1px 3px 0px rgba(0, 0, 0, $shadow-key-umbra-opacity), 0px 1px 1px 0px rgba(0, 0, 0, $shadow-key-penumbra-opacity), 0px 2px 1px -1px rgba(0, 0, 0, $shadow-ambient-shadow-opacity) !default;
 
 
+@mixin not-selectable($value:none) {
+  -webkit-touch-callout: $value;
+  -webkit-user-select: $value;
+  -khtml-user-select: $value;
+  -moz-user-select: $value;
+  -ms-user-select: $value;
+  user-select: $value;
+}
+
+
 #media-tabs {
     md-tabs-wrapper {
         background: #FFFFFF;
@@ -46,32 +56,74 @@ $whiteframe-shadow-1dp: 0px 1px 3px 0px rgba(0, 0, 0, $shadow-key-umbra-opacity)
 
 #media {
     .media-entry {
-        margin: 0 16px 16px 0;
-        position: relative;
+        @include not-selectable();
+
         cursor: pointer;
 
-        .preview {
-            width: 256px;
-            height: 256px;
-            display: block;
-            background-position: center;
-            background-size: cover;
-        }
+        display: block;
+        background-position: center;
+        background-size: cover;
 
-        .title {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 10;
-            padding: 0 16px;
-            height: 48px;
-            line-height: 48px;
-            background: rgba(0, 0, 0, 0.54);
-            color: #fff;
-            font-size: 15px;
-            overflow: hidden;
-            text-overflow: ellipsis;
+
+        //.preview {
+        //    display: block;
+        //    background-position: center;
+        //    background-size: cover;
+        //}
+
+        //.title {
+        //    position: absolute;
+        //    bottom: 0;
+        //    left: 0;
+        //    right: 0;
+        //    z-index: 10;
+        //    padding: 0 16px;
+        //    height: 48px;
+        //    line-height: 48px;
+        //    background: rgba(0, 0, 0, 0.54);
+        //    color: #fff;
+        //    font-size: 15px;
+        //    overflow: hidden;
+        //    text-overflow: ellipsis;
+        //}
+    }
+
+    md-nav-bar {
+        &.center {
+            nav {
+                display: flex;
+                align-items: center;
+                justify-content: center
+            }
         }
     }
 }
+
+
+#directory-empty {
+    margin-top: 60px;
+
+    md-card {
+        .md-card-image {
+            position: relative;
+            background: #FF5722;
+            height: 120px;
+
+            .mdi {
+                position: absolute;
+                color: #fbfbfb;
+                font-size: 180px;
+                height: 120px;
+                width: 200px;
+                top: 0;
+                right: 0;
+                overflow: hidden;
+            }
+
+            .mdi::before {
+                transform: translate(0, 70px);
+            }
+        }
+    }
+}
+

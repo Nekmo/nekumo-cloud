@@ -59,6 +59,13 @@ module.factory('countEntries', function () {
 });
 
 
+module.filter('countEntries', function (countEntries) {
+    return function (value) {
+        return countEntries(value);
+    }
+});
+
+
 module.factory('DeleteDialog', function ($mdDialog, API, countEntries) {
     var confirm = $mdDialog.confirm()
           .title('Are you sure to delete?')

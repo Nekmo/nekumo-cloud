@@ -16,8 +16,12 @@
     </div>
 
     <div>
-        <div class="title">{{selected.name}}</div>
-        <div class="subtitle secondary-text"><span translate="FM.EDITED">Edited</span>: {{selected.modified}}</div>
+        <div class="title">
+            <span ng-if="selected">{{ selected.name }}</span>
+            <span ng-if="entriesSelected.length > 1">{{entriesSelected|countEntries }} selected</span>
+        </div>
+        <div class="subtitle secondary-text">
+            <span translate="FM.EDITED">Edited</span>: {{ selected.modified }}</div>
     </div>
 </div>
 <!-- / SIDENAV HEADER -->
@@ -27,10 +31,22 @@
 
     <div class="file-details">
         <div class="preview file-icon" layout="row" layout-align="center center">
-            <i class="{{ selected.icon_class }} s128"></i>
-            <div class="thumb" style="background-image: url('/.nekumo/thumb{{ selected.path }}')"></div>
+            <i class="{{ selected.icon_class }} s128" ng-if="entriesSelected.length <= 1"></i>
+            <i class="mdi mdi-comment-processing icon-entries s128" ng-if="entriesSelected.length > 1"></i>
+            <div class="thumb" style="background-image: url('/.nekumo/thumb{{ selected.path }}')"
+                 ng-if="entriesSelected.length <= 1"></div>
         </div>
 
+        <!-- permisos, bookmark -->
+        <md-chips
+            ng-model="selected.tags"
+            md-removable="true"
+            placeholder="Enter a tag"
+            delete-button-label="Remove Tag"
+            delete-hint="Press delete to remove tag"
+            secondary-placeholder="+Tag"></md-chips>
+
+        <!--
         <md-list class="offline-switch">
             <md-list-item>
                 <p translate="FM.AVAILABLE_OFFLINE">Available Offline</p>
@@ -38,44 +54,40 @@
                            translate-attr-aria-label="FM.TOOGLE_OFFLINE"></md-switch>
             </md-list-item>
         </md-list>
+        -->
 
         <div class="title" translate="FM.INFO">Info</div>
 
         <table>
             <tr class="type">
                 <th translate="FM.TYPE">Type</th>
-                <td>{{selected.type}}</td>
+                <td>{{ selected.type || "—" }}</td>
             </tr>
 
             <tr class="size">
-                <th translate="FM.SIZE">Size</th>
-                <td>{{selected.size === '' ? '-': selected.size}}</td>
+                <th translate="FM.SIZE" ng-if="entriesSelected.length <= 1">Size</th>
+                <th translate="FM.SIZE" ng-if="entriesSelected.length > 1">Total size</th>
+                <td ng-if="selected">{{ selected.size|humanReadableFileSize }}</td>
+                <td ng-if="entriesSelected.length > 1">{{ totalSize()|humanReadableFileSize }}</td>
             </tr>
 
-            <tr class="location">
-                <th translate="FM.LOCATION">Location</th>
-                <td>{{selected.location}}</td>
-            </tr>
-
+            <!--
             <tr class="owner">
                 <th translate="FM.OWNER">Owner</th>
                 <td>{{selected.owner}}</td>
             </tr>
+            -->
 
             <tr class="modified">
                 <th translate="FM.MODIFIED">Modified</th>
-                <td>{{selected.modified}}</td>
+                <td>{{ (selected.modified|date) || "—" }}</td>
             </tr>
 
             <tr class="opened">
                 <th translate="FM.OPENED">Opened</th>
-                <td>{{selected.opened}}</td>
+                <td>{{ (selected.opened|date) || "—" }}</td>
             </tr>
 
-            <tr class="created">
-                <th translate="FM.CREATED">Created</th>
-                <td>{{selected.created}}</td>
-            </tr>
         </table>
     </div>
 

@@ -2,7 +2,8 @@ import os
 from thumbs import thumb
 from thumbs.exceptions import ThumbNotAvailable
 
-DEFAULT_FORMAT = 'jpg'
+DEFAULT_FORMAT = 'jpeg'
+MAX_DIMENSIONS = (350, 350)
 
 
 class ThumbDoesNotExist(Exception):
@@ -28,7 +29,9 @@ def get_thumb(nekumo, entry):
 
 def create_thumb(nekumo, entry):
     path = thumb_path(nekumo, entry)
-    if thumb(entry.gateway_path, path) is not None:
+    if thumb(entry.gateway_path, path,
+             dimensions={'width': MAX_DIMENSIONS[0], 'height': MAX_DIMENSIONS[1], 'resize': 'max'},
+             tformat=DEFAULT_FORMAT) is not None:
         return path
 
 

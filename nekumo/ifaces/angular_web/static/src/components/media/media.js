@@ -16,6 +16,7 @@ module.controller('mediaCtrl', function ($rootScope, $scope, $previewGallery, $c
     $chromecastPlayer();
     
     $scope.currentDirectory = null;
+    $scope.category = 'all';
 
     // $previewGallery({
     //     player: 'video',
@@ -26,9 +27,18 @@ module.controller('mediaCtrl', function ($rootScope, $scope, $previewGallery, $c
     function setEntries(path) {
         $scope.isLoaded = false;
         $scope.entries = [];
+        $scope.videoEntries = [];
+        $scope.audioEntries = [];
+        $scope.imageEntries = [];
+        $scope.otherEntries = [];
         API.list(path).then(function (data) {
-            $scope.entries = data;
+            // $scope.entries = data;
             $scope.isLoaded = true;
+            angular.forEach(data, function (item) {
+                var entries = $scope[item.category + 'Entries'];
+                entries = (entries !== undefined ? entries : $scope.otherEntries);
+                entries.push(item);
+            })
         });
     }
 
@@ -54,21 +64,19 @@ module.controller('mediaCtrl', function ($rootScope, $scope, $previewGallery, $c
 
 });
 
-module.controller('gridCtrl', function ($scope) {
-
-});
-
-module.directive('gridItem', function () {
+module.directive('grid', function () {
     return {
         scope: {
-            entry: '='
+            entries: '=',
+            title: '@',
+            isSelected: '='
         },
-        templateUrl: '/.nekumo/static/src/components/media/grid-item.html'
+        templateUrl: '/.nekumo/static/src/components/media/grid.html'
     }
 });
 
-module.controller('gridItemCtrl', function ($scope, $previewGallery) {
-    $scope.preview = function () {
-        $previewGallery($scope.entry);
+module.controller('gridCtrl', function ($scope, $previewGallery) {
+    $scope.preview = function (entry) {
+        $previewGallery(entry);
     }
 });

@@ -59,7 +59,7 @@ class NekumoLocalDownload(NekumoDownloadBase):
 
 
 class NekumoEntryBase(object):
-    methods = ['rename', 'delete', 'parent', 'move', 'copy']
+    methods = ['rename', 'delete', 'parent', 'move', 'copy', 'details']
     properties = ['name', 'type']
     path = ''
     root_path = ''
@@ -127,6 +127,9 @@ class NekumoEntryBase(object):
             if not parent:
                 break
         return list(reversed(items))
+
+    def details(self):
+        raise NotImplementedError
 
     @property
     def id(self):

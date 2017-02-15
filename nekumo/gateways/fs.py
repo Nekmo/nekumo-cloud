@@ -14,7 +14,7 @@ from os3.utils.nodes import deep_scandir
 XATTR_KEY = 'user.id'
 
 def generate_id():
-    return uuid4().hex
+    return uuid4().hex.encode('utf-8')
 
 
 def get_id(path):
@@ -29,6 +29,14 @@ def get_id(path):
         return id
     except:
         pass
+
+
+class Response(dict):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def to_json(self):
+        return self
 
 
 class NekumoEntryMixin(object):
@@ -82,6 +90,9 @@ class FSNekumoEntry(NekumoEntryMixin, Entry, NekumoEntryBase):
         if self.root and not path.startswith(self.root):
             return None
         return self.get_classes()['Dir'](path, gateway=self.gateway)
+
+    def details(self):
+        return Response(**self.values('name', 'size', 'type', 'mimetype', 'mtime', 'atime'))
 
     @property
     def root_path(self):
@@ -146,10 +157,8 @@ class FSNekumoDirList(NekumoEntryMixin, DirList, NekumoDirListBase):
     def to_json(self):
         def upd(entry):
             entry['type'] = entry['type'].name
-            # entry['rights'] = "drwxr-xr-x"
-            entry['date'] = "2016-03-03 15:31:40"
             return entry
-        return list(map(upd, self.values('name', 'size', 'type', 'mimetype', 'mtime')))
+        return list(map(upd, self.values('name', 'size', 'type', 'mimetype', 'mtime', 'atime')))
 
 
 class FSConfig(GatewayConfig):

@@ -118,6 +118,12 @@ $layout-breakpoint-sm:     960px !default;
         }
     }
 
+    .icon-entries {
+        &:before {
+            color: #002b36;
+        }
+    }
+
     #directory-empty {
         margin-top: 60px;
 

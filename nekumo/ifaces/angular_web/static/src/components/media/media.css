@@ -14,26 +14,36 @@
   justify-content: center; }
 
 #media .media-entry {
-  margin: 0 16px 16px 0;
-  position: relative;
-  cursor: pointer; }
-  #media .media-entry .preview {
-    width: 256px;
-    height: 256px;
-    display: block;
-    background-position: center;
-    background-size: cover; }
-  #media .media-entry .title {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    padding: 0 16px;
-    height: 48px;
-    line-height: 48px;
-    background: rgba(0, 0, 0, 0.54);
-    color: #fff;
-    font-size: 15px;
-    overflow: hidden;
-    text-overflow: ellipsis; }
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  display: block;
+  background-position: center;
+  background-size: cover; }
+
+#media md-nav-bar.center nav {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+#directory-empty {
+  margin-top: 60px; }
+  #directory-empty md-card .md-card-image {
+    position: relative;
+    background: #FF5722;
+    height: 120px; }
+    #directory-empty md-card .md-card-image .mdi {
+      position: absolute;
+      color: #fbfbfb;
+      font-size: 180px;
+      height: 120px;
+      width: 200px;
+      top: 0;
+      right: 0;
+      overflow: hidden; }
+    #directory-empty md-card .md-card-image .mdi::before {
+      transform: translate(0, 70px); }
