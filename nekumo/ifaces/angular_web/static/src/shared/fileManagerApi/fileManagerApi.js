@@ -6,25 +6,25 @@ var ICON_FONT = 'mdi';
 var socket;
 
 var MIMETYPE_ICONS = {
-    'inode/directory': classIcon('folder', 'folder'),
+    'inode/directory': ['folder', 'folder'],
 
-    'application/pdf': classIcon('file-pdf-box', 'pdf'),
+    'application/pdf': ['file-pdf-box', 'pdf'],
 
-    'application/x-compressed-tar': classIcon('zip-box', 'compressed'),
-    'application/zip': classIcon('zip-box', 'compressed'),
+    'application/x-compressed-tar': ['zip-box', 'compressed'],
+    'application/zip': ['zip-box', 'compressed'],
 
 
-    'application/xml': classIcon('code-not-equal-variant', 'code'),
-    'application/x-php': classIcon('language-php', 'code'),
-    'text/x-python': classIcon('language-python', 'code'),
+    'application/xml': ['code-not-equal-variant', 'code'],
+    'application/x-php': ['language-php', 'code'],
+    'text/x-python': ['language-python', 'code'],
 
-    'application/vnd.oasis.opendocument.text': classIcon('file-document-box', 'document'),
+    'application/vnd.oasis.opendocument.text': ['file-document-box', 'document'],
 
-    'video': classIcon('filmstrip', 'video'),
-    'image': classIcon('image', 'image'),
-    'audio': classIcon('music-box', 'audio'),
-    'text': classIcon('file-document-box', 'document'),
-    '': classIcon('help-circle', 'unknown')
+    'video': ['filmstrip', 'video'],
+    'image': ['image', 'image'],
+    'audio': ['music-box', 'audio'],
+    'text': ['file-document-box', 'document'],
+    '': ['help-circle', 'unknown']
 };
 
 var MIMETYPE_CATEGORIES = {
@@ -60,12 +60,25 @@ function getPath(entry_entries){
     }
 }
 
+function getMime(mimetype) {
+    var mime = null;
+    if(mimetype){
+        mime = mimetype.split('/')[0];
+    }
+    return mime;
+}
+
+function getColorClass(mimetype) {
+    return (_.get(MIMETYPE_ICONS, mimetype, _.get(MIMETYPE_ICONS, getMime(mimetype))) || MIMETYPE_ICONS[''])[1];
+}
+
 function getIconClass(mimetype){
     var mime = null;
     if(mimetype){
         mime = mimetype.split('/')[0];
     }
-    return _.get(MIMETYPE_ICONS, mimetype, _.get(MIMETYPE_ICONS, mime)) || MIMETYPE_ICONS[''];
+    var classes = _.get(MIMETYPE_ICONS, mimetype, _.get(MIMETYPE_ICONS, mime)) || MIMETYPE_ICONS[''];
+    return classIcon(classes[0], classes[1]);
 }
 
 function getCategory(mimetype){
@@ -111,6 +124,7 @@ Entry = function(data) {
         this.path += '/';
     }
     this.category = getCategory(this.mimetype);
+    this.colorClass = getColorClass(this.mimetype);
 };
 
 

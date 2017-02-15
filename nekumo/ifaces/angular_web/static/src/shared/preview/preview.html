@@ -1,5 +1,7 @@
 <div id="previewGallery">
     <div ng-controller="previewGalleryCtrl">
+        <md-icon class="arrow arrow-left"
+                 md-font-set="mdi" md-font-icon="mdi-arrow-left-bold-circle-outline"></md-icon>
         <div ng-switch="player">
             <div ng-switch-when="video" id="video-preview">
                 <video-player src="entry.path" mime-type="entry.mimetype"></video-player>
@@ -11,5 +13,7 @@
                 <audio-player src="entry.path"></audio-player>
             </div>
         </div>
+        <md-icon class="arrow arrow-right"
+                 md-font-set="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
     </div>
 </div>

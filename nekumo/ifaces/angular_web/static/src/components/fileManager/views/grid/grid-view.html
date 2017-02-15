@@ -24,8 +24,8 @@
     <div class="files" layout="row" layout-wrap>
         <div ng-click="select(file, true)" class="md-whiteframe-1dp item file"
              ng-repeat="file in entries | filter:{'isDir': false} | filter:global.search" layout="column">
-            <div class="preview" style="background-image: url('/.nekumo/thumb{{file.path}}');">
-                <!-- <img ng-src="/.nekumo/thumb{{file.path}}"> -->
+            <div class="preview background-{{ file.colorClass }}"
+                 style="background-image: url('/.nekumo/thumb{{file.path}}');">
             </div>
 
             <div class="bottom md-background-bg md-hue-2" layout="row" layout-align="space-between center">

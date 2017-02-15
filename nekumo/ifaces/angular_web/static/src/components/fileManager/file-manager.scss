@@ -4,6 +4,7 @@ $layout-breakpoint-md:     1280px !default;
 $layout-breakpoint-sm:     960px !default;
 
 @import "../../libs/angular-material/layouts/angular-material.layout-attributes.scss";
+@import "../../shared/nekumo/variables";
 @import "sidenavs/details/details-sidenav";
 @import "sidenavs/main/main-sidenav";
 @import "views/grid/grid-view.scss";
@@ -77,46 +78,57 @@ $layout-breakpoint-sm:     960px !default;
         }
     }
 
-
     .icon-folder {
-
         &:before {
-            color: #FFB300;
+            color: $folder-color;
         }
     }
-
-    .icon-document, .icon-code {
-
+    .icon-document {
         &:before {
-            color: #1565C0;
+            color: $document-color;
         }
     }
-
-    .icon-spreadsheet, .icon-image {
-
+    .icon-code {
         &:before {
-            color: #4CAF50;
+            color: $code-color;
         }
     }
-
-    .icon-video, .icon-pdf {
+    .icon-spreadsheet {
         &:before {
-            color: #db4437;
-        }
-
-    }
-
-    .icon-audio, .icon-compressed {
-        &:before {
-            color: #fa811a;
+            color: $spreadsheet-color;
         }
     }
-
+    .icon-image {
+        &:before {
+            color: $image-color;
+        }
+    }
+    .icon-video {
+        &:before {
+            color: $video-icolor;
+        }
+    }
+    .icon-pdf {
+        &:before {
+            color: $pdf-icolor;
+        }
+    }
+    .icon-audio {
+        &:before {
+            color: $audio-color;
+        }
+    }
+    .icon-compressed {
+        &:before {
+            color: $compressed-color;
+        }
+    }
     .icon-unknown {
         &:before {
-            color: #9f9f9f;
+            color: $unknown-color;
         }
     }
+
 
     .icon-entries {
         &:before {

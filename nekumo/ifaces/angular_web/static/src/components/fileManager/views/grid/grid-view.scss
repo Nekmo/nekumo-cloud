@@ -1,3 +1,6 @@
+@import "../../../../shared/nekumo/variables";
+
+
 #file-manager {
     //.folders, .files {
     //    justify-content: center;
@@ -50,7 +53,39 @@
                     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
                     height: 143px;
                     width: 100%;
+
+                    &.background-folder {
+                        background-color: $folder-color;
+                    }
+                    &.background-document {
+                        background-color: $document-color;
+                    }
+                    &.background-code {
+                        background-color: $code-color;
+                    }
+                    &.background-spreadsheet {
+                        background-color: $spreadsheet-color;
+                    }
+                    &.background-image {
+                        background-color: $image-color;
+                    }
+                    &.background-video {
+                        background-color: $video-icolor;
+                    }
+                    &.background-pdf {
+                        background-color: $pdf-icolor;
+                    }
+                    &.background-audio {
+                        background-color: $audio-color;
+                    }
+                    &.background-compressed {
+                        background-color: $compressed-color;
+                    }
+                    &.background-unknown {
+                        background-color: $unknown-color;
+                    }
                 }
+
 
                 .bottom {
                     height: 64px;
