@@ -1,7 +1,7 @@
 /**
  * Created by nekmo on 22/01/17.
  */
-var module = angular.module('preview', ['videoPlayer', 'audioPlayer']);
+var module = angular.module('preview', ['videoPlayer', 'audioPlayer', 'chromecast']);
 var playerMimetypes = {
     'video': 'video',
     'audio': 'audio',

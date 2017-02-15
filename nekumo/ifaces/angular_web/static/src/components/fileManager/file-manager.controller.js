@@ -1,6 +1,6 @@
 
 var module = angular.module('app.file-manager', ['ngMaterial', 'fileManagerApi', 'utils', 'fmOptions', 'app.core',
-                                                 'cfp.hotkeys'
+                                                 'cfp.hotkeys', 'preview'
 ]);
 
 
@@ -19,7 +19,7 @@ module.directive('reverseIcon', function(){
 
 
 module.controller('FileManagerController', function($rootScope, $scope, $mdSidenav, $location, API, Entry, hotkeys,
-                                                    $q) {
+                                                    $q, $previewGallery) {
 
     $scope.scope = $scope;
 
@@ -63,6 +63,8 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
         $location.path(path);
     };
 
+    // Pulsación en uno de los elementos. Es necesario controlar si se está
+    // pulsando ctrl/shift al mismo tiempo
     $scope.select = function(item, clean, ev) {
         clean = ($scope.ctrlPulsed || $scope.shiftPulsed ? false : clean);
         function select(item, force_true){
@@ -91,6 +93,10 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
         }
         $scope.lastSelected = item;
 
+    };
+
+    $scope.getItemByPath = function (path) {
+        return _.find($scope.entries, {path: path});
     };
 
     $scope.indexOfEntry = function (item) {
@@ -160,9 +166,17 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
 
     $rootScope.$on('$locationChangeSuccess', function () {
         // console.log('location change');
-        $scope.currentDirectory = $location.path();
-        setEntries($location.path());
-        $scope.breadcrumb = getBreadcrumb($location.path());
+        var path = $location.path() || '/';
+        var directory = path.slice(0, _.lastIndexOf(path, '/') + 1);
+        if($scope.currentDirectory != directory){
+            $scope.currentDirectory = path;
+            setEntries($location.path());
+            $scope.breadcrumb = getBreadcrumb(path);
+        }
+        // TODO: es necesario además haber cargado el directorio, si fueese necesario
+        if(!_.endsWith(path, '/')){
+            $previewGallery($scope.getItemByPath(path));
+        }
     });
 
     hotkeys.add({
