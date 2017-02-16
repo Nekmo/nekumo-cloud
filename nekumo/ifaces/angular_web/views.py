@@ -91,7 +91,8 @@ def index(path='/'):
         return redirect(path + '/')
     elif 'media' in request.args:
         return render_template('media.html', entry=entry, debug=current_app.config['DEBUG'])
-    if entry.is_dir():
+    if entry.is_dir() or 'preview' in request.args:
+        entry = entry if entry.is_dir() else entry.parent()
         entries = entry.ls().sort('name')
         # return render_template('list.html', entry=entry, entries=entries, debug=current_app.config['DEBUG'])
         return render_template('fileManager.html', entry=entry, entries=entries, debug=current_app.config['DEBUG'])

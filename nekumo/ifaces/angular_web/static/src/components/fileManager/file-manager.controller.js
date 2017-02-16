@@ -143,13 +143,16 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
     function setEntries(path) {
         $scope.isLoaded = false;
         $scope.entries = [];
+        var deferred = $q.defer();
         API.list(path).then(function (data) {
             $scope.entries = data;
             $scope.isLoaded = true;
             getCurrentDirectoryData().then(function () {
                 $scope.cleanSelected();
             });
+            deferred.resolve();
         });
+        return deferred.promise;
     }
 
     function getBreadcrumb(path) {
@@ -166,7 +169,6 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
     }
 
     $rootScope.$on('$locationChangeSuccess', function () {
-        // console.log('location change');
         var path = $location.path() || '/';
         var directory = path.slice(0, _.lastIndexOf(path, '/') + 1);
         if($scope.previewOptions) {
@@ -176,20 +178,33 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
             // Si es el directorio actual, y está ya cargado, no hacer nada.
             return
         }
+        var directoryLoad = null;
         if($scope.currentDirectory != directory){
-            $scope.currentDirectory = path;
-            setEntries($location.path());
+            $scope.currentDirectory = directory;
+            directoryLoad = setEntries(directory);
             $scope.breadcrumb = getBreadcrumb(path);
         }
-        // TODO: es necesario además haber cargado el directorio, si fueese necesario
-        if(!_.endsWith(path, '/')){
-            // Es un archivo. Previsualizar
-            $scope.previewOptions = $previewGallery($scope.getItemByPath(path));
-            $scope.previewOptions.closeHandler = function () {
-                // Cuando se cierre, volver al listado.
-                $scope.navigateTo(directory);
-                $scope.previewOptions = null;
+
+        function preview() {
+            if(!_.endsWith(path, '/')){
+                // Es un archivo. Previsualizar
+                $location.search('preview');
+
+                $scope.previewOptions = $previewGallery($scope.getItemByPath(path));
+                $scope.previewOptions.closeHandler = function () {
+                    // Cuando se cierre, volver al listado.
+                    $scope.navigateTo(directory);
+                    $scope.previewOptions = null;
+                }
             }
+        }
+
+        if(directoryLoad){
+            directoryLoad.then(function () {
+                preview();
+            })
+        } else {
+            preview();
         }
     });
 

@@ -1,0 +1,47 @@
+.moment-picker {
+
+    .moment-picker-container {
+        width: 296px;
+        border: none;
+        border-radius: 2px;
+        box-shadow: $whiteframe-shadow-4dp;
+        margin-left: 0;
+        padding: 8px;
+
+        th,
+        td {
+            min-width: 0;
+            width: 40px;
+            height: 40px;
+            padding: 8px;
+            text-shadow: none;
+            border-radius: 35px;
+
+            &:hover {
+                background: material-color('grey', '100');
+                background-image: none;
+            }
+        }
+
+        td {
+            &.selected {
+                background: material-color('light-blue');
+                background-image: none;
+            }
+        }
+
+        .header-view {
+
+            th {
+                border-radius: 0;
+                white-space: nowrap;
+                width: auto;
+
+                &:first-child,
+                &:last-child {
+                    width: 20%;
+                }
+            }
+        }
+    }
+}
