@@ -125,6 +125,7 @@ Entry = function(data) {
     }
     this.category = getCategory(this.mimetype);
     this.colorClass = getColorClass(this.mimetype);
+
 };
 
 

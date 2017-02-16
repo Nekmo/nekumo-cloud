@@ -46,6 +46,7 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
     $scope.ctrlPulsed = false;  // Select items with ctrl
     $scope.shiftPulsed = false;  // Select items with shift
     $scope.lastSelected = null;  // Last selection for shift range
+    $scope.previewOptions = null;
 
     // Methods
     $scope.currentDirectory = null;
@@ -168,6 +169,13 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
         // console.log('location change');
         var path = $location.path() || '/';
         var directory = path.slice(0, _.lastIndexOf(path, '/') + 1);
+        if($scope.previewOptions) {
+            $scope.previewOptions.close();
+        }
+        if(path == directory && directory == $scope.currentDirectory){
+            // Si es el directorio actual, y está ya cargado, no hacer nada.
+            return
+        }
         if($scope.currentDirectory != directory){
             $scope.currentDirectory = path;
             setEntries($location.path());
@@ -175,7 +183,13 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
         }
         // TODO: es necesario además haber cargado el directorio, si fueese necesario
         if(!_.endsWith(path, '/')){
-            $previewGallery($scope.getItemByPath(path));
+            // Es un archivo. Previsualizar
+            $scope.previewOptions = $previewGallery($scope.getItemByPath(path));
+            $scope.previewOptions.closeHandler = function () {
+                // Cuando se cierre, volver al listado.
+                $scope.navigateTo(directory);
+                $scope.previewOptions = null;
+            }
         }
     });
 
