@@ -24,6 +24,37 @@
   display: block;
   background-position: center;
   background-size: cover; }
+  #media .media-entry.background-folder {
+    background-color: #FFB300;
+    overflow: hidden; }
+    #media .media-entry.background-folder h3 {
+      display: inline-block;
+      width: 100%;
+      max-height: 100%;
+      font-size: 14px;
+      font-weight: 400;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 2;
+      /* number of lines to show */ }
+  #media .media-entry.background-document {
+    background-color: #1565C0; }
+  #media .media-entry.background-code {
+    background-color: #1565C0; }
+  #media .media-entry.background-spreadsheet {
+    background-color: #4CAF50; }
+  #media .media-entry.background-image {
+    background-color: #4CAF50; }
+  #media .media-entry.background-video {
+    background-color: #db4437; }
+  #media .media-entry.background-pdf {
+    background-color: #db4437; }
+  #media .media-entry.background-audio {
+    background-color: #fa811a; }
+  #media .media-entry.background-compressed {
+    background-color: #fa811a; }
+  #media .media-entry.background-unknown {
+    background-color: #9f9f9f; }
 
 #media md-nav-bar.center nav {
   display: flex;
