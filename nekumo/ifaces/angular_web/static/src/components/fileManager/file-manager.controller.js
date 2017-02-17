@@ -190,7 +190,7 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
                 // Es un archivo. Previsualizar
                 $location.search('preview');
 
-                $scope.previewOptions = $previewGallery($scope.getItemByPath(path));
+                $scope.previewOptions = $previewGallery($scope.getItemByPath(path), $scope.entries);
                 $scope.previewOptions.closeHandler = function () {
                     // Cuando se cierre, volver al listado.
                     $scope.navigateTo(directory);

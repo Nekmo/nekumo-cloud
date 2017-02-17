@@ -14,18 +14,25 @@ function getPlayer(entry) {
 
 
 module.factory('$previewGallery', function ($templateRequest, $document, $compile, $rootScope, $chromecast) {
-    function PreviewOptions(entry){
+    function PreviewOptions(entry, entries){
         self = this;
 
         this.preview = null;
         this.backdrop = null;
 
         this.close = function () {
-            console.log('Close!');
             self.preview.remove();
             self.backdrop.remove();
             self.closeHandler();
         };
+
+        var scope = $rootScope.$new();
+        scope = angular.extend(scope, {
+            entry: entry,
+            player: getPlayer(entry),
+            close: self.close,
+            options: self
+        });
 
         this.closeHandler = function () {};
 
@@ -36,13 +43,24 @@ module.factory('$previewGallery', function ($templateRequest, $document, $compil
             body.append(self.backdrop);
         };
 
+        this.indexOfEntry = function () {
+            return entries.indexOf(entry);
+        };
+
+        this.prevEntry = function () {
+            var i = self.indexOfEntry() - 1;
+            i = (i >= 0 ? i : entries.length - 1);
+            scope.entry = entries[i];
+            entry = scope.entry;
+        };
+
+        this.nextEntry = function () {
+            var i = self.indexOfEntry() + 1;
+            scope.entry = entries[i % (entries.length)];
+            entry = scope.entry;
+        };
+
         this.start = function () {
-            var scope = $rootScope.$new();
-            scope = angular.extend(scope, {
-                entry: entry,
-                player: getPlayer(entry),
-                close: self.close
-            });
 
             self.setBackdrop(scope);
 
@@ -64,17 +82,14 @@ module.factory('$previewGallery', function ($templateRequest, $document, $compil
         this.start();
     }
 
-    return function(entry){
-        return new PreviewOptions(entry);
+    return function(entry, entries){
+        return new PreviewOptions(entry, entries);
     }
 });
 
 module.controller('previewGalleryCtrl', function ($scope, $document, $compile) {
 
-    // $scope.close = function () {
-    //     $scope.backdrop.remove();
-    //     $scope.preview.remove();
-    // };
+    // TODO: no se está aplicando el cambio del entry al reproducitor
 
     $scope.$on('chromecastActivated', function () {
         $scope.close();

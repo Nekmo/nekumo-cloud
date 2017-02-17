@@ -77,6 +77,6 @@ module.directive('grid', function () {
 
 module.controller('gridCtrl', function ($scope, $previewGallery) {
     $scope.preview = function (entry) {
-        $previewGallery(entry);
+        $previewGallery(entry, $scope.entries);
     }
 });
