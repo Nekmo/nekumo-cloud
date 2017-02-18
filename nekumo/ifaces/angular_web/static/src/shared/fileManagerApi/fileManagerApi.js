@@ -106,6 +106,7 @@ Entry = function(data) {
     });
     angular.extend(this, data);
 
+    // this.mimetype = this.mimetype || '';
     this.modified = new Date(data.mtime);
     this.opened = new Date(data.atime);
     this.isDir = this.type == 'directory';

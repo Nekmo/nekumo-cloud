@@ -86,7 +86,7 @@ class FSNekumoEntry(NekumoEntryMixin, Entry, NekumoEntryBase):
         return NekumoLocalDownload(self.gateway_path)
 
     def parent(self):
-        path = os.path.split(self.path)[0]
+        path = os.path.split(self.path)[0].rstrip('/') + '/'
         if self.root and not path.startswith(self.root):
             return None
         return self.get_classes()['Dir'](path, gateway=self.gateway)

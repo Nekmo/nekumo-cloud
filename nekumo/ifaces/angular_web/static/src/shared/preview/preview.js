@@ -26,13 +26,20 @@ module.factory('$previewGallery', function ($templateRequest, $document, $compil
             self.closeHandler();
         };
 
-        var scope = $rootScope.$new();
-        scope = angular.extend(scope, {
-            entry: entry,
-            player: getPlayer(entry),
-            close: self.close,
-            options: self
-        });
+        // TODO: no se está aplicando el cambio del tipo de entry. No se cambia de player
+        // cuando se necesita
+        var scope;
+        this.setScope = function () {
+            scope = $rootScope.$new();
+            scope = angular.extend(scope, {
+                entry: entry,
+                player: getPlayer(entry),
+                close: self.close,
+                options: self
+            });
+        };
+        this.setScope();
+
 
         this.closeHandler = function () {};
 
@@ -46,6 +53,7 @@ module.factory('$previewGallery', function ($templateRequest, $document, $compil
         this.indexOfEntry = function () {
             return entries.indexOf(entry);
         };
+
 
         this.prevEntry = function () {
             var i = self.indexOfEntry() - 1;

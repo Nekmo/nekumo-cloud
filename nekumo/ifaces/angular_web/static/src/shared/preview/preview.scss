@@ -59,3 +59,37 @@
     background-color: black;
     opacity: .8;
 }
+
+#no-preview {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 700px;
+    height: 300px;
+
+    .icon {
+        background-color: #FFB300;
+        md-icon {
+            color: #f9f9f9;
+            font-size: 150px;
+            height: auto;
+            width: auto;
+        }
+    }
+
+    .body {
+        padding-left: 20px;
+
+        h2 {
+            font-size: 3.5rem;
+            margin-bottom: 0;
+        }
+
+        h3 {
+            color: #838383;
+        }
+        background-color: #f9f9f9;
+    }
+}

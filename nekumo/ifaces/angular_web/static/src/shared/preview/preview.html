@@ -12,6 +12,17 @@
             <div ng-switch-when="audio" id="audio-preview">
                 <audio-player src="entry.path"></audio-player>
             </div>
+            <div ng-switch-default>
+                <div id="no-preview" layout="row" layout-wrap>
+                    <div flex="30" layout="row" class="icon" layout-align="center center">
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-eye-off"></md-icon>
+                    </div>
+                    <div flex=70" class="body">
+                        <h2>No preview available</h2>
+                        <h3>{{ entry.name }}</h3>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- <span style="color: white; position: fixed; font-size: 40px;">{{ entry.path }}</span> -->
         <md-icon class="arrow arrow-right" ng-click="options.nextEntry();"

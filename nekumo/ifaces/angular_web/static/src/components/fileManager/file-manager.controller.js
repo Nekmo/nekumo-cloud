@@ -182,7 +182,7 @@ module.controller('FileManagerController', function($rootScope, $scope, $mdSiden
         if($scope.currentDirectory != directory){
             $scope.currentDirectory = directory;
             directoryLoad = setEntries(directory);
-            $scope.breadcrumb = getBreadcrumb(path);
+            $scope.breadcrumb = getBreadcrumb(directory);
         }
 
         function preview() {

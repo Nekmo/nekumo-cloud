@@ -11,7 +11,8 @@ module.directive('media', function () {
     }
 });
 
-module.controller('mediaCtrl', function ($rootScope, $scope, $previewGallery, $chromecastPlayer, $location, API) {
+module.controller('mediaCtrl', function ($rootScope, $scope, $previewGallery, $chromecastPlayer, $location,
+                                         $filter, API) {
 
     $chromecastPlayer();
     
@@ -38,7 +39,8 @@ module.controller('mediaCtrl', function ($rootScope, $scope, $previewGallery, $c
                 var entries = $scope[item.category + 'Entries'];
                 entries = (entries !== undefined ? entries : $scope.otherEntries);
                 entries.push(item);
-            })
+            });
+            $scope.otherEntries = $filter('orderBy')($scope.otherEntries, ['-isDir', 'name']);
         });
     }
 

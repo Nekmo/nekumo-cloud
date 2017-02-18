@@ -111,9 +111,20 @@
                 <grid entries="audioEntries" title="Audios"
                       is-selected="category == 'audios'"
                       ng-if="['audios', 'all'].indexOf(category) >= 0"></grid>
+
+                <!-- TODO: Loop infinito -->
+                <!--
                 <grid entries="otherEntries | orderBy:['-isDir', 'name']" title="Others"
                       is-selected="category == 'others'"
                       ng-if="['others', 'all'].indexOf(category) >= 0"></grid>
+                      -->
+
+                <!-- TODO:  | orderBy:['-isDir', 'name'] (loop infinito) -->
+                <grid entries="otherEntries" title="Others"
+                      ng-if="['others', 'all'].indexOf(category) >= 0"
+                                      is-selected="category == 'others'"
+                                      ></grid>
+
                 <ng-include src="'/.nekumo/static/src/components/media/no-results.html'"
                     ng-if="category == 'all' && !imageEntries && !videoEntries && !audioEntries &&
                     !otherEntries"></ng-include>
