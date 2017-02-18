@@ -35,6 +35,7 @@
     "angular-messages": "1.5.10",
     "angular-duration-format": "^1.0.1",
     "mdi": "^1.8.36",
-    "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0"
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0",
+    "system.js": "^0.20.9"
   }
 }
