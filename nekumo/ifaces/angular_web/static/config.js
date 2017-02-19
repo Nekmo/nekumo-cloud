@@ -20,11 +20,14 @@ System.config({
     "angular-material": "github:angular/bower-material@1.1.3",
     "angular-socket-io": "npm:angular-socket-io@0.7.0",
     "balliegojr/angular-event-dispatcher": "github:balliegojr/angular-event-dispatcher@0.0.3",
+    "ccampbell/mousetrap": "github:ccampbell/mousetrap@1.6.0",
+    "chieffancypants/angular-hotkeys": "github:chieffancypants/angular-hotkeys@1.7.0",
     "components": "src/components",
     "danielstern/ngAudio": "github:danielstern/ngAudio@1.7.3",
     "epayet/angular-event-dispatcher": "github:epayet/angular-event-dispatcher@1.0.5",
     "erykpiast/angular-duration-format": "github:erykpiast/angular-duration-format@1.0.1",
     "lodash": "npm:lodash@4.17.4",
+    "ocombe/ocLazyLoad": "github:ocombe/ocLazyLoad@1.1.0",
     "shared": "src/shared",
     "socket.io-client": "github:socketio/socket.io-client@1.7.2",
     "sprintf-js": "npm:sprintf-js@1.0.3",
@@ -43,6 +46,9 @@ System.config({
       "angular-animate": "github:angular/bower-angular-animate@1.6.2",
       "angular-aria": "github:angular/bower-angular-aria@1.6.2",
       "css": "github:systemjs/plugin-css@0.1.32"
+    },
+    "github:chieffancypants/angular-hotkeys@1.7.0": {
+      "angular": "github:angular/bower-angular@1.6.2"
     },
     "npm:videogular-buffering@1.4.4": {
       "videogular": "npm:videogular@1.4.4"

@@ -4,13 +4,12 @@
 
 Promise.all([
     require('angular'),
-
-    require('shared/videoPlayer/videoPlayer'),
-    require('shared/audioPlayer/audioPlayer'),
-    require('shared/chromecast/chromecast')
+    require('ocombe/ocLazyLoad')
 ]).then(function () {
+    var sprintf = require('sprintf-js').sprintf;
 
-    var module = angular.module('preview', ['videoPlayer', 'audioPlayer', 'chromecast']);
+    // var module = angular.module('preview', ['videoPlayer', 'audioPlayer', 'chromecast']);
+    var module = angular.module('preview', ['nekumo']);
     var playerMimetypes = {
         'video': 'video',
         'audio': 'audio',
@@ -22,7 +21,7 @@ Promise.all([
     }
 
 
-    module.factory('$previewGallery', function ($templateRequest, $document, $compile, $rootScope, $chromecast) {
+    module.factory('$previewGallery', function ($templateRequest, $document, $compile, $rootScope, lazySystem) {
         function PreviewOptions(entry, entries) {
             self = this;
 
@@ -38,11 +37,13 @@ Promise.all([
             // TODO: no se está aplicando el cambio del tipo de entry. No se cambia de player
             // cuando se necesita
             var scope;
+            var player = getPlayer(entry);
+            // TODO:
             this.setScope = function () {
                 scope = $rootScope.$new();
                 scope = angular.extend(scope, {
                     entry: entry,
-                    player: getPlayer(entry),
+                    player: player,
                     close: self.close,
                     options: self
                 });
@@ -78,6 +79,12 @@ Promise.all([
                 entry = scope.entry;
             };
 
+            this.loadPlayer = function () {
+                // return lazySystem.load(sprintf('./.nekumo/static/src/shared/%1$sPlayer/%1$sPlayer', player),
+                // player + 'Player');
+                return lazySystem.load(sprintf('shared/%1$sPlayer/%1$sPlayer', player), player + 'Player');
+            };
+
             this.start = function () {
 
                 self.setBackdrop(scope);
@@ -90,10 +97,12 @@ Promise.all([
                     var preview = angular.element(html);
 
                     // Puedo usar justo para este punto ocLazy?
-                    $compile(preview)(scope);
-                    body.append(preview);
+                    self.loadPlayer().then(function () {
+                        $compile(preview)(scope);
+                        body.append(preview);
+                        self.preview = preview;
+                    });
 
-                    self.preview = preview;
                 });
             };
 
