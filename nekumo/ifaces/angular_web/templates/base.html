@@ -24,38 +24,13 @@
                 </md-content>
             </div>
         </div>
-        <script src="{{ url_for('static', filename='src/libs/system.js') }}"></script>
-        <script src="{{ url_for('static', filename='config.js') }}"></script>
-
-        <!--
-        <script src="{{ url_for('static', filename='src/libs/angular/angular.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='src/libs/jquery/dist/jquery.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='src/libs/sprintf/dist/sprintf.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='src/libs/lodash/dist/lodash.min.js') }}"></script>
-
-        <script
-                src="{{ url_for('static', filename='src/libs/angular-hotkeys/build/hotkeys.min.js') }}"></script>
-
-        <script src="{{ url_for('static', filename='src/libs/angular-socket-io/socket.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='src/libs/socket.io-client/dist/socket.io.js') }}"></script>
-
-        <script src="{{ url_for('static', filename='src/libs/angular-animate/angular-animate.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='src/libs/angular-material/angular-material.min.js') }}"></script>
-
-        -->
-
-        <!--
-        <script src="{{ url_for('static', filename='src/shared/theme/theme.js') }}"></script>
-
-        <script src="{{ url_for('static', filename='src/shared/nekumo/nekumo.js') }}"></script> -->
-
-        -->
-
-        <!--
-        <script>
-          SystemJS.import('/.nekumo/static/src/shared/nekumo/nekumo.js');
-        </script>
-        -->
+        {% if debug %}
+            <script src="{{ url_for('static', filename='src/libs/system.js') }}"></script>
+            <script src="{{ url_for('static', filename='config.js') }}"></script>
+        {% else %}
+            <script src="{{ url_for('static', filename='dist/system-build.js') }}"></script>
+            <script src="{{ url_for('static', filename='dist/common.js') }}"></script>
+        {% endif %}
 
         {% block js %}{% endblock %}
     </body>

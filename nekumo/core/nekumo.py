@@ -9,12 +9,13 @@ class Nekumo(object):
     ifaces = None
     _id = None
 
-    def __init__(self, gateways=None):
+    def __init__(self, gateways=None, debug=False):
         if gateways:
             self.gateways = list(self.get_gateways(gateways))
         self.set_nekmo_dir()
         self.session_maker = self.get_db_session_maker()
         self.session = self.session_maker()
+        self.debug = debug
 
     def set_nekmo_dir(self):
         self.nekumo_dir = os.path.expanduser('~/.local/nekumo/envs/{}'.format(self.id))

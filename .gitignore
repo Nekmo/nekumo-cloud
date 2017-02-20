@@ -17,6 +17,7 @@ develop-eggs/
 downloads/
 eggs/
 .eggs/
+/nekumo/ifaces/angular_web/static/src/libs
 lib64/
 parts/
 sdist/

@@ -28,6 +28,10 @@
       "videogular-controls": "npm:videogular-controls@^1.4.4",
       "videogular-overlay-play": "npm:videogular-overlay-play@^1.4.4",
       "videogular-themes-default": "npm:videogular-themes-default@^1.4.4"
+    },
+    "devDependencies": {
+      "--help": "npm:babel-core@^5.8.24",
+      "--help-runtime": "npm:babel-runtime@^5.8.24"
     }
   }
 }

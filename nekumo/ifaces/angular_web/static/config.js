@@ -12,6 +12,7 @@ System.config({
     "github:*": "src/libs/github/*",
     "npm:*": "src/libs/npm/*"
   },
+  defaultExtension: "js",
 
   map: {
     "Templarian/MaterialDesign-Webfont": "github:Templarian/MaterialDesign-Webfont@1.8.36",
@@ -65,7 +66,6 @@ System.config({
       "videogular": "npm:videogular@1.4.4"
     },
     "npm:videogular@1.4.4": {
-      // "angular": "npm:angular@1.6.2",
       "angular": "github:angular/bower-angular@1.6.2",
       "angular-sanitize": "npm:angular-sanitize@1.6.2"
     }

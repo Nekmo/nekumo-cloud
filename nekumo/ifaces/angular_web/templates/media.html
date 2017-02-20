@@ -139,38 +139,16 @@
 {% endblock %}
 
 {% block js %}
-    <!--
-    <script src="{{ url_for('static', filename='src/libs/angular-duration-format/dist/angular-duration-format.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/angular-aria/angular-aria.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/angular-messages/angular-messages.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/angular-sanitize/angular-sanitize.min.js') }}"></script>
-
-    <script src="{{ url_for('static', filename='src/libs/videogular/videogular.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/videogular-buffering/vg-buffering.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/videogular-controls/vg-controls.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/videogular-overlay-play/vg-overlay-play.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/shared/videoPlayer/videoPlayer.js') }}"></script>
-
-    <script src="{{ url_for('static', filename='src/libs/videogular/videogular.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/shared/audioPlayer/audioPlayer.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/libs/angular-audio/app/angular.audio.js') }}"></script>
-
-
-    <script src="{{ url_for('static', filename='src/libs/angular-event-dispatcher/dist/angular-event-dispatcher.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/shared/chromecast/chromecast.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/shared/preview/preview.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/shared/fileManagerApi/fileManagerApi.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/shared/utils/utils.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/components/fileManager/file-manager.controller.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/components/fileManager/manager.js') }}"></script>
-    <script src="{{ url_for('static', filename='src/components/fileManager/options/options.js') }}"></script>
-    -->
-
-    <!-- <script src="{{ url_for('static', filename='src/components/media/media.js') }}"></script> -->
+    {% if not debug %}
+        <script src="{{ url_for('static', filename='dist/media.js') }}"></script>
+    {% endif %}
     <script>
-      SystemJS.import('/.nekumo/static/src/components/media/media.js');
+    {% if debug %}
+    SystemJS.import('/.nekumo/static/src/components/media/media.js');
+    {% else %}
+        SystemJS.import('src/components/media/media.js');
+    {% endif %}
     </script>
-
     <!-- Chromecast -->
     <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 

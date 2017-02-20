@@ -75,6 +75,11 @@ def serve_file(entry):
         return send_file_partial(download.local_path)
 
 
+@web_bp.context_processor
+def inject_user():
+    return dict(debug=current_app.nekumo.debug)
+
+
 @web_bp.route('/slow', methods=['GET'])
 def slow():
     time.sleep(100)
@@ -90,12 +95,12 @@ def index(path='/'):
     if entry.is_dir() and not path.endswith('/'):
         return redirect(path + '/')
     elif 'media' in request.args:
-        return render_template('media.html', entry=entry, debug=current_app.config['DEBUG'])
+        return render_template('media.html', entry=entry)
     if entry.is_dir() or 'preview' in request.args:
         entry = entry if entry.is_dir() else entry.parent()
         entries = entry.ls().sort('name')
         # return render_template('list.html', entry=entry, entries=entries, debug=current_app.config['DEBUG'])
-        return render_template('fileManager.html', entry=entry, entries=entries, debug=current_app.config['DEBUG'])
+        return render_template('fileManager.html', entry=entry, entries=entries)
     else:
         return serve_file(entry)
 

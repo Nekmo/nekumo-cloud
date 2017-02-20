@@ -21,6 +21,7 @@ class NekumoManagement(object):
     def __init__(self):
         self.parser = argparse.ArgumentParser(description=__doc__)
         self.parser.add_argument('gateway', nargs='+')
+        self.parser.add_argument('--debug', action='store_true')
         # self.gateway_classes = self.get_gateway_classes()
         # self.add_parsers()
 
@@ -41,7 +42,7 @@ class NekumoManagement(object):
         if argv is None:
             argv = sys.argv
         args = self.parser.parse_args(argv[1:])
-        self.nekumo = Nekumo(args.gateway)
+        self.nekumo = Nekumo(args.gateway, debug=args.debug)
         self.nekumo.ifaces = list(self.parse_ifaces(args))
         if 'NEKUMO_DEBUG_IFACE' not in os.environ:
             loop = asyncio.get_event_loop()
