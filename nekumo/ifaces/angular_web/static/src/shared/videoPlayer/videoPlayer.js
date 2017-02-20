@@ -6,7 +6,8 @@ Promise.all([
     require('videogular'),
     require("videogular-buffering"),
     require("videogular-controls"),
-    require("videogular-overlay-play")
+    require("videogular-overlay-play"),
+    require("shared/chromecast/chromecast")
 ]).then(function () {
 
     var module = angular.module('videoPlayer', [
@@ -14,7 +15,8 @@ Promise.all([
         "com.2fdevs.videogular",
         "com.2fdevs.videogular.plugins.controls",
         "com.2fdevs.videogular.plugins.overlayplay",
-        "com.2fdevs.videogular.plugins.buffering"
+        "com.2fdevs.videogular.plugins.buffering",
+        "chromecast"
     ]);
 
     module.directive('videoPlayer', function () {

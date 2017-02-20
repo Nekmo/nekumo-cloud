@@ -14,6 +14,7 @@ System.config({
   },
 
   map: {
+    "Templarian/MaterialDesign-Webfont": "github:Templarian/MaterialDesign-Webfont@1.8.36",
     "angular": "github:angular/bower-angular@1.6.2",
     "angular-animate": "github:angular/bower-angular-animate@1.6.2",
     "angular-aria": "github:angular/bower-angular-aria@1.6.2",
@@ -35,6 +36,7 @@ System.config({
     "videogular-buffering": "npm:videogular-buffering@1.4.4",
     "videogular-controls": "npm:videogular-controls@1.4.4",
     "videogular-overlay-play": "npm:videogular-overlay-play@1.4.4",
+    "videogular-themes-default": "npm:videogular-themes-default@1.4.4",
     "github:angular/bower-angular-animate@1.6.2": {
       "angular": "github:angular/bower-angular@1.6.2"
     },
@@ -59,8 +61,12 @@ System.config({
     "npm:videogular-overlay-play@1.4.4": {
       "videogular": "npm:videogular@1.4.4"
     },
+    "npm:videogular-themes-default@1.4.4": {
+      "videogular": "npm:videogular@1.4.4"
+    },
     "npm:videogular@1.4.4": {
-      "angular": "npm:angular@1.6.2",
+      // "angular": "npm:angular@1.6.2",
+      "angular": "github:angular/bower-angular@1.6.2",
       "angular-sanitize": "npm:angular-sanitize@1.6.2"
     }
   }
