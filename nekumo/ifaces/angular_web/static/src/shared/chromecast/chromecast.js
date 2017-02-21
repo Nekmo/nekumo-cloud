@@ -288,7 +288,8 @@ Promise.all([
 
     module.factory('$chromecastPlayer', function ($document, $templateRequest, $compile, $rootScope, $chromecast) {
         return function () {
-            $templateRequest("/.nekumo/static/src/shared/chromecast/player.html").then(function (html) {
+            var tUrl = require("src/shared/chromecast/player.html!ng-template").templateUrl;
+            $templateRequest(tUrl).then(function (html) {
                 var body = $document.find('body').eq(0);
 
                 var preview = angular.element(html);

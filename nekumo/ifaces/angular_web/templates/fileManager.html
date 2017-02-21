@@ -10,7 +10,7 @@
 
         <!-- MAIN SIDENAV (EXTRA SIDENAV) -->
         <md-sidenav class="main-sidenav" md-component-id="main-sidenav"
-                    ng-include="'/.nekumo/static/src/components/fileManager/sidenavs/main/main-sidenav.html'" ms-scroll
+                    ng-include="fmTemplates.main_sidenav.templateUrl" ms-scroll
                     ms-sidenav-helper>
         </md-sidenav>
         <!-- / MAIN SIDENAV (EXTRA SIDENAV) -->
@@ -128,9 +128,9 @@
 
                 </div>
                 <div ng-if="entries.length && currentView === 'grid'"
-                     ng-include="'/.nekumo/static/src/components/fileManager/views/grid/grid-view.html'"></div>
+                     ng-include="fmTemplates.grid_view.templateUrl"></div>
                 <div ng-if="entries.length && currentView === 'list'"
-                     ng-include="'/.nekumo/static/src/components/fileManager/views/list/list-view.html'"></div>
+                     ng-include="fmTemplates.list_view.templateUrl"></div>
             </md-content>
             <!-- / CONTENT -->
 
@@ -140,7 +140,7 @@
         <!-- SIDENAV -->
         <md-sidenav class="sidenav details-sidenav md-sidenav-right" md-is-locked-open="$mdMedia('gt-md')"
                     md-component-id="details-sidenav" ng-controller="DetailsSidenavCtrl"
-                    ng-include="'/.nekumo/static/src/components/fileManager/sidenavs/details/details-sidenav.html'"
+                    ng-include="fmTemplates.details_sidenav.templateUrl"
                     ms-scroll ms-sidenav-helper>
         </md-sidenav>
         <!-- / SIDENAV -->

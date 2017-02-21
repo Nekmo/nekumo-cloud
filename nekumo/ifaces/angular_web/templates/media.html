@@ -8,7 +8,7 @@
 
         <!-- MAIN SIDENAV (EXTRA SIDENAV) -->
         <md-sidenav class="main-sidenav" md-component-id="main-sidenav"
-                    ng-include="'/.nekumo/static/src/components/fileManager/sidenavs/main/main-sidenav.html'" ms-scroll
+                    ng-include="templates.main_sidenav.templateUrl" ms-scroll
                     ms-sidenav-helper>
         </md-sidenav>
         <!-- / MAIN SIDENAV (EXTRA SIDENAV) -->
@@ -20,7 +20,7 @@
             <div class="header md-accent-bg">
 
                 <div class="header-content" layout="column" layout-align="space-between">
-                    <div ng-include="'/.nekumo/static/src/shared/nekumo/header.html'"></div>
+                    <div ng-include="templates.header.templateUrl"></div>
 
                     <!-- BREADCRUMB -->
                     <div class="breadcrumb text-truncate" layout="row" layout-align="start center">
@@ -125,7 +125,7 @@
                                       is-selected="category == 'others'"
                                       ></grid>
 
-                <ng-include src="'/.nekumo/static/src/components/media/no-results.html'"
+                <ng-include src="templates.no_results.templateUrl"
                     ng-if="category == 'all' && !imageEntries && !videoEntries && !audioEntries &&
                     !otherEntries"></ng-include>
             </md-content>

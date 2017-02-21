@@ -189,7 +189,7 @@ module.directive('options', function () {
             entry: '=',
             entries: '='
         },
-        templateUrl: '/.nekumo/static/src/components/fileManager/options/options.html'
+        templateUrl: require('src/components/fileManager/options/options.html!ng-template').templateUrl
     }
 });
 

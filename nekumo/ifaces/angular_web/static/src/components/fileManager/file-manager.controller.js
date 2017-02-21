@@ -34,6 +34,12 @@ Promise.all([
                                                         $q, $previewGallery) {
 
         $scope.scope = $scope;
+        $scope.fmTemplates = {
+            main_sidenav: require('src/components/fileManager/sidenavs/main/main-sidenav.html!ng-template'),
+            grid_view: require('src/components/fileManager/views/grid/grid-view.html!ng-template'),
+            list_view: require('src/components/fileManager/views/list/list-view.html!ng-template'),
+            details_sidenav: require('src/components/fileManager/sidenavs/details/details-sidenav.html!ng-template')
+        };
 
         // Data
         $scope.root = '/';  // Iface root

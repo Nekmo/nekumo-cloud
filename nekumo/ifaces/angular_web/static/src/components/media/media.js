@@ -26,7 +26,17 @@ Promise.all([
     module.controller('mediaCtrl', function ($rootScope, $scope, $previewGallery, $chromecastPlayer, $location,
                                              $filter, API) {
 
+        // $scope.template_main_sidenav =
+        // require('/.nekumo/static/src/components/fileManager/sidenavs/main/main-sidenav.html!ng-template');
+        // $scope.template_no_results = require('/.nekumo/static/src/components/media/no-results.html!ng-template');
+
         $chromecastPlayer();
+        $scope.templates = {
+            // TODO:
+            //main_sidenav:require('/.nekumo/static/src/components/fileManager/sidenavs/main/main-sidenav.html!ng-template'),
+            main_sidenav: require('src/components/fileManager/sidenavs/main/main-sidenav.html!ng-template'),
+            no_results: require('src/components/media/no-results.html!ng-template')
+        };
 
         $scope.currentDirectory = null;
         $scope.category = 'all';
@@ -85,7 +95,7 @@ Promise.all([
                 title: '@',
                 isSelected: '='
             },
-            templateUrl: '/.nekumo/static/src/components/media/grid.html'
+            templateUrl: require('src/components/media/grid.html!ng-template').templateUrl
         }
     });
 

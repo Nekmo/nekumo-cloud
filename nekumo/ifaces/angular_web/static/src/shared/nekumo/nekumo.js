@@ -2,7 +2,11 @@
  * Created by nekmo on 31/01/17.
  */
 
-System.import('github:angular/bower-angular@1.6.2').then(function () {
+Promise.all([
+    require('angular'),
+    require('ocombe/ocLazyLoad'),
+    require('angular-material')
+]).then(function () {
     var module = angular.module('nekumo', ['ngMaterial', 'oc.lazyLoad']);
 
     module.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
@@ -26,6 +30,10 @@ System.import('github:angular/bower-angular@1.6.2').then(function () {
     });
 
     module.controller('nekumoCtrl', function ($scope, $mdSidenav) {
+        $scope.templates = {
+            header: require('src/shared/nekumo/header.html!ng-template')
+        };
+
         $scope.toggleSidenav = function(sidenavId){
             $mdSidenav(sidenavId).toggle();
         };
