@@ -2,7 +2,9 @@ Promise.all([
     require('angular'),
     require('angular-material'),
     require('balliegojr/angular-event-dispatcher/build/event-dispatcher.js'),
-    require('erykpiast/angular-duration-format')
+    require('erykpiast/angular-duration-format'),
+
+    require('src/shared/chromecast/chromecast.css!css')
 ]).then(function () {
     // Copyright 2016 Google Inc. All Rights Reserved.
     //

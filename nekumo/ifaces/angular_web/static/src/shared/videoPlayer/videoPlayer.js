@@ -7,7 +7,10 @@ Promise.all([
     require("videogular-buffering"),
     require("videogular-controls"),
     require("videogular-overlay-play"),
-    require("shared/chromecast/chromecast")
+    require("shared/chromecast/chromecast"),
+
+    require('src/libs/npm/videogular-themes-default@1.4.4/videogular.css!css'),
+    require('src/shared/videoPlayer/chromecast.css!css')
 ]).then(function () {
 
     var module = angular.module('videoPlayer', [

@@ -10,6 +10,10 @@
         <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> -->
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <base href="/">
+
+        {% if not debug %}
+        <link href="{{ url_for('static', filename='dist/common.css') }}" rel="stylesheet">
+        {% endif %}
         {% block extra_head %}
             {% block css %}{% endblock %}
         {% endblock %}

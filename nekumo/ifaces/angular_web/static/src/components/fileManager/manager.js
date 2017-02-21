@@ -3,7 +3,11 @@ Promise.all([
     require('angular'),
     require('shared/nekumo/nekumo'),
     require('components/fileManager/file-manager.controller'),
-    require('shared/utils/utils')
+    require('shared/utils/utils'),
+
+    require('src/shared/theme/theme.css!css'),
+    require('src/components/fileManager/file-manager.css!css'),
+    require('src/components/fileManager/options/options.css!css')
 
     // Html templates
     // require('/.nekumo/static/src/components/fileManager/sidenavs/main/main-sidenav.html!ng-template'),

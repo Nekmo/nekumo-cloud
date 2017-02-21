@@ -9,7 +9,10 @@ Promise.all([
     require('shared/nekumo/nekumo'),
     require('shared/preview/preview'),
     require('shared/chromecast/chromecast'),
-    require('shared/fileManagerApi/fileManagerApi')
+    require('shared/fileManagerApi/fileManagerApi'),
+
+    require('src/shared/theme/theme.css!css'),
+    require('src/components/media/media.css!css')
 ]).then(function () {
     var _ = require('lodash');
     var module = angular.module('mediaApp', ['nekumo', 'preview', 'chromecast', 'fileManagerApi']);

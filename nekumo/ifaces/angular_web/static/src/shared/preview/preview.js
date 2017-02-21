@@ -4,7 +4,9 @@
 
 Promise.all([
     require('angular'),
-    require('ocombe/ocLazyLoad')
+    require('ocombe/ocLazyLoad'),
+
+    require('src/shared/preview/preview.css!css')
 ]).then(function () {
     var sprintf = require('sprintf-js').sprintf;
 

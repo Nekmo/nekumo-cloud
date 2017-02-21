@@ -13,6 +13,9 @@
 @import 'typography';
 @import "extras";
 
+$mdi-font-path: "../../libs/github/Templarian/MaterialDesign-Webfont@1.8.36/fonts";
+@import "../../libs/github/Templarian/MaterialDesign-Webfont@1.8.36/scss/materialdesignicons";
+
 //@import 'plugins/angular-google-map.scss';
 //@import 'plugins/angular-moment-picker.scss';
 //@import 'plugins/c3.scss';
