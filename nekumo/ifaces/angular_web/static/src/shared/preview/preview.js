@@ -2,6 +2,8 @@
  * Created by nekmo on 22/01/17.
  */
 
+var PLAYER_URL = (debug ? 'shared/%1$sPlayer/%1$sPlayer': 'dist/%1$sPlayer');
+
 Promise.all([
     require('angular'),
     require('ocombe/ocLazyLoad'),
@@ -91,7 +93,7 @@ Promise.all([
                 // return lazySystem.load(sprintf('./.nekumo/static/src/shared/%1$sPlayer/%1$sPlayer', player),
                 // player + 'Player');
                 return lazySystem.load(
-                    sprintf('shared/%1$sPlayer/%1$sPlayer', externalPlayer),
+                    sprintf(PLAYER_URL, externalPlayer),
                     externalPlayer + 'Player'
                 );
             };

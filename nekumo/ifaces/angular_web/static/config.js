@@ -1,6 +1,5 @@
 System.config({
     baseURL: "/.nekumo/static/",
-    separateCSS: true,
     defaultJSExtensions: true,
     transpiler: false,
     babelOptions: {
@@ -13,15 +12,18 @@ System.config({
         "github:*": "src/libs/github/*",
         "npm:*": "src/libs/npm/*"
     },
+    separateCSS: true,
     defaultExtension: "js",
 
     map: {
+        "./angular-material.css!css": "@empty",
         "Templarian/MaterialDesign-Webfont": "github:Templarian/MaterialDesign-Webfont@1.8.36",
         "angular": "github:angular/bower-angular@1.6.2",
         "angular-animate": "github:angular/bower-angular-animate@1.6.2",
         "angular-aria": "github:angular/bower-angular-aria@1.6.2",
         "angular-material": "github:angular/bower-material@1.1.3",
         "angular-socket-io": "npm:angular-socket-io@0.7.0",
+        "angular/bower-material": "github:angular/bower-material@1.1.3",
         "balliegojr/angular-event-dispatcher": "github:balliegojr/angular-event-dispatcher@0.0.3",
         "ccampbell/mousetrap": "github:ccampbell/mousetrap@1.6.0",
         "chieffancypants/angular-hotkeys": "github:chieffancypants/angular-hotkeys@1.7.0",
@@ -73,7 +75,4 @@ System.config({
             "angular-sanitize": "npm:angular-sanitize@1.6.2"
         }
     }
-    // meta: {
-    //     '*.css': { loader: 'css' }
-    // }
 });

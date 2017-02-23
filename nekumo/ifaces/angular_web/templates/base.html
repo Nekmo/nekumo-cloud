@@ -28,6 +28,9 @@
                 </md-content>
             </div>
         </div>
+        <script>
+            var debug = {{ debug|tojson|safe }};
+        </script>
         {% if debug %}
             <script src="{{ url_for('static', filename='src/libs/system.js') }}"></script>
             <script src="{{ url_for('static', filename='config.js') }}"></script>

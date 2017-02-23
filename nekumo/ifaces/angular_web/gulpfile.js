@@ -3,13 +3,9 @@ var gulp = require('gulp'),
     ngmin = require('gulp-ngmin'),
     concat = require('gulp-concat'),
     replace = require('gulp-replace'),
+    purge = require('gulp-css-purge'),
+    cleanCSS = require('gulp-clean-css'),
     uglify = require('gulp-uglify');
-
-var JS_FILES = [
-    'static/dist/common.js',
-    'static/dist/fileManager.js',
-    'static/dist/media.js'
-];
 
 var FONTS = [
     'static/src/libs/github/Templarian/MaterialDesign-Webfont@1.8.36/fonts/*'
@@ -24,7 +20,7 @@ gulp.task('system-build', function () {
 });
 
 gulp.task('minify-js', ['systemjs-build'], function () {
-    return gulp.src(JS_FILES)
+    return gulp.src('static/dist/*.js')
         .pipe(ngmin())
         .pipe(uglify({}))
         .pipe(gulp.dest('static/dist/'));
@@ -33,6 +29,8 @@ gulp.task('minify-js', ['systemjs-build'], function () {
 gulp.task('minify-css', ['systemjs-build'], function () {
     return gulp.src('static/dist/*.css')
         .pipe(replace('src/libs/github/Templarian/MaterialDesign-Webfont@1.8.36/fonts/', ''))
+        // .pipe(purge())
+        .pipe(cleanCSS())
         .pipe(gulp.dest('static/dist/'));
 });
 
@@ -42,7 +40,8 @@ gulp.task('fonts', function () {
 });
 
 gulp.task('default', [
-    'system-build', 'minify-js',
+    'system-build',
+    'minify-js',
     'minify-css',
     'fonts'
 ]);

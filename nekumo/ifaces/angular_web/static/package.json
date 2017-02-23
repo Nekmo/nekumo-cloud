@@ -11,6 +11,7 @@
       "angular-duration-format": "npm:angular-duration-format@^1.0.1",
       "angular-material": "github:angular/bower-material@^1.1.3",
       "angular-socket-io": "npm:angular-socket-io@^0.7.0",
+      "angular/bower-material": "github:angular/bower-material@1.1.3",
       "balliegojr/angular-event-dispatcher": "github:balliegojr/angular-event-dispatcher@^0.0.3",
       "ccampbell/mousetrap": "github:ccampbell/mousetrap@^1.6.0",
       "chieffancypants/angular-hotkeys": "github:chieffancypants/angular-hotkeys@^1.7.0",
@@ -34,6 +35,11 @@
     "devDependencies": {
       "--help": "npm:babel-core@^5.8.24",
       "--help-runtime": "npm:babel-runtime@^5.8.24"
+    },
+    "overrides": {
+      "github:angular/bower-material@1.1.3": {
+        "shim": {}
+      }
     }
   }
 }
