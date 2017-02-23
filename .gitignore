@@ -91,3 +91,5 @@ ENV/
 
 # Created by .ignore support plugin (hsz.mobi)
 .idea
+/nekumo/ifaces/angular_web/static/src/**/*.css
+/nekumo/ifaces/simple_web/static/src/libs
