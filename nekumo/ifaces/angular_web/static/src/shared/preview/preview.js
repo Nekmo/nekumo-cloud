@@ -12,16 +12,21 @@ Promise.all([
 
     // var module = angular.module('preview', ['videoPlayer', 'audioPlayer', 'chromecast']);
     var module = angular.module('preview', ['nekumo']);
+    // Supported players
     var playerMimetypes = {
         'video': 'video',
         'audio': 'audio',
         'image': 'image'
     };
+    // Players that require loading
+    var externalPlayers = {
+        'video': 'video',
+        'audio': 'audio'
+    };
 
     function getPlayer(entry) {
-        return playerMimetypes[entry.mimetype] || playerMimetypes[entry.mimetype.split('/')[0]]
+        return playerMimetypes[entry.mimetype] || playerMimetypes[entry.mimetype.split('/')[0]] || null;
     }
-
 
     module.factory('$previewGallery', function ($templateRequest, $document, $compile, $rootScope, lazySystem) {
         function PreviewOptions(entry, entries) {
@@ -40,7 +45,8 @@ Promise.all([
             // cuando se necesita
             var scope;
             var player = getPlayer(entry);
-            // TODO:
+            var externalPlayer = (player ? externalPlayers[player] : null);
+
             this.setScope = function () {
                 scope = $rootScope.$new();
                 scope = angular.extend(scope, {
@@ -84,7 +90,10 @@ Promise.all([
             this.loadPlayer = function () {
                 // return lazySystem.load(sprintf('./.nekumo/static/src/shared/%1$sPlayer/%1$sPlayer', player),
                 // player + 'Player');
-                return lazySystem.load(sprintf('shared/%1$sPlayer/%1$sPlayer', player), player + 'Player');
+                return lazySystem.load(
+                    sprintf('shared/%1$sPlayer/%1$sPlayer', externalPlayer),
+                    externalPlayer + 'Player'
+                );
             };
 
             this.start = function () {
@@ -98,13 +107,19 @@ Promise.all([
                     var body = $document.find('body').eq(0);
                     var preview = angular.element(html);
 
-                    // Puedo usar justo para este punto ocLazy?
-                    self.loadPlayer().then(function () {
+                    function compile(){
                         $compile(preview)(scope);
                         body.append(preview);
                         self.preview = preview;
-                    });
-
+                    }
+                    if(externalPlayer){
+                        self.loadPlayer().then(function () {
+                            // Sólo esperar al reproductor si lo hay
+                            compile();
+                        });
+                    } else {
+                        compile();
+                    }
                 });
             };
 
