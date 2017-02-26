@@ -9,11 +9,11 @@ Promise.all([
 ]).then(function () {
     var module = angular.module('nekumo', ['ngMaterial', 'oc.lazyLoad']);
 
-    module.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
-        $ocLazyLoadProvider.config({
-            debug: true
-        });
-    }]);
+    // module.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
+    //     $ocLazyLoadProvider.config({
+    //         debug: true
+    //     });
+    // }]);
 
     module.service('lazySystem', function ($ocLazyLoad) {
         function load (src, dist, key, css) {
