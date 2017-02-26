@@ -2,13 +2,16 @@
  * Created by nekmo on 22/01/17.
  */
 
-var PLAYER_URL = (debug ? 'shared/%1$sPlayer/%1$sPlayer': 'dist/%1$sPlayer');
+var STATIC_DIR = '/.nekumo/static/';
+var SHARED_URL = 'shared/%1$sPlayer/%1$sPlayer';
+var DIST_URL = 'dist/%1$sPlayer';
 
 Promise.all([
     require('angular'),
     require('ocombe/ocLazyLoad'),
 
-    require('src/shared/preview/preview.css!css')
+    require('src/shared/preview/preview.css!css'),
+    require('src/shared/preview/preview.html!ng-template')
 ]).then(function () {
     var sprintf = require('sprintf-js').sprintf;
 
@@ -25,6 +28,8 @@ Promise.all([
         'video': 'video',
         'audio': 'audio'
     };
+
+    var cssRequired = ['video', 'audio'];
 
     function getPlayer(entry) {
         return playerMimetypes[entry.mimetype] || playerMimetypes[entry.mimetype.split('/')[0]] || null;
@@ -92,9 +97,16 @@ Promise.all([
             this.loadPlayer = function () {
                 // return lazySystem.load(sprintf('./.nekumo/static/src/shared/%1$sPlayer/%1$sPlayer', player),
                 // player + 'Player');
+                // TODO: para el modo producción, es necesario cargar primero la url
+                // original real, y luego con System.import/require cargar la "ficticia"
+                // que se usaba en producción. Si no los módulos no quedan disponibles.
+                // TODO: añadir production url y dev url
                 return lazySystem.load(
-                    sprintf(PLAYER_URL, externalPlayer),
-                    externalPlayer + 'Player'
+                    sprintf(SHARED_URL, externalPlayer),
+                    sprintf(DIST_URL, externalPlayer),
+                    externalPlayer + 'Player',
+                    (cssRequired.indexOf(externalPlayer) > -1 && !debug ?
+                     STATIC_DIR + sprintf(DIST_URL, externalPlayer) + '.css' : false)
                 );
             };
 
@@ -102,7 +114,7 @@ Promise.all([
 
                 self.setBackdrop(scope);
 
-                $templateRequest("/.nekumo/static/src/shared/preview/preview.html").then(function (html) {
+                $templateRequest("src/shared/preview/preview.html").then(function (html) {
                     // $chromecast.setSrc(data.src);
                     // $chromecast.setSrc(data.path);
 

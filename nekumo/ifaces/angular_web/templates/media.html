@@ -148,6 +148,8 @@
 {% block js %}
     {% if not debug %}
         <script src="{{ url_for('static', filename='dist/media.js') }}"></script>
+        <!-- TODO: -->
+        <script src="{{ url_for('static', filename='dist/videoPlayer.js') }}"></script>
     {% endif %}
     <script>
     {% if debug %}

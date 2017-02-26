@@ -4,7 +4,10 @@ Promise.all([
     require('balliegojr/angular-event-dispatcher/build/event-dispatcher.js'),
     require('erykpiast/angular-duration-format'),
 
-    require('src/shared/chromecast/chromecast.css!css')
+    require('src/shared/chromecast/chromecast.css!css'),
+
+    require('src/shared/chromecast/player.html!ng-template'),
+    require('src/shared/chromecast/playerSlider.html!ng-template')
 ]).then(function () {
     // Copyright 2016 Google Inc. All Rights Reserved.
     //

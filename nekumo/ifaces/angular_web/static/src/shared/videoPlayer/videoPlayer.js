@@ -10,7 +10,8 @@ Promise.all([
     require("shared/chromecast/chromecast"),
 
     require('src/libs/npm/videogular-themes-default@1.4.4/videogular.css!css'),
-    require('src/shared/videoPlayer/chromecast.css!css')
+    require('src/shared/videoPlayer/chromecast.css!css'),
+    require('src/shared/videoPlayer/videoPlayer.html!ng-template')
 ]).then(function () {
 
     var module = angular.module('videoPlayer', [
@@ -28,6 +29,7 @@ Promise.all([
                 src: '=',
                 mimeType: '='
             },
+            // TODO:
             templateUrl: '/.nekumo/static/src/shared/videoPlayer/videoPlayer.html'
         }
     });
