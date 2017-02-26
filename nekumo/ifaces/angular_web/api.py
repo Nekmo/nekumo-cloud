@@ -1,10 +1,5 @@
-from nekumo.core.api import NekumoAPI, NekumoListAPI
-from nekumo.exceptions import NekumoException
+from nekumo.core.api import NekumoAPI
 
 
-class AngularWebAPI(NekumoAPI):
-    pass
-
-
-class AngularNekumoListAPI(NekumoListAPI):
+class AngularNekumoAPI(NekumoAPI):
     pass

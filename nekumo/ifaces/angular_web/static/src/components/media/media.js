@@ -66,6 +66,8 @@ Promise.all([
                     entries.push(item);
                 });
                 $scope.otherEntries = $filter('orderBy')($scope.otherEntries, ['-isDir', 'name']);
+                // TODO:
+                API.watch(path);
             });
         }
 

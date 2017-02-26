@@ -180,6 +180,11 @@ Promise.all([
                 //     socket.emit('list', {'entry': path}, resolve);
                 // });
             },
+            watch: function (entry) {
+                return $q(function (resolve, reject) {
+                    socket.emit('watch', {'entry': entry}, resolve);
+                });
+            },
             rename: function (entry, newName) {
                 if (_.isObject(entry)) {
                     entry = entry.path;

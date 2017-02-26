@@ -4,7 +4,7 @@ from flask.globals import current_app
 from flask_socketio import emit, join_room, leave_room
 
 from nekumo.ifaces.angular_web import socketio
-from nekumo.ifaces.angular_web.api import AngularWebAPI, AngularNekumoListAPI
+from nekumo.ifaces.angular_web.api import AngularNekumoAPI
 
 
 class APINamespace(Namespace):
@@ -17,31 +17,15 @@ class APINamespace(Namespace):
         pass
 
     def trigger_event(self, event, *args):
-        # TODO: debe soportar también los métodos de NekumoListAPI
+        # TODO: debe soportar también los métodos de NekumoEntriesAPI
         if event in self.io_events:
             return super(APINamespace, self).trigger_event(event, *args)
         return self.socketio._handle_event(self.execute_handler(event, *args), event, self.namespace,
                                            *args)
 
     def execute_handler(self, event, *args):
-        entry = None
-        entries = None
-        get_entry = self.socketio.nekumo.get_entry
-        if 'entry' in args[1]:
-            iface_path = args[1].pop('entry')
-            entry = get_entry(iface_path)
-        else:
-            entries = args[1].pop('entries')
-            entries = [get_entry(x) for x in entries]
         def execute(options):
-            # El argumento room define el usuario que recibirá el mensaje
-            if entry:
-                data = AngularWebAPI(entry).execute(event, **options or {})
-                data = data.to_json() if data else {'method': event}
-            else:
-                data = AngularNekumoListAPI(entries).execute(event, **options or {})
-            # self.emit(event, data, args[0])
-            return data
+            return AngularNekumoAPI(args[1], self.socketio.nekumo).execute(event, options or {})
         return execute
 
     def on_joined(self, message):

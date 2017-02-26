@@ -1,11 +1,11 @@
 from flask import render_template
 
-from nekumo.core.api import NekumoAPI
+from nekumo.core.api import NekumoEntryAPI
 from nekumo.exceptions import NekumoException
 from nekumo.ifaces.simple_web.exceptions import HttpMethodNotAllowed
 
 
-class SimpleWebAPI(NekumoAPI):
+class SimpleWebEntryAPI(NekumoEntryAPI):
     @classmethod
     def parse(cls, request, entry):
         error = None

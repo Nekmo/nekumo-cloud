@@ -23,7 +23,7 @@ class Nekumo(object):
         os.makedirs(self.data_dir, exist_ok=True)
 
     def get_db_session_maker(self):
-        return get_session_maker('db.sqlite3')
+        return get_session_maker(os.path.join(self.nekumo_dir, 'db.sqlite3'))
 
     def set_ifaces(self, ifaces):
         self.ifaces = ifaces

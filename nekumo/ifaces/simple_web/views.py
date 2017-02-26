@@ -9,7 +9,7 @@ from flask import send_from_directory
 from werkzeug.exceptions import NotFound
 
 from nekumo.ifaces.simple_web import NEKUMO_ROOT
-from nekumo.ifaces.simple_web.api import SimpleWebAPI
+from nekumo.ifaces.simple_web.api import SimpleWebEntryAPI
 
 STATIC_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 
@@ -41,7 +41,7 @@ def index(path='/'):
 @web_bp.route('/', methods=['POST'])
 def path_api(path='/'):
     entry = current_app.nekumo.get_entry(path)
-    return SimpleWebAPI.parse(request, entry)
+    return SimpleWebEntryAPI.parse(request, entry)
 
 
 @web_bp.route('%s/static/<path:path>' % NEKUMO_ROOT)

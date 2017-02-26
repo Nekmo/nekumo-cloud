@@ -1,7 +1,7 @@
 from nekumo.exceptions import MethodNotAvailable
 
 
-class NekumoAPI(object):
+class NekumoEntryAPI(object):
     def __init__(self, entry):
         self.entry = entry
 
@@ -11,7 +11,7 @@ class NekumoAPI(object):
         return getattr(self.entry, method)(**kwargs)
 
 
-class NekumoListAPI(object):
+class NekumoEntriesAPI(object):
     def __init__(self, entries):
         self.entries = entries
 
@@ -35,3 +35,47 @@ class NekumoListAPI(object):
         for entry in self.entries:
             entry.delete()
         return {'method': 'delete'}
+
+
+class NekumoAPI(object):
+    # Methods not implemented in entries
+    methods = ['watch']
+    entry_api_class = NekumoEntryAPI
+    entries_api_class = NekumoEntriesAPI
+
+    def __init__(self, entry_entries, nekumo):
+        self.nekumo = nekumo
+        self.entry_entries = self.get_entry_entries(entry_entries)
+
+    def get_entry_entries(self, obj):
+        if 'entry' in obj:
+            iface_path = obj.pop('entry')
+            return self.nekumo.get_entry(iface_path)
+        else:
+            entries = obj.pop('entries')
+            return [self.nekumo.get_entry(x) for x in entries]
+
+    def execute(self, event, options):
+        # El argumento room define el usuario que recibirá el mensaje
+        fn = self.execute_method if event in self.methods else self.execute_entry
+        return fn(event, **options)
+
+    def execute_method(self, event, **options):
+        if not isinstance(self.entry_entries, list):
+            return getattr(self, 'on_{}'.format(event))(self.entry_entries, **options)
+        else:
+            for entry in self.entry_entries:
+                getattr(self, 'on_{}'.format(event))(entry, **options)
+            # TODO: multiple results
+
+    def execute_entry(self, event, **options):
+        if not isinstance(self.entry_entries, list):
+            data = self.entry_api_class(self.entry_entries).execute(event, **options or {})
+            data = data.to_json() if data else {'method': event}
+        else:
+            data = self.entries_api_class(self.entry_entries).execute(event, **options or {})
+        # self.emit(event, data, args[0])
+        return data
+
+    def on_watch(self, entry):
+        print(entry)
