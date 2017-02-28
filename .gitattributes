@@ -1,2 +1,4 @@
 dist/* linguist-vendored=true
 theme/*.scss linguist-vendored=true
+nekumo/ifaces/angular_web/static/dist/* linguist-vendored
+nekumo/ifaces/angular_web/static/src/shared/theme/* linguist-vendored
