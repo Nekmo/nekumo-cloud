@@ -1,6 +1,14 @@
 from nekumo.exceptions import MethodNotAvailable
 
 
+class NekumoAPIClient(object):
+    def __init__(self):
+        pass
+
+    def listener(self, event):
+        raise NotImplementedError
+
+
 class NekumoEntryAPI(object):
     def __init__(self, entry):
         self.entry = entry
@@ -43,9 +51,10 @@ class NekumoAPI(object):
     entry_api_class = NekumoEntryAPI
     entries_api_class = NekumoEntriesAPI
 
-    def __init__(self, entry_entries, nekumo):
+    def __init__(self, entry_entries, nekumo, client=None):
         self.nekumo = nekumo
         self.entry_entries = self.get_entry_entries(entry_entries)
+        self.client = client
 
     def get_entry_entries(self, obj):
         if 'entry' in obj:
@@ -78,4 +87,4 @@ class NekumoAPI(object):
         return data
 
     def on_watch(self, entry):
-        print(entry)
+        entry.watch(self.client)

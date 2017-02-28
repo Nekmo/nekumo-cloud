@@ -2,6 +2,7 @@ import os
 
 from nekumo.conf.base import Config
 from nekumo.core.i18n import _
+from nekumo.core.pubsub import PubSubNode, Listener
 from nekumo.models import Path, get_or_create
 
 ALL_METHODS_PROPERTIES = {
@@ -86,6 +87,9 @@ class NekumoEntryBase(object):
     def download(self):
         raise NotImplementedError
 
+    def is_dir(self):
+        return self.type == 'directory'
+
     @property
     def name(self):
         raise NotImplementedError
@@ -131,6 +135,13 @@ class NekumoEntryBase(object):
     def details(self):
         raise NotImplementedError
 
+    def watch(self, client):
+        if not self.is_dir():
+            directory = self.parent().relative_path
+        else:
+            directory = self.relative_path
+        self.gateway.pubsub.register(directory, Listener(client.listener))
+
     @property
     def id(self):
         p, exists = get_or_create(self.gateway.nekumo.session, Path, path=self.gateway_path, gateway_id=self.gateway.id)
@@ -168,6 +179,11 @@ class GatewayBase(object):
     def __init__(self, config, nekumo):
         self.config = config
         self.nekumo = nekumo
+        self.pubsub = PubSubNode()
+        self.start_watcher()
+
+    def start_watcher(self):
+        pass
 
     @property
     def root_path(self):

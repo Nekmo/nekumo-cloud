@@ -167,6 +167,7 @@ Promise.all([
                 $scope.isLoaded = true;
                 getCurrentDirectoryData().then(function () {
                     $scope.cleanSelected();
+                    API.watch(path);
                 });
                 deferred.resolve();
             });

@@ -1,10 +1,12 @@
-from flask import session
+from flask import session, request
 from flask.ext.socketio import Namespace
 from flask.globals import current_app
 from flask_socketio import emit, join_room, leave_room
 
 from nekumo.ifaces.angular_web import socketio
-from nekumo.ifaces.angular_web.api import AngularNekumoAPI
+from nekumo.ifaces.angular_web.api import AngularNekumoAPI, AngularNekumoAPIClient
+
+CLIENTS = {}
 
 
 class APINamespace(Namespace):
@@ -23,9 +25,14 @@ class APINamespace(Namespace):
         return self.socketio._handle_event(self.execute_handler(event, *args), event, self.namespace,
                                            *args)
 
+    def get_api_client(self):
+        sid = request.sid
+        CLIENTS[sid] = CLIENTS.get(sid) or AngularNekumoAPIClient(sid, current_app, self.socketio)
+        return CLIENTS[sid]
+
     def execute_handler(self, event, *args):
         def execute(options):
-            return AngularNekumoAPI(args[1], self.socketio.nekumo).execute(event, options or {})
+            return AngularNekumoAPI(args[1], self.socketio.nekumo, self.get_api_client()).execute(event, options or {})
         return execute
 
     def on_joined(self, message):

@@ -10,6 +10,7 @@ from os3.fs.entry import Entry
 from os3.fs.file import File
 from os3.utils.nodes import deep_scandir
 
+from nekumo.gateways.fs.watcher import init_watcher
 
 XATTR_KEY = 'user.id'
 
@@ -172,6 +173,9 @@ class FSConfig(GatewayConfig):
 
 class FSGateway(GatewayBase):
     config_class = FSConfig
+
+    def start_watcher(self):
+        init_watcher(self)
 
     def get_root_path(self):
         return self.config.uri

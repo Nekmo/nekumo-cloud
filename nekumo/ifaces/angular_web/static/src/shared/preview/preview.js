@@ -32,7 +32,8 @@ Promise.all([
     var cssRequired = ['video', 'audio'];
 
     function getPlayer(entry) {
-        return playerMimetypes[entry.mimetype] || playerMimetypes[entry.mimetype.split('/')[0]] || null;
+        var mimeType = entry.mimetype || '';
+        return playerMimetypes[mimeType] || playerMimetypes[mimeType.split('/')[0]] || null;
     }
 
     module.factory('$previewGallery', function ($templateRequest, $document, $compile, $rootScope, lazySystem) {
