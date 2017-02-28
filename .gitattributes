@@ -1,2 +1,2 @@
-dist/* linguist-vendored=false
-theme/*.scss linguist-vendored=false
+dist/* linguist-vendored=true
+theme/*.scss linguist-vendored=true
