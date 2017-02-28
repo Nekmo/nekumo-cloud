@@ -1,3 +1,17 @@
+function sendToListeners(listeners, ev){
+    angular.forEach(listeners, function (listener) {
+        listener(ev);
+    });
+}
+
+
+function registerListener(eventListeners, event, fn){
+    var listeners = eventListeners[event] || [];
+    listeners.push(fn);
+    eventListeners[event] = listeners;
+}
+
+
 Promise.all([
     require('angular'),
     require('angular-socket-io')
@@ -148,6 +162,8 @@ Promise.all([
     });
 
     module.factory('API', function (socketFactory, $q, Entry) {
+        var updateListeners = {};
+
         // var ioSocket = io(WS_URL, {path: API_NAMESPACE});
         // var ioSocket = io({transports: ['websocket'], upgrade: false});
         // // var socket = socketFactory({ioSocket: ioSocket});
@@ -166,6 +182,17 @@ Promise.all([
         //     console.debug('data!');
         // });
 
+        // Support "*"
+        socket.onevent = function (packet) {
+            var args = packet.data || [];
+            onevent.call (this, packet);    // original call
+            packet.data = ["*"].concat(args);
+            onevent.call(this, packet);      // additional call to catch-all
+        };
+
+        socket.on('update', function (data) {
+            sendToListeners(updateListeners[data.action] || [], data);
+        });
 
         return {
             list: function (path) {
@@ -218,6 +245,12 @@ Promise.all([
                 return $q(function (resolve, reject) {
                     socket.emit('delete', entryEntriesDict(getPath(entry_entries)), resolve);
                 });
+            },
+            listener: function (event, fn) {
+                socket.on(event, fn);
+            },
+            updateListener: function (action, fn) {
+                registerListener(updateListeners, action, fn);
             }
         }
     });

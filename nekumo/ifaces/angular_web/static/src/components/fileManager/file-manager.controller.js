@@ -263,6 +263,14 @@ Promise.all([
             }
         });
 
+        API.updateListener('create', function (ev) {
+            console.log(ev);
+        });
+
+        API.updateListener('delete', function (ev) {
+            console.log(ev);
+        });
+
     });
 
     module.controller('DetailsSidenavCtrl', function ($scope) {
