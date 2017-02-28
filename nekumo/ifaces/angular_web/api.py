@@ -15,7 +15,7 @@ class AngularNekumoAPIClient(NekumoAPIClient):
         # self.socketio.emit('event', event, namespace='/api')
         # TODO: event -> ifaceEvent
         data = dict(entry=event.entry, action=event.action, **event.data)
-        self.socketio.emit(event.method, data, namespace='/api')
+        self.socketio.emit(event.method, data, room=self.sid,  namespace='/api')
         # with self.app.app_context():
         #     self.socketio.emit('event', event, namespace='/api')
 
