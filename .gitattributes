@@ -1,0 +1,2 @@
+dist/* linguist-vendored=false
+theme/*.scss linguist-vendored=false
