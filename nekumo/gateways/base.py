@@ -142,6 +142,12 @@ class NekumoEntryBase(object):
             directory = self.relative_path
         self.gateway.pubsub.register(directory, Listener(client.listener))
 
+    def values(self, *interfaces):
+        raise NotImplementedError
+
+    def to_json(self):
+        return self.values('name', 'size', 'type', 'mimetype', 'mtime', 'atime')
+
     @property
     def id(self):
         p, exists = get_or_create(self.gateway.nekumo.session, Path, path=self.gateway_path, gateway_id=self.gateway.id)
@@ -198,6 +204,9 @@ class GatewayBase(object):
         # TODO: borrar?
         return [cls(cls.config_class(gateway_uri))
                 for gateway_uri in getattr(args, parser_argument.dest)]
+
+    def get_entry(self):
+        raise NotImplementedError
 
     @property
     def id(self):

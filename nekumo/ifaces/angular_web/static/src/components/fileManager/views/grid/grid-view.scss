@@ -7,6 +7,52 @@
     //}
 
 
+    /*
+      We're using CSS transitions for when
+      the enter and move events are triggered
+      for the element that has the tr
+      class
+    */
+    .entry.ng-enter, .entry.ng-move {
+        transition: all 0.5s linear;
+        opacity: 0;
+
+        .bottom {
+            transition: all 0.5s linear;
+        }
+        // background: yellow;
+    }
+
+    /*
+     The ng-enter-active and ng-move-active
+     are where the transition destination properties
+     are set so that the animation knows what to
+     animate.
+    */
+    .entry.ng-enter.ng-enter-active,
+    .entry.ng-move.ng-move-active {
+        // opacity: 1;
+        animation: 0.5s greenShow;
+
+        .bottom {
+            animation: 0.5s greenShow;
+        }
+    }
+
+    /*
+      We're using CSS keyframe animations for when
+      the leave event is triggered for the element
+      that has the tr class
+    */
+    .entry.ng-leave {
+        animation: 0.6s fadeOut;
+
+        .bottom {
+            animation: 0.6s fadeOut;
+            background: #e79c9c;
+        }
+    }
+
     .grid-view {
         padding: 32px 24px 24px 24px;
 

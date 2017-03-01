@@ -118,7 +118,7 @@ class PubSubNode(dict):
         fired = []
 
         def fire_each(pubsub_node, node):
-            fired.extend(pubsub_node.listeners.fire(event, pubsub_node.path == node.strip('/')))
+            fired.extend(pubsub_node.listeners.fire(event, pubsub_node.path.strip('/') == node.strip('/')))
         try:
             self.get_subnode(node_path, callback=fire_each)
         except KeyError:

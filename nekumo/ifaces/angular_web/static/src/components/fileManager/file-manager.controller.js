@@ -265,10 +265,14 @@ Promise.all([
 
         API.updateListener('create', function (ev) {
             console.log(ev);
+            $scope.entries.push(ev.entry);
         });
 
         API.updateListener('delete', function (ev) {
             console.log(ev);
+            // TODO:
+            var entry = $scope.getItemByPath(ev.entry.path);
+            _.pull($scope.entries, entry);
         });
 
     });

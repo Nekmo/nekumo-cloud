@@ -1,5 +1,39 @@
 #file-manager {
 
+    /*
+      We're using CSS transitions for when
+      the enter and move events are triggered
+      for the element that has the tr
+      class
+    */
+    tr.ng-enter, tr.ng-move {
+        transition: all 0.5s linear;
+        opacity: 0;
+        // background: yellow;
+    }
+
+    /*
+     The ng-enter-active and ng-move-active
+     are where the transition destination properties
+     are set so that the animation knows what to
+     animate.
+    */
+    tr.ng-enter.ng-enter-active,
+    tr.ng-move.ng-move-active {
+        // opacity: 1;
+        animation: 0.5s greenShow;
+    }
+
+    /*
+      We're using CSS keyframe animations for when
+      the leave event is triggered for the element
+      that has the tr class
+    */
+    tr.ng-leave {
+        animation: 0.8s fadeOut;
+        background: #e79c9c;
+    }
+
     .list-view {
 
         .options {

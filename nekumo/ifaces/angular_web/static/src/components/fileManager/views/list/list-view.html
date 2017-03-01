@@ -19,7 +19,7 @@
 
     <tbody>
         <tr ng-repeat="file in entries | filter:global.search | orderBy:['-isDir', columnName]:scope.reverse"
-            ng-click="select(file, true)" ng-class="{'selected': file.selected}">
+            ng-click="select(file, true)" ng-class="{'selected': file.selected}" class="entry">
             <td class="file-icon" ng-click="select(file, false, $event)">
                 <i class="{{ file.icon_class }}" ng-if="!file.selected"></i>
                 <md-checkbox ng-if="file.selected" ng-model="i" aria-label="checkbox"

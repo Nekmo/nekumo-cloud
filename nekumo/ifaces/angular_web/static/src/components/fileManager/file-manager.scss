@@ -14,6 +14,16 @@ $layout-breakpoint-lg:     1920px !default;
 
 $whiteframe-shadow-8dp: 0px 5px 5px -3px rgba(0, 0, 0, $shadow-key-umbra-opacity), 0px 8px 10px 1px rgba(0, 0, 0, $shadow-key-penumbra-opacity), 0px 3px 14px 2px rgba(0, 0, 0, $shadow-ambient-shadow-opacity) !default;
 
+@keyframes greenShow {
+    0% { background: white; }
+    1% { background: #c5dea7; opacity: 1; }
+    100% { background: #c5dea7; opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity:1; }
+    to { opacity:0; }
+}
 
 @import "../../shared/nekumo/variables";
 
@@ -23,6 +33,8 @@ $whiteframe-shadow-8dp: 0px 5px 5px -3px rgba(0, 0, 0, $shadow-key-umbra-opacity
 @import "views/list/list-view.scss";
 
 #file-manager {
+
+
 
     .loading {
         position: fixed;

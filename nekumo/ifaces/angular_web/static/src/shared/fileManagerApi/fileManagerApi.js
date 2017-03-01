@@ -191,6 +191,9 @@ Promise.all([
         };
 
         socket.on('update', function (data) {
+            if(data.entry){
+                data.entry = Entry(data.entry);
+            }
             sendToListeners(updateListeners[data.action] || [], data);
         });
 

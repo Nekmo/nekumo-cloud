@@ -8,7 +8,7 @@ from flask.json import JSONEncoder
 from os3.core.comparators import StartsWithEqual
 
 from nekumo.conf.base import Input
-from nekumo.gateways.base import ALL_METHODS_PROPERTIES
+from nekumo.gateways.base import ALL_METHODS_PROPERTIES, NekumoEntryBase
 from nekumo.ifaces.base import IfaceBase, IfaceConfig
 from flask import Flask
 from flask_socketio import SocketIO
@@ -30,6 +30,8 @@ class NekumoEncoder(json.JSONEncoder):
             return (datetime.datetime.min + obj).time().isoformat()
         elif isinstance(obj, StartsWithEqual):
             return obj.name
+        elif isinstance(obj, NekumoEntryBase):
+            return obj.to_json()
         else:
             return super(NekumoEncoder, self).default(obj)
 

@@ -12,9 +12,10 @@ class EventHandler(pyinotify.ProcessEvent):
 
     def process_default(self, event):
         path = event.pathname.replace(self.iface.get_root_path(), '')
+        entry = self.iface.get_entry(path)
         directory = os.path.split(path)[0]
         action = event.maskname.replace('IN_', '').lower()
-        self.iface.pubsub.fire(directory, GatewayUpdateEvent(self.iface, path, action))
+        self.iface.pubsub.fire(directory, GatewayUpdateEvent(self.iface, entry, action))
 
 
 def init_watcher(iface):
