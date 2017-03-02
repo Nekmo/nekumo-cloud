@@ -47,7 +47,7 @@ class NekumoEntriesAPI(object):
 
 class NekumoAPI(object):
     # Methods not implemented in entries
-    methods = ['watch']
+    methods = ['watch', 'unwatch']
     entry_api_class = NekumoEntryAPI
     entries_api_class = NekumoEntriesAPI
 
@@ -88,3 +88,6 @@ class NekumoAPI(object):
 
     def on_watch(self, entry):
         entry.watch(self.client)
+
+    def on_unwatch(self, entry):
+        entry.unwatch(self.client)

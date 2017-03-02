@@ -135,12 +135,19 @@ class NekumoEntryBase(object):
     def details(self):
         raise NotImplementedError
 
-    def watch(self, client):
+    def dir_entry(self):
+        """Get directory for file o self entry for directory.
+        """
         if not self.is_dir():
-            directory = self.parent().relative_path
+            return self.parent().relative_path
         else:
-            directory = self.relative_path
-        self.gateway.pubsub.register(directory, Listener(client.listener))
+            return self.relative_path
+
+    def watch(self, client):
+        self.gateway.pubsub.register(self.dir_entry(), Listener(client.listener, client=client))
+
+    def unwatch(self, client):
+        self.gateway.pubsub.unregister(self.dir_entry(), client)
 
     def values(self, *interfaces):
         raise NotImplementedError

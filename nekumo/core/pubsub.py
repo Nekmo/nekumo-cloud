@@ -1,9 +1,15 @@
 
 
 class Listener(object):
-    def __init__(self, function=None, recursive=False):
+    def __init__(self, function=None, recursive=False, client=None):
+        """
+        :param function: Function to execute
+        :param recursive: listen subpath changes
+        :param client: Client is required for remove listener
+        """
         self.recursive = recursive
         self.function = function
+        self.client = client
 
     def fire(self, event):
         if self.function:
@@ -112,6 +118,12 @@ class PubSubNode(dict):
         """
         pubsub_node = self.get_subnode(node_path, True)
         pubsub_node.listeners.append(listener)
+
+    def unregister(self, node_path, client):
+        pubsub_node = self.get_subnode(node_path, True)
+        for listener in tuple(pubsub_node.listeners):
+            if listener.client == client:
+                pubsub_node.listeners.remove(client)
 
     def fire(self, node_path, event):
         # TODO: threading

@@ -215,6 +215,11 @@ Promise.all([
                     socket.emit('watch', {'entry': entry}, resolve);
                 });
             },
+            unwatch: function (entry) {
+                return $q(function (resolve, reject) {
+                    socket.emit('unwatch', {'entry': entry}, resolve);
+                });
+            },
             rename: function (entry, newName) {
                 if (_.isObject(entry)) {
                     entry = entry.path;

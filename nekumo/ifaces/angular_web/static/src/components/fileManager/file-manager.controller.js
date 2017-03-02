@@ -66,7 +66,7 @@ Promise.all([
         $scope.lastSelected = null;  // Last selection for shift range
         $scope.previewOptions = null;
 
-        // Methods
+        $scope.lastDirectory = null;  // For unsubscribe
         $scope.currentDirectory = null;
         $scope.currentDirectoryData = null;
 
@@ -162,6 +162,9 @@ Promise.all([
             $scope.isLoaded = false;
             $scope.entries = [];
             var deferred = $q.defer();
+            if($scope.lastDirectory){
+                API.unwatch($scope.lastDirectory);
+            }
             API.list(path).then(function (data) {
                 $scope.entries = data;
                 $scope.isLoaded = true;
@@ -202,6 +205,7 @@ Promise.all([
                 $scope.currentDirectory = directory;
                 directoryLoad = setEntries(directory);
                 $scope.breadcrumb = getBreadcrumb(directory);
+                $scope.lastDirectory = directory;
             }
 
             function preview() {
@@ -264,12 +268,10 @@ Promise.all([
         });
 
         API.updateListener('create', function (ev) {
-            console.log(ev);
             $scope.entries.push(ev.entry);
         });
 
         API.updateListener('delete', function (ev) {
-            console.log(ev);
             // TODO:
             var entry = $scope.getItemByPath(ev.entry.path);
             _.pull($scope.entries, entry);
