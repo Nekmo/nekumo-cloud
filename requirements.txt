@@ -4,10 +4,10 @@ Flask-SocketIO==2.8.2
 gevent==1.2.0
 humanize==0.5.1
 karellen-geventws==1.0.1
--e git+git@github.com:Nekmo/os3.git@96fa3a7a6e52b4167a2803aa25fbdfaadffc8307#egg=os3
+os3==0.1.2
 python-engineio==1.1.0
 python-socketio==1.6.2
--e git+git@github.com:Nekmo/python-thumbs.git@ddadc8d435a3d5a5ddca1384bba74af520c402e7#egg=python_thumbs
+python-thumbs==0.1.1
 SQLAlchemy==1.1.5
 terminaltables==3.1.0
 treelib==1.3.5

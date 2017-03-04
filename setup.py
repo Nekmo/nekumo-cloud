@@ -75,9 +75,9 @@ __dir__ = os.path.abspath(os.path.dirname(__file__))
 # paths
 readme_path = os.path.join(__dir__, 'README')
 if not os.path.exists(readme_path):
-    readme_path = os.path.join(__dir__, 'README.md')
+    readme_path = os.path.join(__dir__, 'README.rst')
 version_path = os.path.join(__dir__, 'VERSION')
-requirements_path = os.path.join(__dir__, 'py{}-requirements.txt'.format(sys.version_info.major))
+requirements_path = os.path.join(__dir__, 'requirements.txt')
 scripts_path = os.path.join(__dir__, 'scripts')
 
 

@@ -1,4 +1,4 @@
-requirements.txt
+include requirements.txt
 recursive-include nekumo/ifaces/angular_web/templates *.html
 recursive-include nekumo/ifaces/angular_web/static/dist *
 recursive-include nekumo/ifaces/simple_web/templates *.html
