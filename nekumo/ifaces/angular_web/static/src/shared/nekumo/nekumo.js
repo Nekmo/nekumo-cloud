@@ -45,6 +45,10 @@ Promise.all([
             header: require('src/shared/nekumo/header.html!ng-template')
         };
 
+        $scope.notImplemented = function () {
+            alert('This feature is not yet available.');
+        };
+
         $scope.toggleSidenav = function(sidenavId){
             $mdSidenav(sidenavId).toggle();
         };

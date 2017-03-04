@@ -4,19 +4,21 @@
             <md-icon md-menu-origin md-font-set="mdi" md-font-icon="mdi-dots-vertical"></md-icon>
         </md-button>
         <md-menu-content width="4" class="menu-options">
+            <!--
             <md-menu-item>
                 <md-button ng-click="ctrl.redial($event)">
                     <md-icon md-font-set="mdi" md-font-icon="mdi-launch" md-menu-align-target></md-icon>
                     Open in new tab
                 </md-button>
             </md-menu-item>
+            -->
             <md-menu-item>
-                <md-button ng-click="ctrl.checkVoicemail()">
+                <md-button ng-click="download(entry)">
                     <md-icon md-font-set="mdi" md-font-icon="mdi-download" md-menu-align-target></md-icon>
                     Download
                 </md-button>
             </md-menu-item>
-            <md-menu-item  ng-click="openRename(entry, $event);">
+            <md-menu-item ng-click="openRename(entry, $event);">
                 <md-button>
                     <md-icon md-font-set="mdi" md-font-icon="mdi-pencil" md-menu-align-target></md-icon>
                     Rename

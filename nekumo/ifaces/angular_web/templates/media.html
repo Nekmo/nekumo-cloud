@@ -27,7 +27,7 @@
             <div class="header md-accent-bg">
 
                 <div class="header-content" layout="column" layout-align="space-between">
-                    <div ng-include="templates.header.templateUrl"></div>
+                    <div ng-include="templates.header.templateUrl" include-replace></div>
 
                     <!-- BREADCRUMB -->
                     <div class="breadcrumb text-truncate" layout="row" layout-align="start center">
@@ -42,23 +42,6 @@
                     </div>
                     <!-- / BREADCRUMB -->
                 </div>
-
-                <!-- ADD FILE BUTTON -->
-                <div id="file-uploader"
-                     flow-init="ngFlowOptions"
-                     flow-name="ngFlow.flow"
-                     flow-files-submitted="upload()"
-                     flow-file-added="fileAdded($file)"
-                     flow-file-success="fileSuccess($file, $message)"
-                     flow-complete="uploadComplete()">
-
-                    <md-button flow-btn class="add-file-button md-fab md-warn"
-                               aria-label="Add file" translate
-                               translate-attr-aria-label="FM.ADD_FILE">
-                        <md-icon md-font-set="mdi" md-font-icon="mdi-plus"></md-icon>
-                    </md-button>
-                </div>
-                <!-- / ADD FILE BUTTON -->
             </div>
             <md-nav-bar
                     class="center"

@@ -25,6 +25,13 @@ STATIC_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sta
 web_bp = Blueprint('core', __name__, template_folder='templates')
 
 
+# Mimetypes that can be used to execute code
+DANGEROUS_MIMETYPES = [
+    'text/javascript',
+    'text/html',
+]
+
+
 # @app.after_request
 # def after_request(response):
 #     response.headers.add('Accept-Ranges', 'bytes')
@@ -71,8 +78,13 @@ def send_file_partial(path):
 
 def serve_file(entry):
     download = entry.download()
+    resp = None
     if download.download_method() == 'local_path':
-        return send_file_partial(download.local_path)
+        resp = send_file_partial(download.local_path)
+    if entry.mimetype in DANGEROUS_MIMETYPES:
+        resp.headers['Content-Disposition'] = 'attachment; filename={}'.format(entry.name)
+    resp.headers['X-XSS-Protection'] = '1;mode=block'.format(entry.name)
+    return resp
 
 
 @web_bp.context_processor

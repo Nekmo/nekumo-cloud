@@ -205,8 +205,8 @@ Promise.all([
     });
 
 
-    module.controller('optionsCtrl', function ($scope, $rootScope, RenameDialog, DeleteDialog, CopyDialog, MoveDialog,
-                                               PasteDialog) {
+    module.controller('optionsCtrl', function ($scope, $rootScope, $window, RenameDialog, DeleteDialog, CopyDialog,
+                                               MoveDialog, PasteDialog) {
         $scope.$rootScope = $rootScope;
 
         function getEntries(entry) {
@@ -217,6 +217,10 @@ Promise.all([
             console.log($scope.entries);
             // originatorEv = ev;
             $mdOpenMenu(ev);
+        };
+
+        $scope.download = function (entry) {
+            $window.open(entry.path, '_blank');
         };
 
         $scope.openRename = function (entry, ev) {
