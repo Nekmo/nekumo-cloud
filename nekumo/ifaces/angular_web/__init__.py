@@ -2,6 +2,7 @@
 import os
 
 import datetime
+import threading
 
 from flask import json
 from flask.json import JSONEncoder
@@ -53,7 +54,7 @@ socketio = SocketIO(json=FlaskSafeJSON)
 class AngularWebConfig(IfaceConfig):
     address = Input(default='0.0.0.0')
     port = Input(default=7080)
-    debug = Input(default=True)
+    debug = Input(default=False)
 
 
 class AngularWebIface(IfaceBase):
@@ -109,7 +110,15 @@ class AngularWebIface(IfaceBase):
 
         # socketio.run(self.app, self.config.address, self.config.port, threaded=True)
 
-        socketio.run(self.app, self.config.address, self.config.port)
+        # socketio.run(self.app, self.config.address, self.config.port)
+        fn = socketio.run
+        args = (self.app, self.config.address, self.config.port)
+        if os.environ.get('NEKUMO_DEBUG_IFACE') != 'angular_web':
+            l = threading.Thread(target=socketio.run, args=args)
+            l.daemon = True
+            l.start()
+        else:
+            fn(*args)
 
         # sio = socketio_lib.Server(async_mode='threading')
         # self.app.wsgi_app = socketio_lib.Middleware(sio, self.app.wsgi_app)
@@ -130,6 +139,14 @@ class AngularWebIface(IfaceBase):
     def run(self):
         # werkzeug.serving.run_with_reloader(self._run) if self.config.debug else self._run()
         self._run()
+        return self
+
+    @property
+    def iface_name(self):
+        return self.__class__.__name__.split('Iface')[0]
+
+    def __str__(self):
+        return 'http://{}:{} ({})'.format(self.config.address, self.config.port, self.iface_name)
 
 
 Iface = AngularWebIface

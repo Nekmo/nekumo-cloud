@@ -1,9 +1,7 @@
 from flask import session, request
-from flask.ext.socketio import Namespace
 from flask.globals import current_app
-from flask_socketio import emit, join_room, leave_room
+from flask_socketio import emit, join_room, leave_room, Namespace
 
-from nekumo.ifaces.angular_web import socketio
 from nekumo.ifaces.angular_web.api import AngularNekumoAPI, AngularNekumoAPIClient
 
 CLIENTS = {}

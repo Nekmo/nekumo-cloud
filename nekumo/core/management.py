@@ -22,11 +22,6 @@ class NekumoManagement(object):
         self.parser = argparse.ArgumentParser(description=__doc__)
         self.parser.add_argument('gateway', nargs='+')
         self.parser.add_argument('--debug', action='store_true')
-        # self.gateway_classes = self.get_gateway_classes()
-        # self.add_parsers()
-
-    # def add_parsers(self):
-    #     self.gateway_parsers = self.set_gateway_parsers(self.gateway_classes)
 
     def get_gateway_classes(self):
         return get_gateway_classes()
@@ -39,11 +34,17 @@ class NekumoManagement(object):
         return gateway.config_class.uri.parser_argument(self.parser)
 
     def execute_from_command_line(self, argv=None):
+        print('Welcome to Nekumo Cloud! Your personal cloud. Serving:')
         if argv is None:
             argv = sys.argv
         args = self.parser.parse_args(argv[1:])
         self.nekumo = Nekumo(args.gateway, debug=args.debug)
+        for gateway in self.nekumo.gateways:
+            print('  {}'.format(gateway))
         self.nekumo.ifaces = list(self.parse_ifaces(args))
+        print('Interfaces on use:')
+        for iface in self.nekumo.ifaces:
+            print('  {}'.format(iface))
         if 'NEKUMO_DEBUG_IFACE' not in os.environ:
             loop = asyncio.get_event_loop()
             loop.run_forever()
@@ -55,4 +56,4 @@ class NekumoManagement(object):
         # from nekumo.ifaces.simple_web import SimpleWebIface
         # return [SimpleWebIface(self.nekumo, SimpleWebConfig()).run()]
         from nekumo.ifaces.angular_web import AngularWebIface
-        return [AngularWebIface(self.nekumo, AngularWebConfig()).run()]
+        return [AngularWebIface(self.nekumo, AngularWebConfig(debug=args.debug)).run()]

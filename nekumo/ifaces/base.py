@@ -14,3 +14,4 @@ class IfaceBase(object):
 
     def start(self):
         pass
+

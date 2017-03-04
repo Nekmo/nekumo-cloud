@@ -220,3 +220,13 @@ class GatewayBase(object):
         """El id es el identificado único que diferencia un gateway de otro.
         """
         return self.config.uri
+
+    @property
+    def gateway_name(self):
+        return self.__class__.__name__.split('Gateway')[0]
+
+    def get_root_path(self):
+        return self.config.uri
+
+    def __str__(self):
+        return '{} ({})'.format(self.get_root_path(), self.gateway_name)

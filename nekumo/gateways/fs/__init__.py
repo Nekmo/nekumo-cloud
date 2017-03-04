@@ -177,9 +177,6 @@ class FSGateway(GatewayBase):
     def start_watcher(self):
         init_watcher(self)
 
-    def get_root_path(self):
-        return self.config.uri
-
     def get_absolute_path(self, relative_path):
         relative_path = relative_path.rstrip('/')
         return os.path.join(self.get_root_path(), relative_path)

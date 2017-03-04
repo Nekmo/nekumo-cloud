@@ -61,6 +61,7 @@ class SimpleWebIface(IfaceBase):
     def _run(self):
         self.app.run(self.config.address, self.config.port, self.config.debug,
                      threaded=os.environ.get('NEKUMO_DEBUG_IFACE') != 'simple_web')
+        return self
         # self.app.logger.info('app starting up....')
         # self.server = WSGIServer(
         #     (self.config.address, self.config.port),
