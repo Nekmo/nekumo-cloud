@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql import ClauseElement
+from sqlalchemy_utils import PasswordType
 
 Base = declarative_base()
 
@@ -15,6 +16,18 @@ class Path(Base):
     gateway_id = Column(String(512), index=True)
     path = Column(String(4096), index=True)
     created_at = Column(DateTime, default=func.now())
+
+
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(30), index=True, unique=True)
+    password = Column(PasswordType(
+        schemes=[
+            'pbkdf2_sha512',
+        ],
+    ))
+
 
 
 def get_or_create(session, model, defaults=None, commit=True, **kwargs):
