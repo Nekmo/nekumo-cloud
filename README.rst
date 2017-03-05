@@ -13,10 +13,10 @@ your files with the world.
     Interfaces on use:
       http://0.0.0.0:7080 (AngularWeb)
 
-=================================  =================================  =========================
-.. image:: imgs/detail-view.png    .. image:: imgs/grid-view.png      .. image:: imgs/media.png
-.. image:: imgs/image-preview.png  .. image:: imgs/video-preview.png
-=================================  =================================  =========================
+================================  ================================  ================================
+.. image:: https://goo.gl/ogUrIs  .. image:: https://goo.gl/lI7uNy  .. image:: https://goo.gl/mi2Y0o
+.. image:: https://goo.gl/GMhwUl  .. image:: https://goo.gl/UKgjRx
+================================  ================================  ================================
 
 
 Install
