@@ -58,6 +58,48 @@ $whiteframe-shadow-1dp: 0px 1px 3px 0px rgba(0, 0, 0, $shadow-key-umbra-opacity)
 }
 
 #media {
+    .center {
+
+        .header {
+            position: relative;
+
+            .header-content {
+                height: 100%;
+
+                .breadcrumb {
+                    font-size: 24px;
+                    padding-left: 90px;
+                    position: absolute;
+                    bottom: 20px;
+
+                    span {
+                        cursor: pointer;
+
+                        md-icon {
+                            cursor: default;
+                        }
+
+                        &:last-child {
+
+                            md-icon {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    span.is-last {
+                        cursor: default;
+                    }
+
+                    .separator {
+                        margin-left: 8px;
+                        margin-right: 8px;
+                    }
+                }
+            }
+        }
+    }
+
     .media-entry {
         @include not-selectable();
 
