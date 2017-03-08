@@ -1,0 +1,51 @@
+<div role="dialog" aria-label="Eat me!" layout="column" layout-align="center center">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Permissions</h2>
+        </div>
+    </md-toolbar>
+
+    <div class="content">
+        <div layout="row">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Groups & Users</th>
+                        <th>Perms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="permission in permissions">
+                        <td>
+                            <md-contact-chips
+                                    ng-model="permission.groupsUsers"
+                                    md-contacts="querySearch($query)"
+                                    md-contact-name="name"
+                                    md-contact-image="image"
+                                    md-require-match="true"
+                                    md-highlight-flags="i"
+                                    filter-selected="true"
+                                    placeholder="To">
+                            </md-contact-chips>
+                        </td>
+                        <td>
+                            <md-input-container>
+                              <md-select ng-model="permission.permissions" multiple>
+                                  <md-option ng-value="perm.name" ng-repeat="perm in perms">
+                                      {{perm.name}}
+                                  </md-option>
+                              </md-select>
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div layout="row">
+        <md-button md-autofocus flex class="md-primary" ng-click="ctrl.closeDialog()">
+            Close
+        </md-button>
+    </div>
+</div>

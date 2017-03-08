@@ -12,8 +12,7 @@ Promise.all([
     require('chieffancypants/angular-hotkeys/src/hotkeys')
 ]).then(function () {
     var module = angular.module('app.file-manager', ['ngMaterial', 'fileManagerApi', 'utils', 'fmOptions', 'app.core',
-                                                     'cfp.hotkeys', 'preview'
-    ]);
+                                                     'cfp.hotkeys', 'preview']);
 
     var _ = require('lodash');
 

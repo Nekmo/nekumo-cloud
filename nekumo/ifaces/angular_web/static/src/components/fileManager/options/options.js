@@ -4,12 +4,13 @@ Promise.all([
     require("angular-aria"),
     require("angular-material"),
     require("sprintf-js"),
+    require('shared/perms/perms'),
     require('shared/fileManagerApi/fileManagerApi')
 ]).then(function(){
     var _ = require('lodash');
     var sprintf = require("sprintf-js").sprintf;
 
-    var module = angular.module('fmOptions', ['ngMaterial', 'fileManagerApi']);
+    var module = angular.module('fmOptions', ['ngMaterial', 'fileManagerApi', 'perms']);
 
     // module.factory('Dialog', function ($mdPanel) {
     //     var position = $mdPanel.newPanelPosition().absolute().center();
@@ -204,9 +205,8 @@ Promise.all([
         }
     });
 
-
     module.controller('optionsCtrl', function ($scope, $rootScope, $window, RenameDialog, DeleteDialog, CopyDialog,
-                                               MoveDialog, PasteDialog) {
+                                               MoveDialog, PasteDialog, $perms) {
         $scope.$rootScope = $rootScope;
 
         function getEntries(entry) {
@@ -241,6 +241,10 @@ Promise.all([
 
         $scope.openPaste = function (entry, ev) {
             PasteDialog(entry, ev).show()
+        };
+
+        $scope.openPermissions = function (entry, ev) {
+            $perms(entry, ev)
         }
     });
 
