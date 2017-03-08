@@ -14,3 +14,4 @@ treelib==1.3.5
 xattr==0.9.1
 pyinotify
 sqlalchemy-utils
+passlib
