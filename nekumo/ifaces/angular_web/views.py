@@ -117,6 +117,11 @@ def index(path='/'):
         return serve_file(entry)
 
 
+@web_bp.route('/.nekumo/admin', methods=['GET'])
+def admin():
+    return render_template('admin.html')
+
+
 @web_bp.route('/.nekumo/thumb/<path:path>', methods=['GET'])
 def thumb(path):
     entry = current_app.nekumo.get_entry(path)

@@ -1,0 +1,51 @@
+<!-- SIDENAV HEADER -->
+<div class="header md-accent-bg" layout="column" layout-align="space-between">
+    <div class="toolbar" layout="row" layout-align="end center">
+    </div>
+
+    <div>
+        <div class="title">
+            <span ng-if="selected">{{ selected.name }}</span>
+            <span ng-if="entriesSelected.length > 1">{{entriesSelected|countEntries }} selected</span>
+        </div>
+        <div class="subtitle secondary-text">
+            <span translate="FM.EDITED">Extra info</span>: {{ selected.modified }}</div>
+    </div>
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<md-content class="content" flex ms-scroll>
+    <md-list>
+        <md-subheader class="md-no-sticky">Admin options</md-subheader>
+        <md-list-item ng-click="navigateTo(setting.extraScreen, $event)">
+            <md-icon md-svg-icon=""></md-icon>
+            <p>Setting</p>
+            <md-switch class="md-secondary" ng-model="setting.enabled"></md-switch>
+        </md-list-item>
+        <md-list-item ng-click="navigateTo('data usage', $event)">
+            <md-icon md-svg-icon="cached"></md-icon>
+            <p>Data Usage</p>
+        </md-list-item>
+        <md-list-item ui-sref="hello" ui-sref-active="item-menu-active">
+            <md-icon md-font-set="mdi" md-font-icon="mdi-home"></md-icon>
+            <p>Home</p>
+        </md-list-item>
+        <md-list-item ui-sref="about" ui-sref-active="item-menu-active">
+            <md-icon md-font-set="mdi" md-font-icon="mdi-account-multiple"></md-icon>
+            <p>Users</p>
+        </md-list-item>
+        <md-list-item ui-sref="about" ui-sref-active="item-menu-active">
+            <md-icon md-font-set="mdi" md-font-icon="mdi-sd"></md-icon>
+            <p>Storage</p>
+        </md-list-item>
+        <md-list-item ui-sref="about" ui-sref-active="item-menu-active">
+            <md-icon md-font-set="mdi" md-font-icon="mdi-network"></md-icon>
+            <p>Interfaces</p>
+        </md-list-item>
+    </md-list>
+    <!--
+    <a ui-sref="hello" ui-sref-active="active">Hello</a>
+    <a ui-sref="about" ui-sref-active="active">About</a>
+    -->
+</md-content>

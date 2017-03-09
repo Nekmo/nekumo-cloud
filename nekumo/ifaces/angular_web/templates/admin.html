@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block ng_app %}adminApp{% endblock %}
+
+{% block css %}
+    {% if not debug %}
+    <link href="{{ url_for('static', filename='dist/fileManager.css') }}" rel="stylesheet">
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+{#    <div id="file-manager" class="page-layout simple right-sidenav layout-row full-height" layout="row"#}
+{#         ng-controller="FileManagerController as vm" style="overflow: hidden;">#}
+    <div id="admin" class="page-layout simple right-sidenav" layout="row"
+         ng-controller="adminCtrl">
+
+        <md-sidenav class="sidenav details-sidenav md-sidenav-left" md-is-locked-open="$mdMedia('gt-md')"
+                    md-component-id="details-sidenav" ng-controller="adminMenuCtrl"
+                    ng-include="templates.menu.templateUrl"
+                    ms-scroll ms-sidenav-helper>
+        </md-sidenav>
+
+        <!-- CENTER -->
+        <div class="center" layout="column" flex>
+
+            <!-- HEADER -->
+            <div class="header md-accent-bg">
+
+                <div class="header-content" layout="column" layout-align="space-between">
+
+                    <!-- TOOLBAR -->
+                    <div class="toolbar" layout="row" layout-align="space-between">
+
+                        <md-button class="md-icon-button main-sidenav-toggle" ng-click="toggleSidenav('main-sidenav')"
+                                   aria-label="Toggle Main Sidenav" translate
+                                   translate-attr-aria-label="FILE.TOOGLE_MAIN_SIDENAV">
+                            <md-icon md-font-set="mdi" md-font-icon="mdi-menu" class="icon"></md-icon>
+                        </md-button>
+
+                        <div class="right-side" layout="row">
+                            <md-button class="md-icon-button" aria-label="Search" translate
+                                       translate-attr-aria-label="FM.SEARCH">
+                                <md-icon md-font-set="mdi" md-font-icon="mdi-magnify"></md-icon>
+                                <md-tooltip><span translate="FM.SEARCH">Search</span></md-tooltip>
+                            </md-button>
+
+                            <md-button ng-if="currentView === 'list'" class="md-icon-button"
+                                       ng-click="toggleView()"
+                                       aria-label="view type" translate
+                                       translate-attr-aria-label="FM.GRID_VIEW">
+                                <md-icon md-font-set="mdi" md-font-icon="mdi-view-module"></md-icon>
+                                <md-tooltip><span translate="FM.GRID_VIEW">Grid View</span></md-tooltip>
+                            </md-button>
+
+                            <md-button ng-if="currentView === 'grid'" class="md-icon-button" aria-label="view type"
+                                       ng-click="toggleView()" translate
+                                       translate-attr-aria-label="FM.LIST_VIEW">
+                                <md-icon md-font-set="mdi" md-font-icon="mdi-view-headline"></md-icon>
+                                <md-tooltip><span translate="FM.LIST_VIEW">List View</span></md-tooltip>
+                            </md-button>
+                        </div>
+                    </div>
+                    <!-- / TOOLBAR -->
+
+                    <!-- BREADCRUMB -->
+                    <div class="breadcrumb text-truncate" layout="row" layout-align="start center">
+                        <span ng-click="navigateTo(root);">Root</span>
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-chevron-right" class="icon separator"
+                                 ng-if="breadcrumb.length"></md-icon>
+                        <span ng-repeat="entry in breadcrumb track by $index" ng-class="($last ? 'is-last' : '')"
+                              ng-click="navigateTo(entry.path)">
+                            {% raw %}{{ entry.name }}{% endraw %}
+                            <md-icon md-font-set="mdi" md-font-icon="mdi-chevron-right" class="icon separator"></md-icon>
+                        </span>
+                    </div>
+                    <!-- / BREADCRUMB -->
+                </div>
+            </div>
+            <!-- / HEADER -->
+
+            <!-- CONTENT -->
+            <md-content class="content" flex ms-scroll>
+                <ui-view></ui-view>
+            </md-content>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CENTER -->
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    {% if not debug %}
+        <script src="{{ url_for('static', filename='dist/fileManager.js') }}"></script>
+    {% endif %}
+    <script>
+        {% if debug %}
+        SystemJS.import('/.nekumo/static/src/components/admin/admin.js');
+        {% else %}
+            SystemJS.import('src/components/admin/admin.js');
+        {% endif %}
+    </script>
+{% endblock %}

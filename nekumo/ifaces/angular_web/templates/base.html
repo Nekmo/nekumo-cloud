@@ -20,9 +20,9 @@
         {% endblock %}
     </head>
     <body ng-controller="nekumoCtrl" class="ng-cloak" md-theme="default">
-        <div id="main" class="animate-slide-up {% block main_class %}{% endblock %}" ui-view="main" layout="column">
-            <div id="layout-content-only" class="template-layout" layout="column" flex ng-controller="nekumoCtrl">
-                <md-content id="content" class="animate-slide-up md-hue-2" ui-view="content" flex>
+        <div id="main" class="animate-slide-up {% block main_class %}{% endblock %}" layout="column">
+            <div id="layout-content-only" class="template-layout" layout="column" flex>
+                <md-content id="content" class="animate-slide-up md-hue-2" flex>
                     {% block content %}
                     {% endblock %}
                 </md-content>

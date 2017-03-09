@@ -1,0 +1,36 @@
+#admin {
+    .sidenav {
+        width: 320px;
+        min-width: 320px;
+        max-width: 320px;
+        padding: 0;
+
+        &._md-locked-open {
+            width: 320px;
+            min-width: 320px;
+            max-width: 320px;
+            overflow: hidden;
+        }
+
+        .header {
+            height: 170px;
+            min-height: 170px;
+            max-height: 170px;
+            padding: 24px 24px;
+
+            .title {
+                overflow-wrap: break-word;
+                font-size: 15px;
+                margin-bottom: 8px;
+            }
+
+            .subtitle {
+
+            }
+        }
+
+        .item-menu-active {
+            background: #ced9d8;
+        }
+    }
+}
