@@ -18,6 +18,15 @@ Range: bytes=0-  # Al hacer una petición con seek
 Range: bytes=18284544-  # Otra petición con seek
 
 .seek() funciona, pero sólo al comienzo. Hace una nueva petición
+
+
+ffmpeg -ss 00:04:23  -i simpsons.avi -c:v h264 -f matroska -c:a copy - > simp.mp4
+
+
+----
+ffprobe -read_intervals read_intervals y bitrate.
+----
+
 """
 
 class FfmpegEncode(list):

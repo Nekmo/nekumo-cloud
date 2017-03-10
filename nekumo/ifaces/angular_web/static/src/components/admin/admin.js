@@ -12,23 +12,27 @@ Promise.all([
 
     require('components/admin/menu'),
 
+    require('components/admin/tabs/users/users'),
 
     require('src/shared/theme/theme.css!css'),
     require('src/components/media/media.css!css')
 ]).then(function () {
-    var module = angular.module('adminApp', ['nekumo', 'fileManagerApi', 'ui.router', 'adminMenu']);
+    var module = angular.module('adminApp', [
+        'nekumo', 'fileManagerApi', 'ui.router', 'adminMenu', 'adminUsers'
+    ]);
 
     module.config(function($stateProvider) {
         var helloState = {
-            name: 'hello',
-            url: '/hello',
+            name: 'home',
+            url: '/home',
             template: '<h3>hello world!</h3>'
         };
 
         var aboutState = {
-            name: 'about',
-            url: '/about',
-            template: '<h3>Its the UI-Router hello world app!</h3>'
+            name: 'users',
+            url: '/users',
+            templateUrl: '/.nekumo/static/src/components/admin/tabs/users/users.html',
+            controller: 'adminUsersCtrl'
         };
 
         $stateProvider.state(helloState);

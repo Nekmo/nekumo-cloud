@@ -18,28 +18,19 @@
 <md-content class="content" flex ms-scroll>
     <md-list>
         <md-subheader class="md-no-sticky">Admin options</md-subheader>
-        <md-list-item ng-click="navigateTo(setting.extraScreen, $event)">
-            <md-icon md-svg-icon=""></md-icon>
-            <p>Setting</p>
-            <md-switch class="md-secondary" ng-model="setting.enabled"></md-switch>
-        </md-list-item>
-        <md-list-item ng-click="navigateTo('data usage', $event)">
-            <md-icon md-svg-icon="cached"></md-icon>
-            <p>Data Usage</p>
-        </md-list-item>
-        <md-list-item ui-sref="hello" ui-sref-active="item-menu-active">
+        <md-list-item ui-sref="home" ui-sref-active="item-menu-active">
             <md-icon md-font-set="mdi" md-font-icon="mdi-home"></md-icon>
             <p>Home</p>
         </md-list-item>
-        <md-list-item ui-sref="about" ui-sref-active="item-menu-active">
+        <md-list-item ui-sref="users" ui-sref-active="item-menu-active">
             <md-icon md-font-set="mdi" md-font-icon="mdi-account-multiple"></md-icon>
             <p>Users</p>
         </md-list-item>
-        <md-list-item ui-sref="about" ui-sref-active="item-menu-active">
+        <md-list-item ui-sref="storage" ui-sref-active="item-menu-active">
             <md-icon md-font-set="mdi" md-font-icon="mdi-sd"></md-icon>
             <p>Storage</p>
         </md-list-item>
-        <md-list-item ui-sref="about" ui-sref-active="item-menu-active">
+        <md-list-item ui-sref="interfaces" ui-sref-active="item-menu-active">
             <md-icon md-font-set="mdi" md-font-icon="mdi-network"></md-icon>
             <p>Interfaces</p>
         </md-list-item>
