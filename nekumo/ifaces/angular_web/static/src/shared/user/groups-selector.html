@@ -1,0 +1,19 @@
+<md-chips ng-model="ngModel" readonly="false"  md-autocomplete-snap
+          md-transform-chip="transformChip($chip)"
+          md-require-match="autocompleteDemoRequireMatch"
+          md-removable="true">
+    <md-autocomplete
+            md-selected-item="selectedItem"
+            md-search-text="searchText"
+            md-items="item in querySearch(searchText)"
+            md-item-text="item.name"
+            placeholder="Select groups">
+        <span md-highlight-text="searchText">{{item.name}}</span>
+    </md-autocomplete>
+    <md-chip-template>
+      <span>
+        <strong>{{$chip.name}}</strong>
+        <em ng-if="$chip.type">({{$chip.type}})</em>
+      </span>
+    </md-chip-template>
+</md-chips>

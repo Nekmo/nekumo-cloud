@@ -13,30 +13,39 @@ Promise.all([
     require('components/admin/menu'),
 
     require('components/admin/tabs/users/users'),
+    require('shared/user/user'),
 
     require('src/shared/theme/theme.css!css'),
     require('src/components/media/media.css!css')
 ]).then(function () {
     var module = angular.module('adminApp', [
-        'nekumo', 'fileManagerApi', 'ui.router', 'adminMenu', 'adminUsers'
+        'nekumo', 'fileManagerApi', 'ui.router', 'adminMenu', 'adminUsers', 'userForm'
     ]);
 
     module.config(function($stateProvider) {
-        var helloState = {
+        var home = {
             name: 'home',
             url: '/home',
             template: '<h3>hello world!</h3>'
         };
 
-        var aboutState = {
+        var users = {
             name: 'users',
             url: '/users',
             templateUrl: '/.nekumo/static/src/components/admin/tabs/users/users.html',
             controller: 'adminUsersCtrl'
         };
 
-        $stateProvider.state(helloState);
-        $stateProvider.state(aboutState);
+        var userForm = {
+            name: 'userForm',
+            url: '/users/add',
+            templateUrl: '/.nekumo/static/src/shared/user/userForm.html',
+            controller: 'userFormCtrl'
+        };
+
+        $stateProvider.state(home);
+        $stateProvider.state(users);
+        $stateProvider.state(userForm);
     });
 
     module.controller('adminCtrl', function ($scope) {

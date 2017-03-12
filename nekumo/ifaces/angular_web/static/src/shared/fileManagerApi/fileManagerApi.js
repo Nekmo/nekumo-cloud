@@ -114,7 +114,8 @@ Promise.all([
         return _.get(MIMETYPE_CATEGORIES, mimetype, _.get(MIMETYPE_CATEGORIES, mime));
     }
 
-    Entry = function (data) {
+
+    var Entry = function (data) {
         angular.extend(this, {
             "type": "folder",
             "icon_class": "mdi mdi-folder icon-folder",
@@ -155,13 +156,46 @@ Promise.all([
     };
 
 
+    var User = function (data) {
+        angular.extend(this, {
+            id: null,
+            username: '',
+            email: '',
+            password: '',
+            is_staff: false
+        });
+        angular.extend(this, data);
+    };
+
+
     module.factory('Entry', function () {
         return function (data) {
             return new Entry(data);
         }
     });
 
-    module.factory('API', function (socketFactory, $q, Entry) {
+
+    module.factory('User', function ($injector) {
+
+        return function (data) {
+            User.prototype.save = null;
+            $injector.get('API');
+
+            return new User(data);
+        }
+    });
+
+
+    module.factory('socket', function (socketFactory) {
+        if (!socket) {
+            var ioSocket = io.connect(WS_URL, {transports: ['websocket'], upgrade: false, path: API_PATH});
+            socket = socketFactory({ioSocket: ioSocket});
+        }
+        return socket;
+    });
+
+
+    module.factory('API', function (socket, $q, Entry) {
         var updateListeners = {};
 
         // var ioSocket = io(WS_URL, {path: API_NAMESPACE});
@@ -169,11 +203,6 @@ Promise.all([
         // // var socket = socketFactory({ioSocket: ioSocket});
         // var socket = socketFactory({prefix: '/', ioSocket: ioSocket});
         // socket.emit('foo');
-
-        if (!socket) {
-            var ioSocket = io.connect(WS_URL, {transports: ['websocket'], upgrade: false, path: API_PATH});
-            socket = socketFactory({ioSocket: ioSocket});
-        }
 
         // ioSocket.on('connect', function() {
         //     ioSocket.emit('joined', {});
@@ -261,5 +290,46 @@ Promise.all([
                 registerListener(updateListeners, action, fn);
             }
         }
+    });
+
+
+    module.factory('modelAPI', function (socket, $q) {
+
+        function Request(model, action, data) {
+            data = data || {};
+            return $q(function (resolve, reject) {
+                socket.emit('model', {model: model, action: action, data: data}, resolve);
+            });
+        }
+
+        return function (model) {
+            return {
+                create: function (data) {
+                    return Request(model, 'create', data);
+                },
+                update: function (data) {
+                    return Request(model, 'update', data);
+                },
+                delete: function (data) {
+                    return Request(model, 'delete', data);
+                },
+                all: function () {
+                    return Request(model, 'all');
+                },
+                get: function (data) {
+                    return Request(model, 'get', data);
+                }
+            }
+        }
+    });
+
+
+    module.factory('UsersAPI', function (modelAPI) {
+        return modelAPI('User');
+    });
+
+
+    module.factory('groupsAPI', function (modelAPI) {
+        return modelAPI('Group');
     });
 });

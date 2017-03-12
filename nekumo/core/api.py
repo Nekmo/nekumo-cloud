@@ -1,3 +1,4 @@
+from nekumo import models
 from nekumo.exceptions import MethodNotAvailable
 
 
@@ -7,6 +8,33 @@ class NekumoAPIClient(object):
 
     def listener(self, event):
         raise NotImplementedError
+
+
+class ModelAPI(object):
+    actions = ['all', 'get', 'create', 'delete', 'update']
+
+    def __init__(self, nekumo, model, data=None, action=None):
+        self.nekumo = nekumo
+        self.model = model
+        self.action = action
+        self.data = data
+
+    def execute(self):
+        fn = getattr(self, self.action)
+        return fn()
+
+    def get_model(self):
+        return getattr(models, self.model)
+
+    def queryset(self):
+        return self.nekumo.session.query(self.get_model())
+
+    def all(self):
+        return self.queryset().all()
+
+    def get(self, id=None):
+        id = self.data.get('id') or id
+        return self.queryset().filter(id=id)
 
 
 class NekumoEntryAPI(object):
@@ -47,7 +75,7 @@ class NekumoEntriesAPI(object):
 
 class NekumoAPI(object):
     # Methods not implemented in entries
-    methods = ['watch', 'unwatch']
+    methods = ['watch', 'unwatch', 'model']
     entry_api_class = NekumoEntryAPI
     entries_api_class = NekumoEntriesAPI
 
@@ -60,7 +88,7 @@ class NekumoAPI(object):
         if 'entry' in obj:
             iface_path = obj.pop('entry')
             return self.nekumo.get_entry(iface_path)
-        else:
+        elif 'entries' in obj:
             entries = obj.pop('entries')
             return [self.nekumo.get_entry(x) for x in entries]
 
@@ -70,7 +98,9 @@ class NekumoAPI(object):
         return fn(event, **options)
 
     def execute_method(self, event, **options):
-        if not isinstance(self.entry_entries, list):
+        if self.entry_entries is None:
+            return getattr(self, 'on_{}'.format(event))(**options)
+        elif not isinstance(self.entry_entries, list):
             return getattr(self, 'on_{}'.format(event))(self.entry_entries, **options)
         else:
             for entry in self.entry_entries:
@@ -91,3 +121,6 @@ class NekumoAPI(object):
 
     def on_unwatch(self, entry):
         entry.unwatch(self.client)
+
+    def on_model(self, **kwargs):
+        return ModelAPI(self.nekumo, **kwargs).execute()

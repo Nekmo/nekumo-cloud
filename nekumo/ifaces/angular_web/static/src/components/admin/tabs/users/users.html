@@ -1,48 +1,50 @@
 <!-- http://stackoverflow.com/questions/38138425/is-it-possible-to-create-a-table-from-md-list-and-md-list-item -->
-<md-list class="users-list">
-    <md-subheader class="md-no-sticky">Users</md-subheader>
-    <md-list-item class="md-2-line" ng-repeat="user in users">
-        <md-icon md-font-set="mdi" md-font-icon="mdi-account"
-                 class="md-avatar-icon"></md-icon>
-        <img ng-src="{{user.options.face}}?25" class="md-avatar" alt="{{user.options.face}}"
-             ng-if="user.options.face"/>
-        <div class="md-list-item-text" layout="row" layout-align="start center">
-            <div flex="10">
-                <h3>{{ user.name }}</h3>
-                <p>{{ user.type }}</p>
+<md-content class="content" flex ms-scroll>
+    <md-list class="users-list">
+        <md-subheader class="md-no-sticky">Users</md-subheader>
+        <md-list-item class="md-2-line" ng-repeat="user in users">
+            <md-icon md-font-set="mdi" md-font-icon="mdi-account"
+                     class="md-avatar-icon"></md-icon>
+            <img ng-src="{{user.options.face}}?25" class="md-avatar" alt="{{user.options.face}}"
+                 ng-if="user.options.face"/>
+            <div class="md-list-item-text" layout="row" layout-align="start center">
+                <div flex="10">
+                    <h3>{{ user.name }}</h3>
+                    <p>{{ user.type }}</p>
+                </div>
+                <div flex="20">
+                    {{ user.email }}
+                </div>
+                <div flex="15">
+                    {{ user.created_at }}
+                </div>
+                <div flex="30">
+                    {{ user.groups }}
+                </div>
             </div>
-            <div flex="20">
-                {{ user.email }}
+        </md-list-item>
+        <md-subheader class="md-no-sticky">Groups</md-subheader>
+        <md-list-item class="md-2-line" ng-repeat="group in groups">
+            <md-icon md-font-set="mdi" md-font-icon="mdi-account-multiple"
+                     class="md-avatar-icon"></md-icon>
+            <img ng-src="{{group.options.face}}?25" class="md-avatar" alt="{{group.options.face}}"
+                 ng-if="group.options.face"/>
+            <div class="md-list-item-text" layout="row" layout-align="start center">
+                <div flex="10">
+                    <h3>{{ group.name }}</h3>
+                    <p>{{ group.type }}</p>
+                </div>
+                <div flex="20">
+                    {{ group.email }}
+                </div>
+                <div flex="15">
+                    {{ group.created_at }}
+                </div>
+                <div flex="30">
+                    {{ group.groups }}
+                </div>
             </div>
-            <div flex="15">
-                {{ user.created_at }}
-            </div>
-            <div flex="30">
-                {{ user.groups }}
-            </div>
-        </div>
-    </md-list-item>
-    <md-subheader class="md-no-sticky">Groups</md-subheader>
-    <md-list-item class="md-2-line" ng-repeat="group in groups">
-        <md-icon md-font-set="mdi" md-font-icon="mdi-account-multiple"
-                 class="md-avatar-icon"></md-icon>
-        <img ng-src="{{group.options.face}}?25" class="md-avatar" alt="{{group.options.face}}"
-             ng-if="group.options.face"/>
-        <div class="md-list-item-text" layout="row" layout-align="start center">
-            <div flex="10">
-                <h3>{{ group.name }}</h3>
-                <p>{{ group.type }}</p>
-            </div>
-            <div flex="20">
-                {{ group.email }}
-            </div>
-            <div flex="15">
-                {{ group.created_at }}
-            </div>
-            <div flex="30">
-                {{ group.groups }}
-            </div>
-        </div>
-    </md-list-item>
+        </md-list-item>
 
-</md-list>
+    </md-list>
+</md-content>

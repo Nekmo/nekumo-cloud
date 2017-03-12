@@ -1,0 +1,44 @@
+<md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding flex="100" flex-gt-lg="60" flex-gt-md="75">
+    <div>
+        <md-input-container>
+            <md-icon md-font-set="mdi" md-font-icon="mdi-account"></md-icon>
+            <label>Username</label>
+            <input ng-model="user.username">
+        </md-input-container>
+
+        <md-input-container>
+            <md-icon md-font-set="mdi" md-font-icon="mdi-email"></md-icon>
+            <label>Email</label>
+            <input ng-model="user.email" type="email">
+        </md-input-container>
+    </div>
+</md-content>
+
+<md-content layout-padding flex="100" flex-gt-lg="60" flex-gt-md="75">
+    <div>
+        <div layout-gt-xs="row">
+            <md-input-container flex-gt-xs>
+                <md-icon md-font-set="mdi" md-font-icon="mdi-key-variant"></md-icon>
+                <label>Password</label>
+                <input ng-model="user.password" type="password">
+            </md-input-container>
+            <md-input-container flex-gt-xs>
+                <label>Repeat password</label>
+                <input ng-model="repeat_password" type="password">
+            </md-input-container>
+        </div>
+        <div layout-gt-xs="row">
+            <groups-selector ng-model="user.groups" flex-gt-xs></groups-selector>
+        </div>
+        <div layout-gt-xs="row"  layout-align="space-between none">
+            <md-switch ng-model="user.issuperuser" aria-label="Is superuser">
+                Is superuser
+            </md-switch>
+            <md-button class="md-raised md-primary">
+                <md-icon md-font-set="mdi" md-font-icon="mdi-content-save"></md-icon>
+                Save
+            </md-button>
+        </div>
+
+    </div>
+</md-content>

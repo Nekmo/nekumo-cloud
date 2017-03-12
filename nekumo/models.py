@@ -39,7 +39,7 @@ class Path(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     gateway_id = Column(String(512), index=True)
     path = Column(String(4096), index=True)
-    permissions = relationship("Child", back_populates="path")
+    permissions = relationship("Permission", back_populates="path")
 
     created_at = Column(DateTime, default=func.now())
 
