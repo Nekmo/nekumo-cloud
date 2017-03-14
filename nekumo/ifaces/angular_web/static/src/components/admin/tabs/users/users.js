@@ -8,12 +8,26 @@ Promise.all([
     require('components/admin/tabs/users/users.css!css')
 ]).then(function () {
     var module = angular.module('adminUsers', ['nekumo', 'fileManagerApi']);
-    module.controller('adminUsersCtrl', function ($scope) {
-        $scope.users = [
-            {name: 'foo', type: 'superuser', email: 'contacto@nekmo.com', 'groups': ['test']},
-            {name: 'foo spam spam', type: 'superuser', email: 'contacto@nekmo.com', 'groups': ['test', '2', '4']}
-        ];
 
-        $scope.groups = $scope.users;
+    module.config(function($mdThemingProvider) {
+
+        // Configure a dark theme with primary foreground yellow
+
+        $mdThemingProvider.theme('alert-dark', 'default')
+          .primaryPalette('yellow')
+          .dark();
+
+      });
+
+    module.controller('adminUsersCtrl', function ($scope, UsersAPI, GroupsAPI, $stateParams) {
+        UsersAPI.all().then(function (users) {
+            $scope.users = users;
+        });
+
+        GroupsAPI.all().then(function (groups) {
+            $scope.groups = groups;
+        });
+
+        $scope.message = $stateParams.message;
     });
 });

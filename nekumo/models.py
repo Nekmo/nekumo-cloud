@@ -13,6 +13,28 @@ from sqlalchemy_utils import EmailType, PasswordType
 Base = declarative_base()
 
 
+def exclude_keys(data, exclude=()):
+    return {key: value for key, value in data.items() if key not in exclude}
+
+class ModelMixin(object):
+    __exclude_params__ = None
+    _session = None
+
+    def __init__(self, *args, **kwargs):
+        self._session = kwargs.pop('_session', None)
+        kwargs = self.update_params(**kwargs)
+        super(ModelMixin, self).__init__(*args, **kwargs)
+
+    def update(self, **kwargs):
+        self._session = kwargs.pop('_session', self._session)
+        kwargs = self.update_params(**kwargs)
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+    def update_params(self, **kwargs):
+        return exclude_keys(kwargs, self.__exclude_params__ or [])
+
+
 TARGET_CHOICES = [
     ('THIS', _('This')),
     ('CHILDREN', _('Children')),
@@ -34,7 +56,7 @@ permission_groups_table = Table('permission_groups', Base.metadata,
 )
 
 
-class Path(Base):
+class Path(ModelMixin, Base):
     __tablename__ = 'paths'
     id = Column(Integer, primary_key=True, autoincrement=True)
     gateway_id = Column(String(512), index=True)
@@ -44,7 +66,7 @@ class Path(Base):
     created_at = Column(DateTime, default=func.now())
 
 
-class Permission(Base):
+class Permission(ModelMixin, Base):
     __tablename__ = 'permissions'
     id = Column(Integer, primary_key=True, autoincrement=True)
     path_id = Column(Integer, ForeignKey('paths.id'))
@@ -77,7 +99,7 @@ user_groups_table = Table('user_groups', Base.metadata,
 )
 
 
-class Group(Base):
+class Group(ModelMixin, Base):
     __tablename__ = 'groups'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(80), unique=True)
@@ -88,8 +110,9 @@ class Group(Base):
     updated_at = Column(DateTime, onupdate=func.now())
 
 
-class User(Base):
+class User(ModelMixin, Base):
     __tablename__ = 'users'
+    __exclude_params__ = ('created_at', 'updated_at')
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(30), index=True, unique=True)
     password = Column(PasswordType(
@@ -105,17 +128,38 @@ class User(Base):
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
 
+    def update_params(self, **kwargs):
+        def get_group(group):
+            return get_or_create(self._session, Group, dict(name=group['name']), commit=False)[0]
+        kwargs = super(User, self).update_params(**kwargs)
+        if not kwargs.get('password'):
+            kwargs.pop('password')
+        kwargs['groups'] = [get_group(group) for group in kwargs.get('groups', [])]
+        return kwargs
 
-def get_or_create(session, model, defaults=None, commit=True, **kwargs):
+    def to_json(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'groups': [{'id': g.id, 'name': g.name} for g in self.groups],
+            'email': self.email,
+            'is_staff': self.is_staff,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+        }
+
+
+def get_or_create(session, model, defaults=None, commit=True, add=True, **kwargs):
     instance = session.query(model).filter_by(**kwargs).first()
     if instance:
         return instance, False
     else:
         params = dict((k, v) for k, v in kwargs.items() if not isinstance(v, ClauseElement))
         params.update(defaults or {})
-        if commit:
-            instance = model(**params)
+        instance = model(**params)
+        if add:
             session.add(instance)
+        if commit:
             session.commit()
         return instance, True
 

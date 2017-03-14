@@ -7,6 +7,10 @@ import threading
 from flask import json
 from flask.json import JSONEncoder
 from os3.core.comparators import StartsWithEqual
+from sqlalchemy.ext.declarative import DeclarativeMeta
+from sqlalchemy.orm import class_mapper
+from sqlalchemy.orm import object_mapper
+from sqlalchemy.orm.exc import UnmappedInstanceError
 
 from nekumo.conf.base import Input
 from nekumo.gateways.base import ALL_METHODS_PROPERTIES, NekumoEntryBase
@@ -21,6 +25,22 @@ from nekumo.ifaces.simple_web.jinja import filters
 NEKUMO_ROOT = '/.nekumo'
 
 
+def serialize_model(model):
+  """Transforms a model into a dictionary which can be dumped to JSON."""
+  # first we get the names of all the columns on your model
+  columns = [c.key for c in class_mapper(model.__class__).columns]
+  # then we return their values in a dict
+  return dict((c, getattr(model, c)) for c in columns)
+
+
+def is_mapped(obj):
+    try:
+        object_mapper(obj)
+    except UnmappedInstanceError:
+        return False
+    return True
+
+
 class NekumoEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime.datetime):
@@ -31,8 +51,10 @@ class NekumoEncoder(json.JSONEncoder):
             return (datetime.datetime.min + obj).time().isoformat()
         elif isinstance(obj, StartsWithEqual):
             return obj.name
-        elif isinstance(obj, NekumoEntryBase):
+        elif isinstance(obj, NekumoEntryBase) or hasattr(obj, 'to_json'):
             return obj.to_json()
+        elif is_mapped(obj):
+            return serialize_model(obj)
         else:
             return super(NekumoEncoder, self).default(obj)
 

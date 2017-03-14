@@ -22,6 +22,7 @@ Promise.all([
         'nekumo', 'fileManagerApi', 'ui.router', 'adminMenu', 'adminUsers', 'userForm'
     ]);
 
+
     module.config(function($stateProvider) {
         var home = {
             name: 'home',
@@ -33,19 +34,49 @@ Promise.all([
             name: 'users',
             url: '/users',
             templateUrl: '/.nekumo/static/src/components/admin/tabs/users/users.html',
-            controller: 'adminUsersCtrl'
+            controller: 'adminUsersCtrl',
+            params: {message: ''}
         };
 
-        var userForm = {
+        var userFormCreate = {
             name: 'userForm',
             url: '/users/add',
             templateUrl: '/.nekumo/static/src/shared/user/userForm.html',
-            controller: 'userFormCtrl'
+            controller: 'userFormCtrl',
+            resolve: {
+                user: function () {
+                    return null;
+                },
+                onSuccess: function () {
+                    return '#!/users';
+                }
+            }
+        };
+
+        var userFormUpdate = {
+            name: 'userFormUpdate',
+            url: '/users/{userId}',
+            templateUrl: '/.nekumo/static/src/shared/user/userForm.html',
+            controller: 'userFormCtrl',
+            resolve: {
+                user: function(UsersAPI, $transition$) {
+                    return UsersAPI.get($transition$.params().userId);
+                },
+                onSuccess: function ($state) {
+                    return function (user) {
+                        $state.go('users', {message: {
+                            body: 'User ' + user.toString() + ' has been created.',
+                            type: 'success'
+                        }});
+                    };
+                }
+            }
         };
 
         $stateProvider.state(home);
         $stateProvider.state(users);
-        $stateProvider.state(userForm);
+        $stateProvider.state(userFormCreate);
+        $stateProvider.state(userFormUpdate);
     });
 
     module.controller('adminCtrl', function ($scope) {

@@ -1,3 +1,17 @@
+#alert-box {
+    color: whitesmoke;
+    margin: 10px auto 0 auto;
+    padding-left: 10px;
+
+    &.success {
+        background-color: #71b94e;
+    }
+
+    &.danger {
+        background-color: #d15858;
+    }
+}
+
 .users-list {
     .md-avatar-icon {
         background-color: rgba(0, 0, 0, 0.38);

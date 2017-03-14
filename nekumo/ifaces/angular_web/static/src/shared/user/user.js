@@ -3,10 +3,12 @@
  */
 Promise.all([
     require('angular'),
+    require('angular-messages'),
     require('shared/nekumo/nekumo'),
+    require('shared/inputs/inputs'),
     require('shared/fileManagerApi/fileManagerApi')
 ]).then(function () {
-    var module = angular.module('userForm', ['nekumo', 'fileManagerApi']);
+    var module = angular.module('userForm', ['nekumo', 'fileManagerApi', 'ngMessages', 'inputs']);
     var _ = require('lodash');
 
     module.config(function($mdThemingProvider) {
@@ -29,13 +31,13 @@ Promise.all([
         };
     });
 
-    module.controller('groupsSelectorCtrl', function ($scope, groupsAPI) {
+    module.controller('groupsSelectorCtrl', function ($scope, GroupsAPI) {
         /**
          * Return the proper object when the append is called.
         */
         var self = this;
 
-        groupsAPI.all().then(function (groups) {
+        GroupsAPI.all().then(function (groups) {
             self.groups = _.map(groups, function (x) {
                 x._lowername = x.name.toLowerCase();
                 return x;
@@ -74,13 +76,14 @@ Promise.all([
     });
 
 
-    module.controller('userFormCtrl', function ($scope) {
-        $scope.user = {
-            groups: [{name: 'foo'}, {name: 'spam'}]
-        };
+    module.controller('userFormCtrl', function ($scope, $location, User, user, onSuccess) {
+        user = user || {};
+        $scope.isNew = _.isEmpty(user);
+        $scope.user = User(user);
 
         $scope.save = function () {
-
+            $scope.user.save();
+            onSuccess($scope.user);
         }
     });
 });

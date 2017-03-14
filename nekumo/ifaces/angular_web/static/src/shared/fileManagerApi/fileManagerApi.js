@@ -162,9 +162,14 @@ Promise.all([
             username: '',
             email: '',
             password: '',
-            is_staff: false
+            is_staff: false,
+            groups: []
         });
         angular.extend(this, data);
+
+        this.toString = function () {
+            return this.username;
+        }
     };
 
 
@@ -178,8 +183,10 @@ Promise.all([
     module.factory('User', function ($injector) {
 
         return function (data) {
-            User.prototype.save = null;
-            $injector.get('API');
+            var API = $injector.get('UsersAPI');
+            User.prototype.save = function () {
+                return API.update(this);
+            };
 
             return new User(data);
         }
@@ -317,6 +324,9 @@ Promise.all([
                     return Request(model, 'all');
                 },
                 get: function (data) {
+                    if(!_.isObject(data)){
+                        data = {id: data}
+                    }
                     return Request(model, 'get', data);
                 }
             }
@@ -329,7 +339,7 @@ Promise.all([
     });
 
 
-    module.factory('groupsAPI', function (modelAPI) {
+    module.factory('GroupsAPI', function (modelAPI) {
         return modelAPI('Group');
     });
 });

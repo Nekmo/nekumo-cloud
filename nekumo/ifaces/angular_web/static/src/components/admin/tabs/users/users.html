@@ -1,4 +1,9 @@
 <!-- http://stackoverflow.com/questions/38138425/is-it-possible-to-create-a-table-from-md-list-and-md-list-item -->
+<md-whiteframe class="md-whiteframe-1dp {{ message.type }}" flex-sm="90" flex-gt-sm="65" flex-gt-md="45"
+               layout id="alert-box" ng-if="message">
+  <h2>{{ message.body }}</h2>
+</md-whiteframe>
+
 <md-content class="content" flex ms-scroll>
     <md-list class="users-list">
         <md-subheader class="md-no-sticky">Users</md-subheader>
@@ -9,7 +14,7 @@
                  ng-if="user.options.face"/>
             <div class="md-list-item-text" layout="row" layout-align="start center">
                 <div flex="10">
-                    <h3>{{ user.name }}</h3>
+                    <h3>{{ user.username }}</h3>
                     <p>{{ user.type }}</p>
                 </div>
                 <div flex="20">
@@ -20,6 +25,12 @@
                 </div>
                 <div flex="30">
                     {{ user.groups }}
+                </div>
+                <div flex>
+                    <md-button class="md-raised md-primary" ui-sref="userFormUpdate({userId: user.id})">
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-pencil"></md-icon>
+                        Change
+                    </md-button>
                 </div>
             </div>
         </md-list-item>
@@ -42,6 +53,11 @@
                 </div>
                 <div flex="30">
                     {{ group.groups }}
+                </div>
+                <div flex="10">
+                    <md-button class="md-raised md-primary">
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-pencil"></md-icon>
+                    </md-button>
                 </div>
             </div>
         </md-list-item>

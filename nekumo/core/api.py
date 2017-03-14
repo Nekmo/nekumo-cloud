@@ -26,15 +26,29 @@ class ModelAPI(object):
     def get_model(self):
         return getattr(models, self.model)
 
-    def queryset(self):
-        return self.nekumo.session.query(self.get_model())
+    def queryset(self, session=None):
+        session = session or self.nekumo.session_maker()
+        return session.query(self.get_model())
 
     def all(self):
         return self.queryset().all()
 
-    def get(self, id=None):
+    def update(self, data=None):
+        data = data or self.data
+        session = self.nekumo.session_maker()
+        if data.get('id'):
+            # Update
+            instance = self.get(data['id'], session)
+            instance.update(_session=session, **data)
+        else:
+            # Create
+            instance = self.get_model()(_session=session, **data)
+            session.add(instance)
+        session.commit()
+
+    def get(self, id=None, session=None):
         id = self.data.get('id') or id
-        return self.queryset().filter(id=id)
+        return self.queryset(session).get(id)
 
 
 class NekumoEntryAPI(object):
