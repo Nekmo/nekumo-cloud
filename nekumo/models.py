@@ -109,6 +109,9 @@ class Group(ModelMixin, Base):
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
 
+    def __repr__(self):
+        return '<Group ({}) {}>'.format(self.id, self.name)
+
 
 class User(ModelMixin, Base):
     __tablename__ = 'users'
@@ -130,7 +133,7 @@ class User(ModelMixin, Base):
 
     def update_params(self, **kwargs):
         def get_group(group):
-            return get_or_create(self._session, Group, dict(name=group['name']), commit=False)[0]
+            return get_or_create(self._session, Group, commit=False, name=group['name'])[0]
         kwargs = super(User, self).update_params(**kwargs)
         if not kwargs.get('password'):
             kwargs.pop('password')
