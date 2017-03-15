@@ -1,0 +1,26 @@
+<form ng-submit="userForm.$valid && save();" name="userForm" novalidate>
+
+    <md-content layout-padding flex="100" flex-gt-lg="60" flex-gt-md="75">
+        <div>
+            <md-input-container>
+                <md-icon md-font-set="mdi" md-font-icon="mdi-account"></md-icon>
+                <label>Username</label>
+                <input ng-model="user.username" name="username" required>
+            </md-input-container>
+
+            <div layout-gt-xs="row" layout-align="space-between none">
+                <div>
+                    <md-button class="md-raised md-warn" ng-click="deleteDialog($event)">
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-delete"></md-icon>
+                        Delete
+                    </md-button>
+                    <md-button class="md-raised md-primary" type="submit">
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-content-save"></md-icon>
+                        Save
+                    </md-button>
+                </div>
+            </div>
+
+        </div>
+    </md-content>
+</form>

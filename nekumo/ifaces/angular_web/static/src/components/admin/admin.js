@@ -86,10 +86,39 @@ Promise.all([
             }
         };
 
+        var groupFormUpdate = {
+            name: 'groupFormUpdate',
+            url: '/groups/{groupId}',
+            templateUrl: '/.nekumo/static/src/shared/user/groupForm.html',
+            controller: 'groupFormCtrl',
+            resolve: {
+                group: function(UsersAPI, $transition$) {
+                    return UsersAPI.get($transition$.params().groupId);
+                },
+                onSuccess: function ($state) {
+                    return function (group) {
+                        $state.go('groups', {message: {
+                            body: 'User ' + group.toString() + ' has been updated successfully.',
+                            type: 'success'
+                        }});
+                    };
+                },
+                onDelete: function ($state) {
+                    return function (group) {
+                        $state.go('groups', {message: {
+                            body: 'User ' + group.toString() + ' has been deleted successfully.',
+                            type: 'danger'
+                        }});
+                    };
+                }
+            }
+        };
+
         $stateProvider.state(home);
         $stateProvider.state(users);
         $stateProvider.state(userFormCreate);
         $stateProvider.state(userFormUpdate);
+        $stateProvider.state(groupFormUpdate);
     });
 
     module.controller('adminCtrl', function ($scope) {

@@ -175,6 +175,13 @@ Promise.all([
     };
 
 
+    var Group = function (data) {
+        angular.extend(this, {
+
+        });
+    };
+
+
     module.factory('Entry', function () {
         return function (data) {
             return new Entry(data);
@@ -195,6 +202,23 @@ Promise.all([
             };
 
             return new User(data);
+        }
+    });
+
+
+    module.factory('Group', function ($injector) {
+
+        return function (data) {
+            var API = $injector.get('GroupsAPI');
+            Group.prototype.save = function () {
+                return API.update(this);
+            };
+
+            Group.prototype.delete = function () {
+                return API.delete(this);
+            };
+
+            return new Group(data);
         }
     });
 

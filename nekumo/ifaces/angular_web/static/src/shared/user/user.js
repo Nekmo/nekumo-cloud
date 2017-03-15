@@ -105,4 +105,35 @@ Promise.all([
             onSuccess($scope.user);
         }
     });
+
+
+    module.controller('groupFormCtrl', function ($scope, $location, $mdDialog, Group, group, onSuccess, onDelete) {
+        group = group || {};
+        $scope.isNew = _.isEmpty(group);
+        $scope.group = Group(group);
+
+        $scope.deleteDialog = function (ev) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            // Modal dialogs should fully cover application
+            // to prevent interaction outside of dialog
+            $mdDialog.show(
+                $mdDialog.confirm()
+                    .clickOutsideToClose(true)
+                    .title('Are you sure you want to delete this group?')
+                    .ariaLabel('Delete group')
+                    .ok('Sure')
+                    .cancel('Better not')
+                    .targetEvent(ev)
+            ).then(function () {
+                onDelete($scope.group);
+                // throw "Error";
+                // $scope.group.delete();
+            });
+        };
+
+        $scope.save = function () {
+            $scope.group.save();
+            onSuccess($scope.group);
+        }
+    });
 });
