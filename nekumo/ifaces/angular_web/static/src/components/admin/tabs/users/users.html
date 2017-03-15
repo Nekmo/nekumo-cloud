@@ -5,6 +5,11 @@
 </md-whiteframe>
 
 <md-content class="content" flex ms-scroll>
+    <md-button class="md-raised md-primary" ui-sref="userForm">
+        <md-icon md-font-set="mdi" md-font-icon="mdi-account-plus"></md-icon>
+        Create
+    </md-button>
+
     <md-list class="users-list">
         <md-subheader class="md-no-sticky">Users</md-subheader>
         <md-list-item class="md-2-line" ng-repeat="user in users">
@@ -15,16 +20,21 @@
             <div class="md-list-item-text" layout="row" layout-align="start center">
                 <div flex="10">
                     <h3>{{ user.username }}</h3>
-                    <p>{{ user.type }}</p>
+                    <p>{{ user.verboseType }}</p>
                 </div>
                 <div flex="20">
                     {{ user.email }}
                 </div>
                 <div flex="15">
-                    {{ user.created_at }}
+                    {{ user.created_at|date }}
                 </div>
                 <div flex="30">
-                    {{ user.groups }}
+                    <md-chips ng-model="user.groups" readonly="true" ng-if="user.groups.length">
+                        <md-chip-template>
+                            {{$chip.name}}
+                        </md-chip-template>
+                    </md-chips>
+                    <span ng-if="!user.groups.length">No groups</span>
                 </div>
                 <div flex>
                     <md-button class="md-raised md-primary" ui-sref="userFormUpdate({userId: user.id})">
@@ -49,7 +59,7 @@
                     {{ group.email }}
                 </div>
                 <div flex="15">
-                    {{ group.created_at }}
+                    {{ group.created_at|date }}
                 </div>
                 <div flex="30">
                     {{ group.groups }}

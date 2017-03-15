@@ -55,7 +55,7 @@ Promise.all([
         };
 
         /**
-         * Search for vegetables.
+         * Search for groups.
          */
         $scope.querySearch = function(query) {
           var results = query ? self.groups.filter(createFilterFor(query)) : [];
@@ -76,10 +76,29 @@ Promise.all([
     });
 
 
-    module.controller('userFormCtrl', function ($scope, $location, User, user, onSuccess) {
+    module.controller('userFormCtrl', function ($scope, $location, $mdDialog, User, user, onSuccess, onDelete) {
         user = user || {};
         $scope.isNew = _.isEmpty(user);
         $scope.user = User(user);
+
+        $scope.deleteDialog = function (ev) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            // Modal dialogs should fully cover application
+            // to prevent interaction outside of dialog
+            $mdDialog.show(
+                $mdDialog.confirm()
+                    .clickOutsideToClose(true)
+                    .title('Are you sure you want to delete this user?')
+                    .ariaLabel('Delete user')
+                    .ok('Sure')
+                    .cancel('Better not')
+                    .targetEvent(ev)
+            ).then(function () {
+                onDelete($scope.user);
+                // throw "Error";
+                // $scope.user.delete();
+            });
+        };
 
         $scope.save = function () {
             $scope.user.save();

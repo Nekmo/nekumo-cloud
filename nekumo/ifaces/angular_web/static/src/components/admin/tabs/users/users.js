@@ -4,7 +4,6 @@
 
 Promise.all([
     require('angular'),
-
     require('components/admin/tabs/users/users.css!css')
 ]).then(function () {
     var module = angular.module('adminUsers', ['nekumo', 'fileManagerApi']);

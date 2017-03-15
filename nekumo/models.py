@@ -32,6 +32,8 @@ class ModelMixin(object):
             setattr(self, key, value)
 
     def update_params(self, **kwargs):
+        kwargs = {k: v for k, v in kwargs.items()
+                  if hasattr(self.__class__, k)}
         return exclude_keys(kwargs, self.__exclude_params__ or [])
 
 

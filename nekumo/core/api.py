@@ -50,6 +50,13 @@ class ModelAPI(object):
         id = self.data.get('id') or id
         return self.queryset(session).get(id)
 
+    def delete(self, id=None, session=None):
+        session = session or self.nekumo.session_maker()
+        item = self.get(id, session)
+        session.delete(item)
+        session.commit()
+
+
 
 class NekumoEntryAPI(object):
     def __init__(self, entry):

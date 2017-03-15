@@ -41,10 +41,16 @@
                 <md-switch ng-model="user.is_staff" aria-label="Is superuser">
                     Is superuser
                 </md-switch>
-                <md-button class="md-raised md-primary" type="submit">
-                    <md-icon md-font-set="mdi" md-font-icon="mdi-content-save"></md-icon>
-                    Save
-                </md-button>
+                <div>
+                    <md-button class="md-raised md-warn" ng-click="deleteDialog($event)">
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-delete"></md-icon>
+                        Delete
+                    </md-button>
+                    <md-button class="md-raised md-primary" type="submit">
+                        <md-icon md-font-set="mdi" md-font-icon="mdi-content-save"></md-icon>
+                        Save
+                    </md-button>
+                </div>
             </div>
 
         </div>

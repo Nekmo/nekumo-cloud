@@ -47,8 +47,13 @@ Promise.all([
                 user: function () {
                     return null;
                 },
-                onSuccess: function () {
-                    return '#!/users';
+                onSuccess: function ($state) {
+                    return function (user) {
+                        $state.go('users', {message: {
+                            body: 'User ' + user.toString() + ' has been created successfully.',
+                            type: 'success'
+                        }});
+                    };
                 }
             }
         };
@@ -65,8 +70,16 @@ Promise.all([
                 onSuccess: function ($state) {
                     return function (user) {
                         $state.go('users', {message: {
-                            body: 'User ' + user.toString() + ' has been created.',
+                            body: 'User ' + user.toString() + ' has been updated successfully.',
                             type: 'success'
+                        }});
+                    };
+                },
+                onDelete: function ($state) {
+                    return function (user) {
+                        $state.go('users', {message: {
+                            body: 'User ' + user.toString() + ' has been deleted successfully.',
+                            type: 'danger'
                         }});
                     };
                 }

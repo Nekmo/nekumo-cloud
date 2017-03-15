@@ -167,6 +167,8 @@ Promise.all([
         });
         angular.extend(this, data);
 
+        this.verboseType = (this.is_staff ? 'Is staff' : 'Normal user');
+
         this.toString = function () {
             return this.username;
         }
@@ -186,6 +188,10 @@ Promise.all([
             var API = $injector.get('UsersAPI');
             User.prototype.save = function () {
                 return API.update(this);
+            };
+
+            User.prototype.delete = function () {
+                return API.delete(this);
             };
 
             return new User(data);
@@ -283,7 +289,7 @@ Promise.all([
                     socket.emit('details', {'entry': entry}, function (data) {
                         resolve(Entry(data));
                     });
-                })
+                });
             },
             delete: function (entry_entries) {
                 return $q(function (resolve, reject) {
@@ -302,14 +308,22 @@ Promise.all([
 
     module.factory('modelAPI', function (socket, $q) {
 
-        function Request(model, action, data) {
+        function Request(model, action, data, modelClass) {
             data = data || {};
             return $q(function (resolve, reject) {
-                socket.emit('model', {model: model, action: action, data: data}, resolve);
+                socket.emit('model', {model: model, action: action, data: data}, function (data) {
+                    if(modelClass && _.isArray(data)){
+                        resolve(_.map(data, function(x){ return modelClass(x) }));
+                    } else if(modelClass && _.isObject(data)){
+                        resolve(modelClass(data));
+                    } else {
+                        resolve(data);
+                    }
+                });
             });
         }
 
-        return function (model) {
+        return function (model, modelClass) {
             return {
                 create: function (data) {
                     return Request(model, 'create', data);
@@ -321,21 +335,21 @@ Promise.all([
                     return Request(model, 'delete', data);
                 },
                 all: function () {
-                    return Request(model, 'all');
+                    return Request(model, 'all', undefined, modelClass);
                 },
                 get: function (data) {
                     if(!_.isObject(data)){
                         data = {id: data}
                     }
-                    return Request(model, 'get', data);
+                    return Request(model, 'get', data, modelClass);
                 }
             }
         }
     });
 
 
-    module.factory('UsersAPI', function (modelAPI) {
-        return modelAPI('User');
+    module.factory('UsersAPI', function (modelAPI, User) {
+        return modelAPI('User', User);
     });
 
 
