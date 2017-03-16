@@ -96,13 +96,13 @@ Promise.all([
             ).then(function () {
                 onDelete($scope.user);
                 // throw "Error";
-                // $scope.user.delete();
+                $scope.user.delete();
             });
         };
 
         $scope.save = function () {
-            $scope.user.save();
             onSuccess($scope.user);
+            $scope.user.save();
         }
     });
 
@@ -125,9 +125,9 @@ Promise.all([
                     .cancel('Better not')
                     .targetEvent(ev)
             ).then(function () {
+                $scope.group.delete();
                 onDelete($scope.group);
                 // throw "Error";
-                // $scope.group.delete();
             });
         };
 

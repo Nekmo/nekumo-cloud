@@ -92,21 +92,21 @@ Promise.all([
             templateUrl: '/.nekumo/static/src/shared/user/groupForm.html',
             controller: 'groupFormCtrl',
             resolve: {
-                group: function(UsersAPI, $transition$) {
-                    return UsersAPI.get($transition$.params().groupId);
+                group: function(GroupsAPI, $transition$) {
+                    return GroupsAPI.get($transition$.params().groupId);
                 },
                 onSuccess: function ($state) {
                     return function (group) {
-                        $state.go('groups', {message: {
-                            body: 'User ' + group.toString() + ' has been updated successfully.',
+                        $state.go('users', {message: {
+                            body: 'Group ' + group.toString() + ' has been updated successfully.',
                             type: 'success'
                         }});
                     };
                 },
                 onDelete: function ($state) {
                     return function (group) {
-                        $state.go('groups', {message: {
-                            body: 'User ' + group.toString() + ' has been deleted successfully.',
+                        $state.go('users', {message: {
+                            body: 'Group ' + group.toString() + ' has been deleted successfully.',
                             type: 'danger'
                         }});
                     };

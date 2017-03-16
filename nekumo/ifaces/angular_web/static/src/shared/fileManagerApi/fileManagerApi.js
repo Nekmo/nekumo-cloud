@@ -177,8 +177,13 @@ Promise.all([
 
     var Group = function (data) {
         angular.extend(this, {
-
+            name: null
         });
+        angular.extend(this, data);
+
+        this.toString = function () {
+            return this.name;
+        }
     };
 
 
@@ -377,7 +382,7 @@ Promise.all([
     });
 
 
-    module.factory('GroupsAPI', function (modelAPI) {
-        return modelAPI('Group');
+    module.factory('GroupsAPI', function (modelAPI, Group) {
+        return modelAPI('Group', Group);
     });
 });

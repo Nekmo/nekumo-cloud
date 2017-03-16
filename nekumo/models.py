@@ -103,6 +103,7 @@ user_groups_table = Table('user_groups', Base.metadata,
 
 class Group(ModelMixin, Base):
     __tablename__ = 'groups'
+    __exclude_params__ = ('created_at', 'updated_at')
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(80), unique=True)
     users = relationship("User", secondary=user_groups_table, back_populates="groups")
@@ -110,6 +111,8 @@ class Group(ModelMixin, Base):
 
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
+
+
 
     def __repr__(self):
         return '<Group ({}) {}>'.format(self.id, self.name)
