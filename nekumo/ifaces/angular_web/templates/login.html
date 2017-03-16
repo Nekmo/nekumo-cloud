@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block ng_app %}loginApp{% endblock %}
+{% block css %}
+    {% if not debug %}
+    <link href="{{ url_for('static', filename='dist/login.css') }}" rel="stylesheet">
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div id="login" class="flex-scrollable" layout="column" ms-scroll>
+        <div id="login-form-wrapper" layout="column" layout-align="center center">
+            <div id="login-form" class="md-whiteframe-8dp">
+                <!--
+                <div class="logo md-accent-bg">
+                    <span>F</span>
+                </div>
+                -->
+                <img src="{{ url_for('static', filename='src/shared/theme/images/logo.svg') }}" alt="logo">
+
+                <div class="title" translate="LOGIN.TITLE">Log in to your account</div>
+
+                <form name="loginForm" novalidate>
+                    <md-input-container class="md-block" md-no-float>
+                        <input type="email" name="email" ng-model="vm.form.email" placeholder="Email"
+                               translate translate-attr-placeholder="LOGIN.EMAIL"
+                               ng-pattern="/^.+@.+\..+$/" required>
+                        <div ng-messages="loginForm.email.$error" role="alert" multiple>
+                            <div ng-message="required">
+                                <span translate="LOGIN.ERRORS.EMAIL_REQUIRED">Email field is required</span>
+                            </div>
+                            <div ng-message="pattern">
+                                <span translate="LOGIN.ERRORS.EMAIL_MUST_VALID">Email must be a valid e-mail address</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" md-no-float>
+                        <input type="password" name="password" ng-model="vm.form.password" placeholder="Password"
+                               translate translate-attr-placeholder="LOGIN.PASSWORD"
+                               required>
+                        <div ng-messages="loginForm.password.$error" role="alert">
+                            <div ng-message="required">
+                                <span translate="LOGIN.ERRORS.PASSWORD_REQUIRED">Password field is required</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+
+                    <div class="remember-forgot-password" layout="row" layout-xs="column"
+                         layout-align="space-between center">
+                        <md-checkbox class="remember-me" ng-model="data.cb1" aria-label="Remember Me">
+                            <span translate="LOGIN.REMEMBER_ME">Remember Me</span>
+                        </md-checkbox>
+
+                        <a ui-sref="app.pages_auth_forgot-password" class="forgot-password md-accent-color"
+                           translate="LOGIN.FORGOT_PASSWORD">Forgot Password?</a>
+                    </div>
+
+                    <md-button type="submit" class="md-raised md-accent submit-button" aria-label="LOG IN"
+                               ng-disabled="loginForm.$invalid || loginForm.$pristine"
+                               translate="LOGIN.LOG_IN" translate-attr-aria-label="LOGIN.LOG_IN">
+                        LOG IN
+                    </md-button>
+                </form>
+
+                <!--
+
+                <div class="separator">
+                    <span class="text" translate="LOGIN.OR">OR</span>
+                </div>
+
+                <md-button class="md-raised google">
+                    <div layout="row" layout-align="center center">
+                    <span>
+                        <md-icon md-font-icon="icon-google-plus" class="s16"></md-icon>
+                        <span translate="LOGIN.WITH_GOOGLE">Log in with Google</span>
+                    </span>
+                    </div>
+                </md-button>
+
+                <md-button class="md-raised facebook">
+                    <div layout="row" layout-align="center center">
+                    <span>
+                        <md-icon md-font-icon="icon-facebook" class="s16"></md-icon>
+                        <span translate="LOGIN.WITH_FACEBOOK">Log in with Facebook</span>
+                    </span>
+                    </div>
+                </md-button>
+
+                <div class="register" layout="row" layout-sm="column" layout-align="center center">
+                    <span class="text" translate="LOGIN.DONT_HAVE_ACCOUNT">Don't have an account?</span>
+                    <a class="link" ui-sref="app.pages_auth_register" translate="LOGIN.CREATE_ACCOUNT">Create an account</a>
+                </div>
+
+                -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {% if not debug %}
+        <script src="{{ url_for('static', filename='dist/login.js') }}"></script>
+    {% endif %}
+    <script>
+        {% if debug %}
+        SystemJS.import('/.nekumo/static/src/components/login/login.js');
+        {% else %}
+            SystemJS.import('src/components/login/login.js');
+        {% endif %}
+    </script>
+{% endblock %}

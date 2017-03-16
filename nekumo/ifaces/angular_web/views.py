@@ -76,6 +76,10 @@ def send_file_partial(path):
     return rv
 
 
+def has_perm(entry):
+    return False
+
+
 def serve_file(entry):
     download = entry.download()
     resp = None
@@ -106,7 +110,10 @@ def index(path='/'):
         raise NotFound
     if entry.is_dir() and not path.endswith('/'):
         return redirect(path + '/')
-    elif 'media' in request.args:
+    # Perms
+    if not has_perm(entry):
+        return render_template('login.html')
+    if 'media' in request.args:
         return render_template('media.html', entry=entry)
     if entry.is_dir() or 'preview' in request.args:
         entry = entry if entry.is_dir() else entry.parent()

@@ -5,7 +5,9 @@
 Promise.all([
     require('angular'),
     require('ocombe/ocLazyLoad'),
-    require('angular-material')
+    require('angular-material'),
+    require("angular-animate"),
+    require("angular-aria")
 ]).then(function () {
     var module = angular.module('nekumo', ['ngMaterial', 'oc.lazyLoad']);
 
