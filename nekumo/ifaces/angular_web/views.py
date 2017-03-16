@@ -3,7 +3,7 @@ import os
 
 import re
 import time
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from flask import Response
 from flask import current_app
 from flask import redirect
@@ -17,6 +17,7 @@ from werkzeug.exceptions import NotFound
 from werkzeug.http import parse_range_header
 
 from nekumo.ifaces.angular_web import NEKUMO_ROOT
+from nekumo.models import User
 from nekumo.plugins.encode import FfmpegEncode
 from nekumo.plugins.thumbs import get_or_create_thumb
 
@@ -127,6 +128,16 @@ def index(path='/'):
 @web_bp.route('/.nekumo/admin', methods=['GET'])
 def admin():
     return render_template('admin.html')
+
+
+@web_bp.route('/.nekumo/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    session = current_app.nekumo.session_maker()
+    users = session.query(User).filter_by(username=data.get('username'))
+    if not users.count() or users.first().password != data.get('password'):
+        return jsonify(status='error', message='Invalid username or password')
+    return jsonify(status='success', message='Connected successfully')
 
 
 @web_bp.route('/.nekumo/thumb/<path:path>', methods=['GET'])

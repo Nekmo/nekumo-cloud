@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-    <div id="login" class="flex-scrollable" layout="column" ms-scroll>
+    <div id="login" class="flex-scrollable" layout="column" ms-scroll ng-controller="loginCtrl">
         <div id="login-form-wrapper" layout="column" layout-align="center center">
             <div id="login-form" class="md-whiteframe-8dp">
                 <!--
@@ -20,23 +20,20 @@
 
                 <div class="title" translate="LOGIN.TITLE">Log in to your account</div>
 
-                <form name="loginForm" novalidate>
+                <form name="loginForm" novalidate ng-submit="submit();">
                     <md-input-container class="md-block" md-no-float>
-                        <input type="email" name="email" ng-model="vm.form.email" placeholder="Email"
-                               translate translate-attr-placeholder="LOGIN.EMAIL"
-                               ng-pattern="/^.+@.+\..+$/" required>
-                        <div ng-messages="loginForm.email.$error" role="alert" multiple>
+                        <input name="username" ng-model="data.username" placeholder="Username"
+                               translate translate-attr-placeholder="LOGIN.USERNAME"
+                               required>
+                        <div ng-messages="loginForm.username.$error" role="alert" multiple>
                             <div ng-message="required">
-                                <span translate="LOGIN.ERRORS.EMAIL_REQUIRED">Email field is required</span>
-                            </div>
-                            <div ng-message="pattern">
-                                <span translate="LOGIN.ERRORS.EMAIL_MUST_VALID">Email must be a valid e-mail address</span>
+                                <span translate="LOGIN.ERRORS.USERNAME_REQUIRED">Username field is required</span>
                             </div>
                         </div>
                     </md-input-container>
 
                     <md-input-container class="md-block" md-no-float>
-                        <input type="password" name="password" ng-model="vm.form.password" placeholder="Password"
+                        <input type="password" name="password" ng-model="data.password" placeholder="Password"
                                translate translate-attr-placeholder="LOGIN.PASSWORD"
                                required>
                         <div ng-messages="loginForm.password.$error" role="alert">
@@ -48,11 +45,11 @@
 
                     <div class="remember-forgot-password" layout="row" layout-xs="column"
                          layout-align="space-between center">
-                        <md-checkbox class="remember-me" ng-model="data.cb1" aria-label="Remember Me">
+                        <md-checkbox class="remember-me" ng-model="data.rememberme" aria-label="Remember Me">
                             <span translate="LOGIN.REMEMBER_ME">Remember Me</span>
                         </md-checkbox>
 
-                        <a ui-sref="app.pages_auth_forgot-password" class="forgot-password md-accent-color"
+                        <a class="forgot-password md-accent-color" ng-click="notImplemented();"
                            translate="LOGIN.FORGOT_PASSWORD">Forgot Password?</a>
                     </div>
 
