@@ -1,5 +1,6 @@
 import mimetypes
 import os
+import random
 
 import re
 import time
@@ -136,6 +137,7 @@ def login():
     session = current_app.nekumo.session_maker()
     users = session.query(User).filter_by(username=data.get('username'))
     if not users.count() or users.first().password != data.get('password'):
+        time.sleep(random.randint(1,1000) / 1000)
         return jsonify(status='error', message='Invalid username or password')
     return jsonify(status='success', message='Connected successfully')
 
