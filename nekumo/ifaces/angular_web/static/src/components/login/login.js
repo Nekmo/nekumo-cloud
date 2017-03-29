@@ -21,13 +21,21 @@ Promise.all([
 
     module.controller('loginCtrl', function ($scope, $http) {
         $scope.data = {};
+        $scope.response = {};
 
         $scope.notImplemented = function () {
             alert('This feature is not yet available.');
         };
 
         $scope.submit = function () {
-            $http.post(LOGIN_URL, $scope.data);
+            $scope.response = {};
+            $http.post(LOGIN_URL, $scope.data).then(function (response) {
+                $scope.response = response.data;
+
+                if($scope.response.status == 'success'){
+                    location.reload();
+                }
+            });
         }
     });
 });

@@ -5,6 +5,10 @@ $layout-breakpoint-xs:     600px !default;
     background: url('march.jpg') no-repeat;
     background-size: cover;
 
+    .error {
+        color: rgb(221,44,0);
+    }
+
     #login-form-wrapper {
         flex: 1 0 auto;
         padding: 32px;

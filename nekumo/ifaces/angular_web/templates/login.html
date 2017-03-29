@@ -21,6 +21,14 @@
                 <div class="title" translate="LOGIN.TITLE">Log in to your account</div>
 
                 <form name="loginForm" novalidate ng-submit="submit();">
+                    {% raw %}
+                    <div class="error">
+                        <div ng-if="response.status == 'error'" role="alert">
+                            {{ response.message }}
+                        </div>
+                    </div>
+                    {% endraw %}
+
                     <md-input-container class="md-block" md-no-float>
                         <input name="username" ng-model="data.username" placeholder="Username"
                                translate translate-attr-placeholder="LOGIN.USERNAME"
@@ -58,6 +66,7 @@
                                translate="LOGIN.LOG_IN" translate-attr-aria-label="LOGIN.LOG_IN">
                         LOG IN
                     </md-button>
+
                 </form>
 
                 <!--
