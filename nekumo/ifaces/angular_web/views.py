@@ -17,6 +17,7 @@ from future.moves import subprocess
 from werkzeug.exceptions import NotFound
 from werkzeug.http import parse_range_header
 
+from auth import login_user, has_perm
 from nekumo.ifaces.angular_web import NEKUMO_ROOT
 from nekumo.models import User
 from nekumo.plugins.encode import FfmpegEncode
@@ -78,10 +79,6 @@ def send_file_partial(path):
     return rv
 
 
-def has_perm(entry):
-    return False
-
-
 def serve_file(entry):
     download = entry.download()
     resp = None
@@ -140,6 +137,7 @@ def login():
         time.sleep(random.randint(1,1000) / 1000)
         return jsonify(status='error', message='Invalid username or password')
     resp = jsonify(status='success', message='Connected successfully')
+    login_user(users.first(), resp)
     return resp
 
 
