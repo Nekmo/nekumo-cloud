@@ -105,6 +105,7 @@ class AngularWebIface(IfaceBase):
         self.app.jinja_env.add_extension('jinja2.ext.i18n')
         self.app.jinja_env.filters.update(filters)
         self.app.jinja_env.install_null_translations(newstyle=True)
+        self.app.secret_key = self.nekumo.secret_key
 
     def update_globals(self, new_globals, app=None):
         if app is None:

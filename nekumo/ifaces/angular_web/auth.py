@@ -29,7 +29,10 @@ def get_auth_user():
     if users.count():
         return users.first()
 
+
 def has_perm(entry):
+    if not current_app.nekumo.config['auth_mode']:
+        return True
     user = get_auth_user()
     return bool(user)
 

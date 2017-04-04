@@ -39,7 +39,7 @@ class ModelMixin(object):
 
 TARGET_CHOICES = [
     ('THIS', _('This')),
-    ('CHILDREN', _('Children')),
+    ('SUBFILES', _('Subfiles')),
     ('RECURSIVE', _('Recursive')),
 ]
 
@@ -79,8 +79,7 @@ class Permission(ModelMixin, Base):
     update = Column(Boolean, default=False)
     delete = Column(Boolean, default=False)
     superuser = Column(Boolean, default=False)
-    # O sólo hijos directos
-    recursive = Column(Boolean, default=False)
+
     target = Column(ChoiceType(TARGET_CHOICES), default='THIS')
     # User y Group M2M. Luego al consultar, se crea caché por cada directorio
     # con registros <user/group> -> permisos. Como la mayoría de las peticiones

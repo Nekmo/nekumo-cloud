@@ -1,7 +1,18 @@
 import hashlib
 import os
+
+import binascii
+
 from nekumo.gateways import get_gateway_classes, get_gateway_class_by_uri
 from nekumo.models import get_session_maker
+
+
+def secret_key(file):
+    if not os.path.lexists(file):
+        with open(file, 'w') as f:
+            f.write(binascii.hexlify(os.urandom(24)))
+    with open(file, 'r') as f:
+        return f.read()
 
 
 class Nekumo(object):
@@ -9,18 +20,20 @@ class Nekumo(object):
     ifaces = None
     _id = None
 
-    def __init__(self, gateways=None, debug=False):
+    def __init__(self, gateways=None, debug=False, config=None):
         if gateways:
             self.gateways = list(self.get_gateways(gateways))
         self.set_nekmo_dir()
         self.session_maker = self.get_db_session_maker()
         self.session = self.session_maker()
         self.debug = debug
+        self.config = config
 
     def set_nekmo_dir(self):
         self.nekumo_dir = os.path.expanduser('~/.local/nekumo/envs/{}'.format(self.id))
         self.data_dir = os.path.join(self.nekumo_dir, 'data')
         os.makedirs(self.data_dir, exist_ok=True)
+        self.secret_key = secret_key(os.path.join(self.nekumo_dir, 'secret_key'))
 
     def get_db_session_maker(self):
         return get_session_maker(os.path.join(self.nekumo_dir, 'db.sqlite3'))

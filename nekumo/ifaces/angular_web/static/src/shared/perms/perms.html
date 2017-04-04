@@ -12,6 +12,7 @@
                     <tr>
                         <th>Groups & Users</th>
                         <th>Perms</th>
+                        <th>Mode</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +34,15 @@
                               <md-select ng-model="permission.permissions" multiple>
                                   <md-option ng-value="perm.name" ng-repeat="perm in perms">
                                       {{perm.name}}
+                                  </md-option>
+                              </md-select>
+                            </md-input-container>
+                        </td>
+                        <td>
+                            <md-input-container>
+                              <md-select ng-model="permission.target">
+                                  <md-option ng-value="target.value" ng-repeat="target in targets">
+                                      {{ target.name }}
                                   </md-option>
                               </md-select>
                             </md-input-container>

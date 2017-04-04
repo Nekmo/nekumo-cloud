@@ -18,21 +18,36 @@ Promise.all([
 
     }
 
-    module.service('groupsUsers', function () {
-        return function() {
-            var gus = [
-                {'name': 'Marina Augustine'},
-                {'name': 'Oddr Sarno'},
-                {'name': 'Nick Giannopoulos'}
-            ];
-            angular.forEach(gus, function (gu) {
-                gu._lowername = gu.name.toLowerCase();
-            });
-            return gus;
+    // module.service('groupsUsers', function () {
+    //     return function() {
+    //         var gus = [
+    //             {'name': 'Marina Augustine'},
+    //             {'name': 'Oddr Sarno'},
+    //             {'name': 'Nick Giannopoulos'}
+    //         ];
+    //         angular.forEach(gus, function (gu) {
+    //             gu._lowername = gu.name.toLowerCase();
+    //         });
+    //         return gus;
+    //     }
+    // });
+
+    module.directive('groupsUsers', function () {
+        return {
+            templateUrl: '/.nekumo/static/src/shared/perms/groupsUsers.html',
+            controller: 'groupsUsersCtrl'
         }
     });
 
-    module.service('$perms', function ($mdPanel, groupsUsers) {
+    module.directive('groupsUsersCtrl', function () {
+        return function ($scope) {
+            $scope.querySearch = function(criteria) {
+              return criteria ? _.filter($scope.groupsUsers, createFilterFor(criteria)) : [];
+            }
+        }
+    });
+
+    module.service('$perms', function ($mdPanel) {
         var position = $mdPanel.newPanelPosition()
             .absolute()
             .center();
@@ -56,21 +71,20 @@ Promise.all([
         }
     });
 
-    module.controller('PermsCtrl', function ($scope, groupsUsers) {
+    module.controller('PermsCtrl', function ($scope) {
         var self = this;
-        $scope.groupsUsers = groupsUsers();
+
         $scope.perms = [
             {'name': 'Read'},
             {'name': 'Write'},
-            {'name': 'Create'},
-            {'name': 'Delete'},
-            {'name': 'Admin'}
+            {'name': 'Delete'}
+        ];
+        $scope.targets = [
+            {'name': 'Recursive', 'value': 'RECURSIVE'},
+            {'name': 'Subfiles', 'value': 'SUBFILES'},
+            {'name': 'This', 'value': 'THIS'}
         ];
 
         $scope.permissions = [{groupsUsers: []}];
-
-        $scope.querySearch = function(criteria) {
-          return criteria ? _.filter($scope.groupsUsers, createFilterFor(criteria)) : [];
-        }
     });
 });

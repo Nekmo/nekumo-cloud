@@ -22,6 +22,7 @@ class NekumoManagement(object):
         self.parser = argparse.ArgumentParser(description=__doc__)
         self.parser.add_argument('gateway', nargs='+')
         self.parser.add_argument('--debug', action='store_true')
+        self.parser.add_argument('--auth', action='store_true')
 
     def get_gateway_classes(self):
         return get_gateway_classes()
@@ -38,7 +39,9 @@ class NekumoManagement(object):
         if argv is None:
             argv = sys.argv
         args = self.parser.parse_args(argv[1:])
-        self.nekumo = Nekumo(args.gateway, debug=args.debug)
+        self.nekumo = Nekumo(args.gateway, debug=args.debug, config=dict(
+            auth_mode=args.auth,
+        ))
         for gateway in self.nekumo.gateways:
             print('  {}'.format(gateway))
         self.nekumo.ifaces = list(self.parse_ifaces(args))

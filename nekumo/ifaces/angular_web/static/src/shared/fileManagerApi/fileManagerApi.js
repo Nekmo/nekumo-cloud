@@ -371,6 +371,9 @@ Promise.all([
                         data = {id: data}
                     }
                     return Request(model, 'get', data, modelClass);
+                },
+                filter: function (data) {
+                    // TODO!!!!
                 }
             }
         }
@@ -384,5 +387,23 @@ Promise.all([
 
     module.factory('GroupsAPI', function (modelAPI, Group) {
         return modelAPI('Group', Group);
+    });
+
+
+    module.factory('GroupsUsersAPI', function (UsersAPI, GroupsAPI) {
+        return {
+            filter: function (params) {
+                return $q(function (resolve, reject) {
+                    UsersAPI.filter(params).then(function (results1) {
+                        // TODO: filter
+                        GroupsAPI.filter(params).then(function (results2) {
+                            var results = angular.extend(results1, results2);
+                            resolve(results);
+                        });
+                    });
+                });
+            }
+        };
+        // return modelAPI('Group', Group);
     });
 });
