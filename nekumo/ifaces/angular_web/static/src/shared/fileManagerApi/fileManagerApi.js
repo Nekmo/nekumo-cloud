@@ -374,6 +374,7 @@ Promise.all([
                 },
                 filter: function (data) {
                     // TODO!!!!
+                    return Request(model, 'filter', data, modelClass);
                 }
             }
         }
@@ -390,7 +391,7 @@ Promise.all([
     });
 
 
-    module.factory('GroupsUsersAPI', function (UsersAPI, GroupsAPI) {
+    module.factory('GroupsUsersAPI', function (UsersAPI, GroupsAPI, $q) {
         return {
             filter: function (params) {
                 return $q(function (resolve, reject) {

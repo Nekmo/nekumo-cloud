@@ -39,11 +39,10 @@ Promise.all([
         }
     });
 
-    module.directive('groupsUsersCtrl', function () {
-        return function ($scope) {
-            $scope.querySearch = function(criteria) {
-              return criteria ? _.filter($scope.groupsUsers, createFilterFor(criteria)) : [];
-            }
+    module.controller('groupsUsersCtrl', function ($scope, GroupsUsersAPI) {
+        $scope.querySearch = function(criteria) {
+            return GroupsUsersAPI.filter({name: criteria});
+            // return GroupsUsersAPI({name: criteria});
         }
     });
 

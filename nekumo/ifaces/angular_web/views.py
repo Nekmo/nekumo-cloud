@@ -95,12 +95,6 @@ def inject_user():
     return dict(debug=current_app.nekumo.debug)
 
 
-@web_bp.route('/slow', methods=['GET'])
-def slow():
-    time.sleep(100)
-    return 'foo'
-
-
 @web_bp.route('/<path:path>', methods=['GET'])
 @web_bp.route('/', methods=['GET'])
 def index(path='/'):

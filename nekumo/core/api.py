@@ -11,7 +11,7 @@ class NekumoAPIClient(object):
 
 
 class ModelAPI(object):
-    actions = ['all', 'get', 'create', 'delete', 'update']
+    actions = ['all', 'get', 'create', 'delete', 'update', 'filter']
 
     def __init__(self, nekumo, model, data=None, action=None):
         self.nekumo = nekumo
@@ -55,6 +55,9 @@ class ModelAPI(object):
         item = self.get(id, session)
         session.delete(item)
         session.commit()
+
+    def filter(self, **kwargs):
+        return self.queryset().filter_by(**kwargs)
 
 
 

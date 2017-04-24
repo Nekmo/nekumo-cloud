@@ -18,6 +18,7 @@
                 <tbody>
                     <tr ng-repeat="permission in permissions">
                         <td>
+                            <!--
                             <md-contact-chips
                                     ng-model="permission.groupsUsers"
                                     md-contacts="querySearch($query)"
@@ -28,6 +29,8 @@
                                     filter-selected="true"
                                     placeholder="To">
                             </md-contact-chips>
+                            -->
+                            <groups-users></groups-users>
                         </td>
                         <td>
                             <md-input-container>
