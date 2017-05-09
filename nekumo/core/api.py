@@ -1,5 +1,6 @@
 from nekumo import models
 from nekumo.exceptions import MethodNotAvailable
+from nekumo.models import lookup_dict
 
 
 class NekumoAPIClient(object):
@@ -57,8 +58,9 @@ class ModelAPI(object):
         session.commit()
 
     def filter(self, **kwargs):
-        return self.queryset().filter_by(**kwargs)
-
+        kw = kwargs or self.data
+        model = self.get_model()
+        return self.queryset().filter(*lookup_dict(model, kw))
 
 
 class NekumoEntryAPI(object):

@@ -8,7 +8,7 @@ from flask import json
 from flask.json import JSONEncoder
 from os3.core.comparators import StartsWithEqual
 from sqlalchemy.ext.declarative import DeclarativeMeta
-from sqlalchemy.orm import class_mapper
+from sqlalchemy.orm import class_mapper, Query
 from sqlalchemy.orm import object_mapper
 from sqlalchemy.orm.exc import UnmappedInstanceError
 
@@ -55,6 +55,8 @@ class NekumoEncoder(json.JSONEncoder):
             return obj.to_json()
         elif is_mapped(obj):
             return serialize_model(obj)
+        elif isinstance(obj, Query):
+            return list(obj)
         else:
             return super(NekumoEncoder, self).default(obj)
 

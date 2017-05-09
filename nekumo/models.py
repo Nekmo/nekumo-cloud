@@ -1,5 +1,6 @@
 import os
 
+from sqlalchemy_utils.functions.database import escape_like
 from sqlalchemy_utils.types.choice import ChoiceType
 
 from nekumo.core.i18n import _
@@ -10,11 +11,39 @@ from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.sql import ClauseElement
 from sqlalchemy_utils import EmailType, PasswordType
 
+
+LOOKUPS = ['contains', 'icontains', 'startswith', 'istartswith', 'endswith', 'iendswith']
+
+
 Base = declarative_base()
 
 
 def exclude_keys(data, exclude=()):
     return {key: value for key, value in data.items() if key not in exclude}
+
+
+def get_model_lookup(model, lookup, value):
+    """Pasar de un lookup de tipo field__icontains a uno usable por filter. 
+    :param model: 
+    :param lookup: 
+    :param value: 
+    :return: 
+    """
+    parts = lookup.split('__')
+    field = getattr(model, parts[0])
+    if len(parts) < 2:
+        return field == value
+    nocase_part = parts[1][1:] if parts[1].startswith('i') else parts[1]
+    l = '%' if nocase_part in ['contains', 'startswith'] else ''
+    l += escape_like(value)
+    l += '%' if nocase_part in ['contains', 'endswith'] else ''
+    fn = field.ilike if parts[1].startswith('i') else field.like
+    return fn(l)
+
+
+def lookup_dict(model, d):
+    return [get_model_lookup(model, key, value) for key, value in d.items()]
+
 
 class ModelMixin(object):
     __exclude_params__ = None

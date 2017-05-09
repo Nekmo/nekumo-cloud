@@ -41,7 +41,7 @@ Promise.all([
 
     module.controller('groupsUsersCtrl', function ($scope, GroupsUsersAPI) {
         $scope.querySearch = function(criteria) {
-            return GroupsUsersAPI.filter({name: criteria});
+            return GroupsUsersAPI.filter({username__icontains: criteria}, {name__icontains: criteria});
             // return GroupsUsersAPI({name: criteria});
         }
     });

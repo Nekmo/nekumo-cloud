@@ -169,6 +169,8 @@ Promise.all([
 
         this.verboseType = (this.is_staff ? 'Is staff' : 'Normal user');
 
+        this.name = this.username;
+
         this.toString = function () {
             return this.username;
         }
@@ -393,11 +395,11 @@ Promise.all([
 
     module.factory('GroupsUsersAPI', function (UsersAPI, GroupsAPI, $q) {
         return {
-            filter: function (params) {
+            filter: function (userParams, groupParams) {
                 return $q(function (resolve, reject) {
-                    UsersAPI.filter(params).then(function (results1) {
+                    UsersAPI.filter(userParams).then(function (results1) {
                         // TODO: filter
-                        GroupsAPI.filter(params).then(function (results2) {
+                        GroupsAPI.filter(groupParams).then(function (results2) {
                             var results = angular.extend(results1, results2);
                             resolve(results);
                         });
