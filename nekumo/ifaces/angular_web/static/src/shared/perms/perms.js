@@ -4,7 +4,9 @@
 
 Promise.all([
     require('angular'),
-    require('angular-material')
+    require('angular-material'),
+
+    require('src/shared/perms/perms.css!css')
 ]).then(function () {
     var module = angular.module('perms', ['ngMaterial']);
     var _ = require('lodash');

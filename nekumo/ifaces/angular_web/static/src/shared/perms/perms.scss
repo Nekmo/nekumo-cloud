@@ -1,0 +1,49 @@
+$height: 28px;
+$chip-height: $height - 3px;
+
+.perms-dialog {
+    md-contact-chips {
+        md-chips-wrap {
+            padding-bottom: 0;
+        }
+
+        .md-chip-input-container {
+            > div {
+                height: $chip-height;
+            }
+
+            margin-top: 0;
+
+            input {
+                height: $chip-height;
+                width: 80px;
+            }
+        }
+
+        .md-chips {
+            md-chip {
+                height: $chip-height;
+                line-height: $chip-height;
+                margin-top: 0;
+                border-radius: 12px;
+
+                .md-contact-name {
+                    font-size: 14px;
+                    height: $chip-height;
+                }
+            }
+        }
+
+
+        .md-chip-input-container:not(:first-child) {
+            margin-top: 0;
+        }
+
+        .md-chip-remove-container {
+            button {
+                width: $chip-height;
+                height: $chip-height;
+            }
+        }
+    }
+}
