@@ -1,5 +1,5 @@
 alembic==0.8.10
-Flask==0.11.1
+Flask==1.0
 Flask-SocketIO==2.8.2
 gevent==1.2.0
 humanize==0.5.1
